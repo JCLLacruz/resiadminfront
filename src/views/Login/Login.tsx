@@ -26,7 +26,7 @@ const Login: FC = () => {
 		onSubmit: (values) => {
       dispatch(login(values));
       formik.resetForm();
-      // navigate('/newActivity');
+      navigate('/home');
 		},
 	});
 

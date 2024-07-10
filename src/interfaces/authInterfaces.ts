@@ -24,7 +24,7 @@ export interface RegisterValues {
 	firstname: string;
 	lastname: string;
 	email: string;
-	telephonnumber: number;
+	telephonnumber: number | string;
 	password: string;
 	confirmPassword: string;
 	birthday: any;

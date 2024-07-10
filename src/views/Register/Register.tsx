@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,7 +17,7 @@ const Register: FC = () => {
 			firstname: '',
 			lastname: '',
 			email: '',
-			telephonnumber: null,
+			telephonnumber: '',
 			password: '',
 			confirmPassword: '',
 			birthday: new Date(),
@@ -26,7 +26,7 @@ const Register: FC = () => {
 			firstname: Yup.string().required('Required'),
 			lastname: Yup.string().required('Required'),
 			email: Yup.string().email('Invalid email address').required('Required'),
-			telephonnumber: Yup.number().required('Required').positive('Must be a positive number').integer('Must be an integer'),
+			telephonnumber: Yup.number().required('Required').positive('Must be a positive number').integer('Must be an integer').min(9,'Must be at least 9 digits'),
 			password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
 			confirmPassword: Yup.string()
 				.oneOf([Yup.ref('password')], 'Passwords must match')
@@ -74,6 +74,7 @@ const Register: FC = () => {
 						<Input
 							name='telephonnumber'
 							placeholder='Telephone Number'
+                            type='number'
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.telephonnumber}
