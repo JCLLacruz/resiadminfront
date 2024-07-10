@@ -2,21 +2,15 @@ import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup,
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { RegisterValues } from '../../interfaces/authInterfaces';
+import { useDispatch } from 'react-redux';
+import { register } from '../../features/auth/authSlice';
 
-interface RegisterValues {
-	firstname: string;
-	lastname: string;
-	email: string;
-	telephonnumber: number;
-	password: string;
-	confirmPassword: string;
-	birthday: Date;
-}
 
 const Register: FC = () => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
+    const dispatch: any = useDispatch();
 
 	const formik = useFormik<RegisterValues>({
 		initialValues: {
@@ -40,7 +34,8 @@ const Register: FC = () => {
 			birthday: Yup.date().required('Required'),
 		}),
 		onSubmit: (values) => {
-			console.log(values);
+            dispatch(register(values))
+            formik.resetForm();
 		},
 	});
 
@@ -131,7 +126,7 @@ const Register: FC = () => {
 							type='date'
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							value={formik.values.birthday.toISOString().substr(0, 10)}
+							value={formik.values.birthday}
 						/>
 					</InputGroup>
 					<FormErrorMessage>{!!formik.errors.birthday}</FormErrorMessage>
@@ -140,9 +135,6 @@ const Register: FC = () => {
 					Register
 				</Button>
 			</form>
-			<Text mt={4} textAlign='center'>
-				Already have an account? <Link to='/'>Login</Link>
-			</Text>
 		</Box>
 	);
 };

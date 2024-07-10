@@ -16,6 +16,19 @@ export interface UserInterface  {
     CommentIds: [string],
 }
 
+export interface LoginValues {
+	email: string;
+	password: string;
+}
+export interface RegisterValues {
+	firstname: string;
+	lastname: string;
+	email: string;
+	telephonnumber: number;
+	password: string;
+	confirmPassword: string;
+	birthday: Date | string;
+}
 export interface initialStateAuthSliceInterface {
     user: UserInterface | null,
     users: Array<UserInterface>,

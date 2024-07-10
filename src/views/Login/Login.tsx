@@ -1,17 +1,18 @@
-import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/auth/authSlice';
+import { LoginValues } from '../../interfaces/authInterfaces';
 
-interface LoginValues {
-	email: string;
-	password: string;
-}
 
 const Login: FC = () => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
+  const dispatch: any = useDispatch();
+  const navigate: any = useNavigate();
 
 	const formik = useFormik<LoginValues>({
 		initialValues: {
@@ -23,7 +24,9 @@ const Login: FC = () => {
 			password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
 		}),
 		onSubmit: (values) => {
-			console.log(values);
+      dispatch(login(values));
+      formik.resetForm();
+      // navigate('/newActivity');
 		},
 	});
 
@@ -68,9 +71,9 @@ const Login: FC = () => {
 					Login
 				</Button>
 			</form>
-			<Text mt={4} textAlign='center'>
-				Don't have an account? <Link to='/register'>Register</Link>
-			</Text>
+      <Text mt={4} textAlign='center'>
+        forgot your password? <Link href='#'>click here</Link>
+      </Text>
 		</Box>
 	);
 };

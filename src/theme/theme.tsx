@@ -1,5 +1,5 @@
 // theme.ts
-import { Box, extendTheme } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 // import '@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");';
 
 const theme = extendTheme({
