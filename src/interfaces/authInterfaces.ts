@@ -27,7 +27,7 @@ export interface RegisterValues {
 	telephonnumber: number;
 	password: string;
 	confirmPassword: string;
-	birthday: Date | string;
+	birthday: any;
 }
 export interface initialStateAuthSliceInterface {
     user: UserInterface | null,

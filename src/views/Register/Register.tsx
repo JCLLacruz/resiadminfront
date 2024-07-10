@@ -17,7 +17,7 @@ const Register: FC = () => {
 			firstname: '',
 			lastname: '',
 			email: '',
-			telephonnumber: 0,
+			telephonnumber: null,
 			password: '',
 			confirmPassword: '',
 			birthday: new Date(),
