@@ -15,3 +15,14 @@ export interface UserInterface  {
     connections: Array <ConnectionsInterface>,
     CommentIds: [string],
 }
+
+export interface initialStateAuthSliceInterface {
+    user: UserInterface | null,
+    users: Array<UserInterface>,
+    token: string | null,
+    isLoading: boolean,
+    isError: boolean,
+    isSuccess: boolean,
+    error: string | null,
+    msg: string | null,
+}

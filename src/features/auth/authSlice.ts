@@ -1,0 +1,59 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import authService from './authService';
+import { initialStateAuthSliceInterface, UserInterface } from '../../interfaces/authInterfaces';
+
+const initialState: initialStateAuthSliceInterface = {
+	user: null,
+	users: [],
+	token: null,
+	isLoading: true,
+	isSuccess: false,
+	isError: false,
+	error: null,
+	msg: null,
+};
+
+export const login = createAsyncThunk('auth/login', async (user: UserInterface, thunkAPI: any) => {
+    try {
+        return await authService.login(user);
+    } catch (error: any) {
+        const errorMessage: string = error.response.data.msg;
+        return thunkAPI.rejectWithValue(errorMessage);
+    }
+});
+
+export const authSlice = createSlice({
+	name: 'auth',
+	initialState,
+	reducers: {
+		reset: (state: any) => {
+			state.user = null;
+			state.users = [];
+			state.token = null;
+			state.isLoading = true;
+			state.isSuccess = false;
+			state.isError = false;
+			state.error = null;
+			state.msg = null;
+		},
+	},
+	extraReducers: (builder: any) => {
+		builder
+			.addCase(login.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(login.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(login.fulfilled, (state: any, action: any) => {
+				state.user = action.payload.user;
+				state.token = action.payload.token;
+				state.msg = action.payload.msg;
+				state.loading = false;
+			});
+	},
+});
