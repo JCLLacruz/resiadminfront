@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
+import { Button, Container, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/auth/authSlice';
 import { LoginValues } from '../../interfaces/authInterfaces';
+import { AppDispatch } from '../../app/store';
 
 
 const Login: FC = () => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
-  const dispatch: any = useDispatch();
-  const navigate: any = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
 	const formik = useFormik<LoginValues>({
 		initialValues: {

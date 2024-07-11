@@ -1,5 +1,4 @@
 import {
-	Box,
 	Button,
 	Container,
 	FormControl,
@@ -9,7 +8,6 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
-	TagLabel,
 } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
@@ -18,11 +16,12 @@ import { RegisterValues } from '../../interfaces/authInterfaces';
 import { useDispatch } from 'react-redux';
 import { register } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
+import { AppDispatch } from '../../app/store';
 
 const Register: FC = () => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
-	const dispatch: any = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const formik = useFormik<RegisterValues>({
 		initialValues: {
