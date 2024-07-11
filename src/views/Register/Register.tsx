@@ -1,16 +1,28 @@
-import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Container,
+	FormControl,
+	FormErrorMessage,
+	FormLabel,
+	Heading,
+	Input,
+	InputGroup,
+	InputRightElement,
+	TagLabel,
+} from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { RegisterValues } from '../../interfaces/authInterfaces';
 import { useDispatch } from 'react-redux';
 import { register } from '../../features/auth/authSlice';
-
+import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
 
 const Register: FC = () => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
-    const dispatch: any = useDispatch();
+	const dispatch: any = useDispatch();
 
 	const formik = useFormik<RegisterValues>({
 		initialValues: {
@@ -26,7 +38,11 @@ const Register: FC = () => {
 			firstname: Yup.string().required('Required'),
 			lastname: Yup.string().required('Required'),
 			email: Yup.string().email('Invalid email address').required('Required'),
-			telephonnumber: Yup.number().required('Required').positive('Must be a positive number').integer('Must be an integer').min(9,'Must be at least 9 digits'),
+			telephonnumber: Yup.number()
+				.required('Required')
+				.positive('Must be a positive number')
+				.integer('Must be an integer')
+				.min(9, 'Must be at least 9 digits'),
 			password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
 			confirmPassword: Yup.string()
 				.oneOf([Yup.ref('password')], 'Passwords must match')
@@ -34,22 +50,24 @@ const Register: FC = () => {
 			birthday: Yup.date().required('Required'),
 		}),
 		onSubmit: (values) => {
-            dispatch(register(values))
-            formik.resetForm();
+			dispatch(register(values));
+			formik.resetForm();
 		},
 	});
 
 	return (
-		<Box id='registerBox' padding={'2rem'}>
+		<Container id='registerContainer' maxW='container.sm' padding={'2rem'}>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={4}>
-				Register
+				Regista un empleado
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl isInvalid={!!(formik.errors.firstname && formik.touched.firstname)}>
+					<FormLabel htmlFor='firstnameInput'>Nombre</FormLabel>
 					<InputGroup>
 						<Input
+							id='firstnameInput'
 							name='firstname'
-							placeholder='First Name'
+							placeholder='Nombre'
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.firstname}
@@ -58,23 +76,41 @@ const Register: FC = () => {
 					<FormErrorMessage>{formik.errors.firstname}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.lastname && formik.touched.lastname)} mt={'1rem'}>
+					<FormLabel htmlFor='lastnameInput'>Apellidos</FormLabel>
 					<InputGroup>
-						<Input name='lastname' placeholder='Last Name' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.lastname} />
+						<Input
+							id='lastnameInput'
+							name='lastname'
+							placeholder='Apellidos'
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.lastname}
+						/>
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.lastname}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.email && formik.touched.email)} mt={'1rem'}>
+					<FormLabel htmlFor='emailInput'>Email</FormLabel>
 					<InputGroup>
-						<Input name='email' placeholder='Your email' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
+						<Input
+							id='emailInput'
+							name='email'
+							placeholder='Tu email'
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.email}
+						/>
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.telephonnumber && formik.touched.telephonnumber)} mt={'1rem'}>
+					<FormLabel htmlFor='telephonnumberInput'>Teléfono</FormLabel>
 					<InputGroup>
 						<Input
+							id='telephonnumberInput'
 							name='telephonnumber'
 							placeholder='Telephone Number'
-                            type='number'
+							type='number'
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.telephonnumber}
@@ -83,8 +119,10 @@ const Register: FC = () => {
 					<FormErrorMessage>{formik.errors.telephonnumber}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.password && formik.touched.password)} mt={'1rem'}>
+					<FormLabel htmlFor='passwordInput'>Contraseña</FormLabel>
 					<InputGroup size='md'>
 						<Input
+							id='passwordInput'
 							name='password'
 							pr='4.5rem'
 							type={show ? 'text' : 'password'}
@@ -95,7 +133,7 @@ const Register: FC = () => {
 						/>
 						<InputRightElement width='4.5rem'>
 							<Button h='1.75rem' size='sm' onClick={handleClick}>
-								{show ? 'Hide' : 'Show'}
+								{show ? eyeClosedIcon : eyeOpenIcon}
 							</Button>
 						</InputRightElement>
 					</InputGroup>
@@ -107,22 +145,24 @@ const Register: FC = () => {
 							name='confirmPassword'
 							pr='4.5rem'
 							type={show ? 'text' : 'password'}
-							placeholder='Confirm password'
+							placeholder='Confirma la contraseña'
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.confirmPassword}
 						/>
 						<InputRightElement width='4.5rem'>
 							<Button h='1.75rem' size='sm' onClick={handleClick}>
-								{show ? 'Hide' : 'Show'}
+								{show ? eyeClosedIcon : eyeOpenIcon}
 							</Button>
 						</InputRightElement>
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.birthday && formik.touched.birthday)} mt={'1rem'}>
+					<FormLabel htmlFor='birthdayInput'>Fecha de nacimiento</FormLabel>
 					<InputGroup>
 						<Input
+							id='birthdayInput'
 							name='birthday'
 							type='date'
 							onChange={formik.handleChange}
@@ -133,10 +173,10 @@ const Register: FC = () => {
 					<FormErrorMessage>{!!formik.errors.birthday}</FormErrorMessage>
 				</FormControl>
 				<Button mt={4} type='submit'>
-					Register
+					Registrar
 				</Button>
 			</form>
-		</Box>
+		</Container>
 	);
 };
 

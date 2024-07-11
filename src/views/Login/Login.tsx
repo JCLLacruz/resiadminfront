@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
+import { Box, Button, Container, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
 import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -31,7 +31,7 @@ const Login: FC = () => {
 	});
 
 	return (
-		<Box id='loginBox' padding={'2rem'}>
+		<Container id='loginContainer' maxW='container.sm' padding={'2rem'}>
 			<Heading id='loginHeading' as='h1' size='lg' textAlign='center' mb={4}>
 				Login
 			</Heading>
@@ -74,7 +74,7 @@ const Login: FC = () => {
       <Text mt={4} textAlign='center'>
         forgot your password? <Link href='#'>click here</Link>
       </Text>
-		</Box>
+		</Container>
 	);
 };
 
