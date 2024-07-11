@@ -56,7 +56,7 @@ const Register: FC = () => {
 
 	return (
 		<Container id='registerContainer' maxW='container.sm' padding={'2rem'}>
-			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={4}>
+			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Registra un empleado
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
@@ -72,8 +72,8 @@ const Register: FC = () => {
 							value={formik.values.firstname}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.firstname}</FormErrorMessage>
-				</FormControl>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.firstname}</FormErrorMessage>
+				</FormControl >
 				<FormControl isInvalid={!!(formik.errors.lastname && formik.touched.lastname)} mt={'1rem'}>
 					<FormLabel htmlFor='lastnameInput'>Apellidos</FormLabel>
 					<InputGroup>
@@ -86,7 +86,7 @@ const Register: FC = () => {
 							value={formik.values.lastname}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.lastname}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.lastname}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.email && formik.touched.email)} mt={'1rem'}>
 					<FormLabel htmlFor='emailInput'>Email</FormLabel>
@@ -100,7 +100,7 @@ const Register: FC = () => {
 							value={formik.values.email}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.email}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.telephonnumber && formik.touched.telephonnumber)} mt={'1rem'}>
 					<FormLabel htmlFor='telephonnumberInput'>Teléfono</FormLabel>
@@ -115,7 +115,7 @@ const Register: FC = () => {
 							value={formik.values.telephonnumber}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.telephonnumber}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.telephonnumber}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.password && formik.touched.password)} mt={'1rem'}>
 					<FormLabel htmlFor='passwordInput'>Contraseña</FormLabel>
@@ -136,9 +136,9 @@ const Register: FC = () => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.password}</FormErrorMessage>
 				</FormControl>
-				<FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)} mt={'1rem'}>
+				<FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)} mt={'2rem'}>
 					<InputGroup size='md'>
 						<Input
 							name='confirmPassword'
@@ -155,7 +155,7 @@ const Register: FC = () => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.confirmPassword}</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.birthday && formik.touched.birthday)} mt={'1rem'}>
 					<FormLabel htmlFor='birthdayInput'>Fecha de nacimiento</FormLabel>
@@ -169,9 +169,9 @@ const Register: FC = () => {
 							value={formik.values.birthday}
 						/>
 					</InputGroup>
-					<FormErrorMessage>{!!formik.errors.birthday}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>{!!formik.errors.birthday}</FormErrorMessage>
 				</FormControl>
-				<Button mt={4} type='submit'>
+				<Button mt={'2rem'} type='submit'>
 					Registrar
 				</Button>
 			</form>

@@ -26,7 +26,7 @@ const Footer: FC = () => {
 		<Container
 			display={'flex'}
             padding={'0'}
-			maxW='container.xl'
+			maxW='container.xxl'
 			height={'5rem'}
 			bg='brand.50'
 			position={'fixed'}
