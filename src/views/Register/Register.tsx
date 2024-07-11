@@ -57,7 +57,7 @@ const Register: FC = () => {
 	return (
 		<Container id='registerContainer' maxW='container.sm' padding={'2rem'}>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={4}>
-				Regista un empleado
+				Registra un empleado
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl isInvalid={!!(formik.errors.firstname && formik.touched.firstname)}>
