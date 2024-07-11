@@ -7,7 +7,6 @@ import Footer from './components/Footer/Footer';
 function App() {
 	const token = localStorage.getItem('token') || null;
 	const location: any = useLocation();
-	console.log(location.pathname);
 
 	return (
 		<>

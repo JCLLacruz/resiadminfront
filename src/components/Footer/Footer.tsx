@@ -1,9 +1,58 @@
-import { FC } from 'react'
+import { Box, Button, Container, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { FC } from 'react';
+import { plusBoxIcon } from '../../assets/icons/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Footer: FC = () => {
-  return (
-    <div>Footer</div>
-  )
-}
+	const navigate: any = useNavigate();
 
-export default Footer
+	const goTo = (to: string) => {
+		switch (to) {
+			case 'register':
+				navigate('/register');
+				break;
+			case 'residents':
+				navigate('/residents');
+				break;
+			case 'activities':
+				navigate('/activities');
+				break;
+
+			default:
+				break;
+		}
+	};
+	return (
+		<Container
+			display={'flex'}
+            padding={'0'}
+			maxW='container.xl'
+			height={'5rem'}
+			bg='brand.50'
+			position={'fixed'}
+			bottom={'0'}
+			boxShadow='0 -10px 6px rgba(0, 0, 0, 0.1)'
+			alignItems={'center'}
+			justifyContent={'space-between'}
+		>
+			<Menu>
+				<MenuButton padding={'2rem'} margin={'0'} as={Button} bg='transparent' _hover={'transparent'}>
+					{plusBoxIcon}
+				</MenuButton>
+				<MenuList marginBottom={'1rem'}>
+					<MenuItem height={'4rem'} onClick={() => goTo('register')}>
+						Registrar nuevo empleado
+					</MenuItem>
+					<MenuItem height={'4rem'}>Nuevo residente</MenuItem>
+					<MenuItem height={'4rem'}>Nueva sesión</MenuItem>
+				</MenuList>
+			</Menu>
+			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'space-between'}>
+				<Button onClick={() => goTo('residents')}>Residentes</Button>
+				<Button onClick={() => goTo('activities')}>Actividades</Button>
+			</Box>
+		</Container>
+	);
+};
+
+export default Footer;

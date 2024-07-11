@@ -107,6 +107,13 @@ const theme = extendTheme({
 						bg: 'brand.50',
 					},
 				},
+				opac: {
+					bg: 'brand.50',
+					color: 'brand.500',
+					_hover: {
+						bg: 'brand.200',
+					},
+				},
 			},
 		},
 		Heading: {
