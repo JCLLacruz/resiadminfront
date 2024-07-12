@@ -30,19 +30,20 @@ const Footer: FC = () => {
 			display={'flex'}
             padding={'0'}
 			maxW='container.xxl'
-			height={'5rem'}
+			height={'3.5rem'}
 			bg='brand.50'
 			position={'fixed'}
 			bottom={'0'}
 			boxShadow='0 -10px 6px rgba(0, 0, 0, 0.1)'
 			alignItems={'center'}
 			justifyContent={'space-between'}
+			zIndex={1000}
 		>
 			<Menu>
 				<MenuButton padding={'2rem'} margin={'0'} as={Button} bg='transparent' _hover={'transparent'}>
 					{plusBoxIcon}
 				</MenuButton>
-				<MenuList marginBottom={'1rem'}>
+				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>
 					<MenuItem height={'4rem'} onClick={() => goTo('register')}>
 						Registrar nuevo empleado
 					</MenuItem>
@@ -50,7 +51,7 @@ const Footer: FC = () => {
 					<MenuItem height={'4rem'}>Nueva sesión</MenuItem>
 				</MenuList>
 			</Menu>
-			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'start'} gap={'1rem'}>
+			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'end'} gap={'1rem'}>
 				<Button onClick={() => goTo('residents')}>Residentes</Button>
 				<Button onClick={() => goTo('activities')}>Actividades</Button>
 			</Box>

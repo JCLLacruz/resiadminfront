@@ -55,7 +55,7 @@ const Register: FC = () => {
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm' padding={'2rem'}>
+		<Container id='registerContainer' maxW='container.sm'>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Registra un empleado
 			</Heading>

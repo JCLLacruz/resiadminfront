@@ -63,7 +63,7 @@ const ResidentForm: FC = () => {
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm' padding={'2rem'} minHeight={'100vh'} paddingBottom={'6rem'} >
+		<Container id='registerContainer' maxW='container.sm' minHeight={'100vh'} paddingBottom={'6rem'} >
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Nuevo residente
 			</Heading>

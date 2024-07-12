@@ -32,7 +32,7 @@ const ResidentCard: FC = () => {
 
 	if (isLoading || !resident) {
 		return (
-			<Container maxW='container.xl' padding={'2rem'} width={'100%'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.xl' width={'100%'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
@@ -40,7 +40,7 @@ const ResidentCard: FC = () => {
 
 	if (!Array.isArray(resident.sessions)) {
 		return (
-			<Container maxW='container.xl' padding={'2rem'} width={'100%'}>
+			<Container maxW='container.xl' width={'100%'}>
 				<Heading mb={'2rem'}>
 					{resident.firstname} {resident.lastname}
 				</Heading>
@@ -50,7 +50,7 @@ const ResidentCard: FC = () => {
 	}
 
 	return (
-		<Container maxW='container.xl' padding={'2rem'} width={'100%'}>
+		<Container maxW='container.xl' width={'100%'}>
 			<Box display={'flex'} justifyContent={'space-between'} alignContent={'center'}>
 				<Heading mb={'2rem'}>
 					{resident.firstname} {resident.lastname}
@@ -60,12 +60,14 @@ const ResidentCard: FC = () => {
 						Sessiones
 					</MenuButton>
 					<MenuList marginBottom={'1rem'}>
-						{resident.sessions.map((session: any) => (
-							<MenuItem key={session._id} height={'4rem'} display={'flex'} flexDirection={'column'}>
-								<Text>Actividad: {session.activityId.title}</Text>
-								<Text>Fecha de sesión: {new Date(session.sessionDate).toLocaleDateString()}</Text>
-							</MenuItem>
-						))}
+						{resident.sessions.length === 0 ? <Text paddingX={'1rem'}>No hay sesiones registradas</Text> : (
+							resident.sessions.map((session: any) => (
+								<MenuItem key={session._id} height={'4rem'} display={'flex'} flexDirection={'column'}>
+									<Text>Actividad: {session.activityId.title}</Text>
+									<Text>Fecha de sesión: {new Date(session.sessionDate).toLocaleDateString()}</Text>
+								</MenuItem>
+							))
+						)}
 					</MenuList>
 				</Menu>
 			</Box>

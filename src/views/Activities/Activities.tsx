@@ -31,13 +31,14 @@ const Activities: FC = () => {
 	};
 
 	return (
-		<Container maxW='container.sm' padding={'2rem'}>
+		<Container maxW='container.sm'>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Actividades
 			</Heading>
 			<Input placeholder='Buscar actividad' mb={'2rem'} value={searchTerm} onChange={handleChange} />
 			{filteredActivities.map((activity: ActivityInterface) => (
 				<Box
+        key={activity._id}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'

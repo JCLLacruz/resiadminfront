@@ -31,13 +31,13 @@ const ActivityCard: FC= () => {
 
 	if (isLoading) {
 		return (
-			<Container maxW='container.xl' padding={'2rem'} width={'100%'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.xl' width={'100%'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
 	}
 	return (
-		<Container maxW='container.xl' padding={'2rem'} width={'100%'}>
+		<Container maxW='container.xl' width={'100%'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				{activity?.title}
 			</Heading>

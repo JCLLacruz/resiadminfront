@@ -11,7 +11,11 @@ export interface ResidentInterface {
 	address: { street: string; yardnumber: string; zipcode: number; city: string; country: string };
 	image_path: string;
 	moreinfo: string;
-	sessions: [{ sessionId: string; activityId: string; sessionDate: any }];
+	sessions: {
+		sessionId: string;
+		activityId: string;
+		sessionDate: string;
+	}[];
 	group: { identificator: string; subdivision: string };
 }
 

@@ -8,6 +8,7 @@ import Activities from './views/Activities/Activities';
 import ResidentCard from './components/ResidentCard/ResidentCard';
 import ActivityCard from './components/ActivityCard/ActivityCard';
 import ResidentForm from './components/RedidentForm/ResidentForm';
+import Header from './components/Header/Header';
 
 function App() {
 	const token = localStorage.getItem('token') || null;
@@ -15,6 +16,7 @@ function App() {
 
 	return (
 		<>
+			{token && location.pathname != '/' && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/register' element={<Register />} />;
@@ -24,7 +26,7 @@ function App() {
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
 				<Route path='/residentform/:_id' element={<ResidentForm />} />;
 			</Routes>
-			{token && (location.pathname != '/') && <Footer />}
+			{token && location.pathname != '/' && <Footer />}
 		</>
 	);
 }

@@ -22,9 +22,24 @@ const register = async (user: RegisterValues) => {
     return res.data;
 };
 
+const logoutUser = async () => {
+    const token = localStorage.getItem('token');
+    const res = await axios.get(API_URL + '/logout', {
+        headers: {
+            Authorization: token,
+        },
+    });
+    if (res.data) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+    };
+return res.data;
+}
+
 const authService = {
     login,
     register,
+    logoutUser,
 };
 
 export default authService;
