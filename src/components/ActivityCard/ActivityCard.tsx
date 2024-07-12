@@ -59,7 +59,7 @@ const ActivityCard: FC= () => {
 						</h2>
 						<AccordionPanel pb={4}>
 							<Text>Observaciones: {session.observations}</Text>
-							<Divider bg={'black'} />
+							<Divider bg={'brand.700'} />
 							<Text>Numero de participantes: {session.residentIds.length}</Text>
 						</AccordionPanel>
 					</AccordionItem>

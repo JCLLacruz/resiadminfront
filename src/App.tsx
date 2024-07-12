@@ -11,12 +11,11 @@ import ResidentForm from './components/RedidentForm/ResidentForm';
 import Header from './components/Header/Header';
 
 function App() {
-	const token = localStorage.getItem('token') || null;
 	const location: any = useLocation();
 
 	return (
 		<>
-			{token && location.pathname != '/' && <Header />}
+			{location.pathname != '/' && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/register' element={<Register />} />;
@@ -26,7 +25,7 @@ function App() {
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
 				<Route path='/residentform/:_id' element={<ResidentForm />} />;
 			</Routes>
-			{token && location.pathname != '/' && <Footer />}
+			{location.pathname != '/' && <Footer />}
 		</>
 	);
 }
