@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LoginValues, RegisterValues } from '../../interfaces/authInterfaces';
 
-const API_URL: string = 'http://localhost:3001/users';
+const API_URL: string = 'https://serverresiadmin.onrender.com/users';
 
 const login = async (user: LoginValues ) => {
 	const res: any = await axios.post(API_URL + '/login', user);
