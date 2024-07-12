@@ -7,6 +7,7 @@ import Residents from './views/Residents/Residents';
 import Activities from './views/Activities/Activities';
 import ResidentCard from './components/ResidentCard/ResidentCard';
 import ActivityCard from './components/ActivityCard/ActivityCard';
+import ResidentForm from './components/RedidentForm/ResidentForm';
 
 function App() {
 	const token = localStorage.getItem('token') || null;
@@ -21,6 +22,7 @@ function App() {
 				<Route path='/activities' element={<Activities />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
+				<Route path='/residentform/:_id' element={<ResidentForm />} />;
 			</Routes>
 			{token && (location.pathname != '/') && <Footer />}
 		</>

@@ -82,12 +82,12 @@ const ResidentCard: FC = () => {
 					</Text>
 					<Text mb={'1rem'}>Dirección:</Text>
 					<Text mb={'1rem'} paddingLeft={'1rem'}>
-						{resident.adress.street}, {resident.adress.yardnumber}, {resident.adress.cipcode}, {resident.adress.city}, {resident.adress.country}
+						{resident.address.street}, {resident.address.yardnumber}, {resident.address.zipcode}, {resident.address.city}, {resident.address.country}
 					</Text>
 					<Text mb={'1rem'}>Cumpleaños: {new Date(resident.birthday).toLocaleDateString()}</Text>
 				</Box>
 			</Stack>
-			<Divider my={'2rem'} />
+			<Divider my={'2rem'}  bg={'brand.600'}/>
 			<Text fontSize='lg' mb={'1rem'}>
 				Información de emergencia:
 			</Text>
@@ -97,7 +97,7 @@ const ResidentCard: FC = () => {
 			<Text mb={'1rem'} paddingLeft={'1rem'}>
 				Teléfono de emergencia: {resident.emergency.phoneNumber}
 			</Text>
-			<Divider my={'2rem'} />
+			<Divider my={'2rem'} bg={'brand.600'}/>
 			<Text fontSize='lg' mb={'1rem'}>
 				Más información:
 			</Text>

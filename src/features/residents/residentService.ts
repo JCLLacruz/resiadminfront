@@ -20,9 +20,30 @@ const getResidentById = async (id: string) => {
     });
     return res.data;
 };
+
+const createResident = async (resident: any) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.post(API_URL + '/', resident, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
+const updateResident = async (resident: any, id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.put(API_URL + '/id/' + id, resident, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 const activityService = {
     getAllResidents,
     getResidentById,
+    createResident,
+    updateResident
 };
 
 export default activityService;

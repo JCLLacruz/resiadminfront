@@ -28,6 +28,22 @@ export const getResidentById = createAsyncThunk('residents/getResidentById', asy
         return thunkAPI.rejectWithValue(errorMessage);
     }
 });
+export const createResident = createAsyncThunk('residents/createResident', async (resident: any, thunkAPI: any) => {
+	try {
+		return await residentService.createResident(resident);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: any, id: string }, thunkAPI: any) => {
+	try {
+		return await residentService.updateResident(resident, id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
 
 const residentSlice = createSlice({
 	name: 'resident',
@@ -79,6 +95,42 @@ const residentSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getResidentById.fulfilled, (state: any, action: any) => {
+				state.resident = action.payload.resident;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+                state.isSuccess = true;
+			})
+			.addCase(createResident.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+                state.isSuccess = false;
+			})
+			.addCase(createResident.pending, (state: any) => {
+				state.isError = false;
+                state.isSuccess = false;
+				state.isLoading = true;
+			})
+			.addCase(createResident.fulfilled, (state: any, action: any) => {
+				state.resident = action.payload.resident;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+                state.isSuccess = true;
+			})
+			.addCase(updateResident.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+                state.isSuccess = false;
+			})
+			.addCase(updateResident.pending, (state: any) => {
+				state.isError = false;
+                state.isSuccess = false;
+				state.isLoading = true;
+			})
+			.addCase(updateResident.fulfilled, (state: any, action: any) => {
 				state.resident = action.payload.resident;
 				state.msg = action.payload.msg;
 				state.isLoading = false;

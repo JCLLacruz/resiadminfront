@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Input, Stack, Text } from '@chakra-ui/react';
+import { Box, Container, Heading, Input, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllResidents } from '../../features/residents/residentSlice';
@@ -34,24 +34,22 @@ const Residents: FC = () => {
     }
 
 	return (
-		<Container maxW='container.sm' padding={'2rem'}>
+		<Container maxW='container.xl' padding={'2rem'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Residentes
 			</Heading>
 			<Input placeholder='Buscar residente' mb={'2rem'} value={searchTerm} onChange={handleChange} />
-			<Box display={'flex'} flexDirection={'column'} gap={'1rem'}>
+			<Box display={'flex'} flexDirection={'column'} gap={'1rem'} width={'100%'} alignItems={'center'}>
 				{filteredResidents.map((resident: any) => (
-					<Box key={resident._id} borderWidth='1px' borderRadius='lg' overflow='hidden' maxW='sm' boxShadow='md' paddingX={'2rem'} paddingY={'1rem'} onClick={()=>handleClick(resident._id)}>
+					<Box key={resident._id} display={'flex'} width={'100%'} justifyContent={'space-between'} borderWidth='1px' borderRadius='lg' overflow='hidden' maxW='sm' boxShadow='md' paddingX={'2rem'} paddingY={'1rem'} onClick={()=>handleClick(resident._id)}>
 						<Heading mb={'0.5rem'}>
 							{resident.firstname} {resident.lastname}
 						</Heading>
-						<Stack direction={{ base: 'column', md: 'row' }} spacing='24px'>
 							<Box>
 								<Text mb={'1rem'} paddingLeft={'1rem'}>
 									Teléfono: {resident.phoneNumber}
 								</Text>
 							</Box>
-						</Stack>
 					</Box>
 				))}
 			</Box>

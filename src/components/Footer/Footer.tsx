@@ -17,6 +17,9 @@ const Footer: FC = () => {
 			case 'activities':
 				navigate('/activities');
 				break;
+			case 'residentform':
+				navigate('/residentform/:1');
+				break;
 
 			default:
 				break;
@@ -43,11 +46,11 @@ const Footer: FC = () => {
 					<MenuItem height={'4rem'} onClick={() => goTo('register')}>
 						Registrar nuevo empleado
 					</MenuItem>
-					<MenuItem height={'4rem'}>Nuevo residente</MenuItem>
+					<MenuItem height={'4rem'} onClick={() => goTo('residentform')}>Nuevo residente</MenuItem>
 					<MenuItem height={'4rem'}>Nueva sesión</MenuItem>
 				</MenuList>
 			</Menu>
-			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'space-between'}>
+			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'start'} gap={'1rem'}>
 				<Button onClick={() => goTo('residents')}>Residentes</Button>
 				<Button onClick={() => goTo('activities')}>Actividades</Button>
 			</Box>
