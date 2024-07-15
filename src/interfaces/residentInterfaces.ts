@@ -39,6 +39,7 @@ export interface initialStateResidentSliceInterface {
     resident: ResidentInterface | null,
     residents: Array<ResidentInterface>,
 	images: Array<ImageData>,
+	image: ImageData | null,
     isLoading: boolean,
     isError: boolean,
     isSuccess: boolean,
