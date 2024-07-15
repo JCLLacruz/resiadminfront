@@ -1,6 +1,6 @@
 import { Box, Button, Container, Text } from '@chakra-ui/react';
 import { FC, useState } from 'react';
-import { switchOffIcon } from '../../assets/icons/icons';
+import { closeIcon, switchOffIcon } from '../../assets/icons/icons';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
@@ -38,7 +38,7 @@ const Footer: FC = () => {
 				{switchOffIcon}
 			</Button>
 			{isVisible && (
-				<Box position={'absolute'} top={'5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
+				<Box position={'absolute'} top={'4rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
@@ -53,10 +53,20 @@ const Footer: FC = () => {
 						zIndex={1000}
 						bg='white'
 					>
-						<Text position={'absolute'} padding={'0'} marginX={'-1.60rem'} marginY={'-1.2rem'} alignSelf={'end'} fontSize={'2xl'} color={'brand.500'} onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>X</Text>
-						<Text>¿Está seguro de querer cerrar sesión?</Text>
+						<Text
+							position={'absolute'}
+							padding={'0'}
+							marginX={'-1.80rem'}
+							marginY={'-0.8rem'}
+							alignSelf={'end'}
+							fontSize={'2xl'}
+							onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}
+						>
+							{closeIcon}
+						</Text>
+						<Text marginTop={'1rem'} marginBottom={'0.5rem'}>¿Está seguro de querer cerrar sesión?</Text>
 						<Button id='confirmLogoutButton' bg='red' size='sm' mt={4} onClick={logout}>
-							Sí, cerrar sesión
+							Sí, cerrar sesión!
 						</Button>
 					</Box>
 				</Box>

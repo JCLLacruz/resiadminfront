@@ -84,9 +84,9 @@ const ResidentCard: FC = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					position={'absolute'}
-					top={'15rem'}
+					top={'10rem'}
 					alignItems={'center'}
-					width={'600px'}
+					width={'90%'}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
@@ -97,18 +97,16 @@ const ResidentCard: FC = () => {
 					zIndex={1000}
 					bg='white'
 				>
-					<Text
+					<Box
 						position={'absolute'}
 						padding={'0'}
-						marginX={'-1.60rem'}
-						marginY={'-1.2rem'}
+						marginX={'-1.80rem'}
+						marginY={'-0.8rem'}
 						alignSelf={'end'}
-						fontSize={'2xl'}
-						color={'brand.500'}
 						onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
 					>
 						{closeIcon}
-					</Text>
+					</Box>
 					<FormImageUpload type='resident' id={resident._id}/>
 				</Box>
 			)}
@@ -130,18 +128,16 @@ const ResidentCard: FC = () => {
 					zIndex={1000}
 					bg='white'
 				>
-					<Text
+					<Box
 						position={'absolute'}
 						padding={'0'}
-						marginX={'-1.5rem'}
-						marginY={'-1rem'}
+						marginX={'-1.80rem'}
+						marginY={'-0.8rem'}
 						alignSelf={'end'}
-						fontSize={'2xl'}
-						color={'brand.500'}
 						onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}
 					>
 						{closeIcon}
-					</Text>
+					</Box>
 					<AllImages images={true}/>
 				</Box>
 			)}
