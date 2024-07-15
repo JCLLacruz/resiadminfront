@@ -39,7 +39,9 @@ const FormImageUpload: FC<FormImageUploadProps> = ({ id, type }) => {
 			isLoading && setIsUploading(true);
 
 			dispatch(uploadImageResident(formData));
-			dispatch(getResidentById(id));
+            // setTimeout(() => {
+            //     dispatch(getResidentById(id));
+            // }, 1000);
 
 			!isLoading && setIsUploading(false);
 			formik.resetForm();

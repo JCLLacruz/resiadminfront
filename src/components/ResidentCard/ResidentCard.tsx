@@ -26,7 +26,7 @@ const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-	const { resident, images, isLoading } = useSelector((state: RootState) => state.resident || {});
+	const { resident, image, images, isLoading } = useSelector((state: RootState) => state.resident || {});
 	const [isAlertVisible, setIsAlertVisible] = useState(false);
 	const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
@@ -50,7 +50,13 @@ const ResidentCard: FC = () => {
 				setImageSrc(images[images.length - 1].src);
 			}
 		}
-	}, [resident, dispatch]);
+	}, [resident, image, dispatch]);
+
+	useEffect(() => {
+		if(image) {
+			setImageSrc(image.src);
+		}
+	}, [image]);
 
 	if (isLoading || !resident) {
 		return (
@@ -113,7 +119,7 @@ const ResidentCard: FC = () => {
 					position={'absolute'}
 					top={'15rem'}
 					alignItems={'center'}
-					width={'600px'}
+					width={'90%'}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
