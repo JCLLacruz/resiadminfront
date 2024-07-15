@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL: string = 'http://localhost:3001/activities';
+const API_URL: string = 'https://serverresiadmin.onrender.com/activities';
 
 const getAllActivities = async () => {
     const token = localStorage.getItem('token');
