@@ -44,6 +44,14 @@ export const updateResident = createAsyncThunk('residents/updateResident', async
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const deleteResident = createAsyncThunk('residents/deleteResident', async (id: string, thunkAPI: any) => {
+	try {
+		return await residentService.deleteResident(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
 
 const residentSlice = createSlice({
 	name: 'resident',

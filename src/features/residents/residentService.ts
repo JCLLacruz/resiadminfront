@@ -39,11 +39,21 @@ const updateResident = async (resident: any, id: string) => {
     });
     return res.data;
 };
+const deleteResident = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.delete(API_URL + '/id/' + id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 const activityService = {
     getAllResidents,
     getResidentById,
     createResident,
-    updateResident
+    updateResident,
+    deleteResident,
 };
 
 export default activityService;

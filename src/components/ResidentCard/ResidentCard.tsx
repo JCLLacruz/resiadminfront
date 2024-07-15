@@ -12,16 +12,19 @@ import {
 	MenuList,
 	MenuItem,
 } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
-import { getResidentById, resetLoading } from '../../features/residents/residentSlice';
+import { deleteResident, getResidentById, resetLoading } from '../../features/residents/residentSlice';
+import { trashIcon } from '../../assets/icons/icons';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
 	const { resident, isLoading } = useSelector((state: RootState) => state.resident || {});
+	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		dispatch(getResidentById(_id));
@@ -29,6 +32,13 @@ const ResidentCard: FC = () => {
 			dispatch(resetLoading());
 		};
 	}, [_id, dispatch]);
+
+	const handleDeleteResident = (_id: string) => {
+		console.log('delete resident', _id);
+		
+		dispatch(deleteResident(_id));
+		navigate('/residents');
+	}
 
 	if (isLoading || !resident) {
 		return (
@@ -55,6 +65,7 @@ const ResidentCard: FC = () => {
 				<Heading mb={'2rem'}>
 					{resident.firstname} {resident.lastname}
 				</Heading>
+				<Box display={'flex'}  gap={'1rem'}>
 				<Menu>
 					<MenuButton margin={'0'} as={Button} _hover={'transparent'}>
 						Sessiones
@@ -70,6 +81,32 @@ const ResidentCard: FC = () => {
 						)}
 					</MenuList>
 				</Menu>
+				<Button onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>{trashIcon}</Button>
+				{isVisible && (
+				<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
+					<Box
+						display={'flex'}
+						flexDirection={'column'}
+						alignItems={'center'}
+						borderWidth='1px'
+						borderRadius='lg'
+						overflow='hidden'
+						maxW='sm'
+						boxShadow='md'
+						paddingX={'2rem'}
+						paddingY={'1rem'}
+						zIndex={1000}
+						bg='white'
+					>
+						<Text position={'absolute'} padding={'0'} marginX={'-1.60rem'} marginY={'-1.2rem'} alignSelf={'end'} fontSize={'2xl'} color={'brand.500'} onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>X</Text>
+						<Text>¿Está seguro de querer eliminar este residente? Esta acción no se puede deshacer.</Text>
+						<Button id='confirmLogoutButton' bg='red' size='sm' mt={4} onClick={()=> handleDeleteResident(resident._id)}>
+							Sí, eliminar
+						</Button>
+					</Box>
+				</Box>
+			)}
+				</Box>
 			</Box>
 			<Stack direction={{ base: 'column', md: 'row' }} spacing='24px'>
 				<Box>
