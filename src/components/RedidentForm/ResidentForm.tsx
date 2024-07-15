@@ -25,6 +25,7 @@ const ResidentForm: FC = () => {
 			address: { street: '', yardnumber: '', zipcode: '', city: '', country: '' },
 			moreinfo: '',
 			group: { identificator: '', subdivision: '' },
+			images: [],
 		},
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Nombre es requerido'),
@@ -56,14 +57,13 @@ const ResidentForm: FC = () => {
 			}),
 		}),
 		onSubmit: (values) => {
-            console.log('values',values);
 			dispatch(createResident(values));
 			formik.resetForm();
 		},
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm' minHeight={'100vh'} paddingBottom={'6rem'} >
+		<Container id='registerContainer' maxW='container.sm' minHeight={'100vh'} paddingBottom={'10rem'} paddingTop={'2rem'}>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Nuevo residente
 			</Heading>
