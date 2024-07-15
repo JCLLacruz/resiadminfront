@@ -1,3 +1,10 @@
+export interface ImageData {
+   contentType: string;
+   residentId: string;
+   _id: string;
+   data: { data: ArrayBuffer };
+   src: string;
+}
 export interface ResidentInterface {
 	_id:string;
 	firstname: string;
@@ -10,7 +17,15 @@ export interface ResidentInterface {
 	};
 	birthday: string;
 	address: { street: string; yardnumber: string; zipcode: number; city: string; country: string };
-	image_path: string;
+	images: {
+		contentType: string;
+		residentId: string;
+		_id:string;
+		data:{
+			residentId: string;
+			data:ArrayBuffer;
+		}
+	}[],
 	moreinfo: string;
 	sessions: {
 		sessionId: string;
@@ -23,6 +38,7 @@ export interface ResidentInterface {
 export interface initialStateResidentSliceInterface {
     resident: ResidentInterface | null,
     residents: Array<ResidentInterface>,
+	images: Array<ImageData>,
     isLoading: boolean,
     isError: boolean,
     isSuccess: boolean,
@@ -42,4 +58,6 @@ export interface initialStateResidentSliceInterface {
 	address: { street: string; yardnumber: string; zipcode: string; city: string; country: string };
 	moreinfo: string;
 	group: { identificator: string; subdivision: string };
+	images: Array<string>;
  }
+

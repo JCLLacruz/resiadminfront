@@ -32,6 +32,7 @@ const Register: FC = () => {
 			password: '',
 			confirmPassword: '',
 			birthday: new Date(),
+			images: [],
 		},
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Required'),

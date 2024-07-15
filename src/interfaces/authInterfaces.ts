@@ -11,7 +11,7 @@ export interface UserInterface  {
     telephonnumber: number,
     birthday: string,
     role: string,
-    image_path: string,
+	images: Array<string>;
     connections: Array <ConnectionsInterface>,
     CommentIds: [string],
 }
@@ -28,6 +28,7 @@ export interface RegisterValues {
 	password: string;
 	confirmPassword: string;
 	birthday: any;
+    images: Array<string>;
 }
 export interface initialStateAuthSliceInterface {
     user: UserInterface | null,

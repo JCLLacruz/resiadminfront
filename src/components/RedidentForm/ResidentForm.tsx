@@ -25,6 +25,7 @@ const ResidentForm: FC = () => {
 			address: { street: '', yardnumber: '', zipcode: '', city: '', country: '' },
 			moreinfo: '',
 			group: { identificator: '', subdivision: '' },
+			images: [],
 		},
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Nombre es requerido'),
@@ -56,7 +57,6 @@ const ResidentForm: FC = () => {
 			}),
 		}),
 		onSubmit: (values) => {
-            console.log('values',values);
 			dispatch(createResident(values));
 			formik.resetForm();
 		},
