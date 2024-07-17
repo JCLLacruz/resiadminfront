@@ -22,7 +22,7 @@ function App() {
 				<Route path='/register' element={<Register />} />;
 				<Route path='/residents' element={<Residents />} />;
 				<Route path='/activities' element={<Activities />} />;
-				<Route path='/sessions' element={<Sessions />} />;
+				<Route path='/sessions/:_id' element={<Sessions />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
 				<Route path='/residentform/:_id' element={<ResidentForm />} />;

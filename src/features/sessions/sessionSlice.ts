@@ -13,12 +13,12 @@ const initialState: initialStateSessionSliceInterface = {
 };
 
 export const getAllSessions = createAsyncThunk('sessions/getAllSessions', async (_, thunkAPI) => {
-    try {
-        return await sessionService.getAllSessions();
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await sessionService.getAllSessions();
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 
 const sessionSlice = createSlice({
@@ -48,13 +48,13 @@ const sessionSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getAllSessions.fulfilled, (state: any, action: any) => {
-				state.sessions = action.payload.activities;
+				state.sessions = action.payload.sessions;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
-			})
+			});
 	},
 });
 
-export const {reset} = sessionSlice.actions;
+export const { reset } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

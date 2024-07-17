@@ -18,6 +18,9 @@ const ResidentCard: FC = () => {
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
 	const [imageSrc, setImageSrc] = useState<any>('');
 
+	console.log('resident', resident);
+	
+
 	useEffect(() => {
 		dispatch(getResidentById(_id));
 		return () => {
@@ -48,17 +51,6 @@ const ResidentCard: FC = () => {
 		return (
 			<Container maxW='container.xl' width={'100vw'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
-			</Container>
-		);
-	}
-
-	if (!Array.isArray(resident.sessions)) {
-		return (
-			<Container maxW='container.xl' width={'100%'}>
-				<Heading mb={'2rem'}>
-					{resident.firstname} {resident.lastname}
-				</Heading>
-				<Text>No hay sesiones disponibles para este residente.</Text>
 			</Container>
 		);
 	}
@@ -133,7 +125,7 @@ const ResidentCard: FC = () => {
 			)}
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
 				<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
-				<Button onClick={() => navigate('/sessions')}>Sesiones</Button>
+				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
 				<Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
