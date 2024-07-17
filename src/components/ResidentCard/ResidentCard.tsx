@@ -1,18 +1,4 @@
-import {
-	Box,
-	Container,
-	Divider,
-	Heading,
-	Stack,
-	Text,
-	Spinner,
-	Button,
-	Menu,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	Image,
-} from '@chakra-ui/react';
+import { Box, Container, Divider, Heading, Stack, Text, Spinner, Button, Image } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -43,17 +29,17 @@ const ResidentCard: FC = () => {
 		dispatch(deleteResident(_id));
 		navigate('/residents');
 	};
-	
+
 	useEffect(() => {
-		if(resident) {
-			if(images.length > 0) {
+		if (resident) {
+			if (images.length > 0) {
 				setImageSrc(images[images.length - 1].src);
 			}
 		}
 	}, [resident, image, dispatch]);
 
 	useEffect(() => {
-		if(image) {
+		if (image) {
 			setImageSrc(image.src);
 		}
 	}, [image]);
@@ -109,7 +95,7 @@ const ResidentCard: FC = () => {
 					>
 						{closeIcon}
 					</Text>
-					<FormImageUpload type='resident' id={resident._id}/>
+					<FormImageUpload type='resident' id={resident._id} />
 				</Box>
 			)}
 			{isAllImagesVisible && (
@@ -142,28 +128,12 @@ const ResidentCard: FC = () => {
 					>
 						{closeIcon}
 					</Text>
-					<AllImages images={true}/>
+					<AllImages images={true} />
 				</Box>
 			)}
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
-				<Menu>
-					<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
-					<MenuButton margin={'0'} as={Button} _hover={'transparent'}>
-						Sessiones
-					</MenuButton>
-					<MenuList marginBottom={'1rem'}>
-						{resident.sessions.length === 0 ? (
-							<Text paddingX={'1rem'}>No hay sesiones registradas</Text>
-						) : (
-							resident.sessions.map((session: any) => (
-								<MenuItem key={session._id} height={'4rem'} display={'flex'} flexDirection={'column'}>
-									<Text>Actividad: {session.activityId.title}</Text>
-									<Text>Fecha de sesión: {new Date(session.sessionDate).toLocaleDateString()}</Text>
-								</MenuItem>
-							))
-						)}
-					</MenuList>
-				</Menu>
+				<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
+				<Button onClick={() => navigate('/sessions')}>Sesiones</Button>
 				<Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
@@ -224,7 +194,11 @@ const ResidentCard: FC = () => {
 						</Box>
 					) : (
 						<Box width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-							<Image width={'120%'} src={imageSrc} onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}></Image>
+							<Image
+								width={'120%'}
+								src={imageSrc}
+								onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
+							></Image>
 						</Box>
 					)}
 				</Box>

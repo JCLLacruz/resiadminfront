@@ -13,7 +13,7 @@ export interface UserInterface  {
     role: string,
 	images: Array<string>;
     connections: Array <ConnectionsInterface>,
-    CommentIds: [string],
+    CommentIds: string[],
 }
 
 export interface LoginValues {
