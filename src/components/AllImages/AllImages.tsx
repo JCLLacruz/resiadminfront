@@ -4,16 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { deleteImageResident, getResidentById } from '../../features/residents/residentSlice';
 import { ImageData } from '../../interfaces/residentInterfaces';
-import { set } from 'mongoose';
-
-
 interface AllImagesProps {
 	images: boolean;
 }
 
 const AllImages: FC<AllImagesProps> = ({ images }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const {resident, images: imagesState} = useSelector((state: any) => state.resident || {});
+    const {resident, images: imagesState, image} = useSelector((state: any) => state.resident || {});
     
 	const [allImages, setAllImages] = useState<ImageData[]>([]);
 
@@ -30,7 +27,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 
 	return (
 		<Box>
-			{allImages.length === 0 ? (
+			{image == null ? (
 				<Text>No hay imágenes</Text>
 			) : (
 				<>

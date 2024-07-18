@@ -234,15 +234,12 @@ const residentSlice = createSlice({
 			})
 			.addCase(uploadImageResident.fulfilled, (state: any, action: any) => {
 				if(action.payload.image){
-					state.image = {
+					const image = {
 						src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
 						_id: action.payload.image._id,
 					};
-				}
-				if(state.images.length > 0){
-					state.images = [...state.images];
-				} else {
-					state.images = [];
+					state.image = image;
+					state.images.push(image);
 				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;

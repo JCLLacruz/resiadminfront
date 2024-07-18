@@ -40,13 +40,13 @@ const ResidentCard: FC = () => {
 		if (images.length > 0) {
 			setImageSrc(images[images.length - 1].src);
 		}
-	}, [images]);
+	}, [images, image]);
 
-	useEffect(() => {
-		console.log('image', image);
-		
-		if (image) {
-			setImageSrc(image.src);
+	useEffect(() => {		
+		if (images.length > 0) {
+			setImageSrc(images[images.length - 1].src);
+		} else{
+			setImageSrc(image?.src);
 		}
 	}, [image]);
 
