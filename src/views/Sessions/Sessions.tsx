@@ -30,7 +30,7 @@ const Sessions: FC = () => {
 	return (
 		<>
 			{_id != 'activity' ? (
-				<Container maxW='container.xl'>
+				<Container maxW='container.xl' marginBottom={'5rem'}>
 					<Heading size={'3xl'} marginY={'2rem'}>
 						{`Sesiones de ${sessions[0].residentIds[0].firstname} ${sessions[0].residentIds[0].lastname}`}
 					</Heading>

@@ -14,12 +14,12 @@ const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-	const { resident, image, images, isLoading } = useSelector((state: RootState) => state.resident || {});
+	const { resident, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.resident || {});
 	const [isAlertVisible, setIsAlertVisible] = useState(false);
 	const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
 	const [imageSrc, setImageSrc] = useState<any>('');
-	const user:UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
+	const user: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 
 	useEffect(() => {
 		if (_id) {
@@ -37,12 +37,10 @@ const ResidentCard: FC = () => {
 	};
 
 	useEffect(() => {
-		if (resident) {
-			if (images.length > 0) {
-				setImageSrc(images[images.length - 1].src);
-			}
+		if (images.length > 0) {
+			setImageSrc(images[images.length - 1].src);
 		}
-	}, [resident, image, dispatch]);
+	}, [images]);
 
 	useEffect(() => {
 		if (image) {
@@ -52,41 +50,41 @@ const ResidentCard: FC = () => {
 
 	if (isLoading || !resident) {
 		return (
-			<Container maxW='container.xl' width={'100vw'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.xl' width={'100vw'} height={'100vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
 	}
 
 	return (
-		<Container maxW='container.xl' width={'100%'}>
+		<Container maxW='container.xl' paddingBottom={'10rem'} overflowY={'auto'}>
 			{isUploadImageVisible && (
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
-					position={'absolute'}
+					position={'fixed'}
 					top={'15rem'}
+					left={'50%'}
+					transform={'translateX(-50%)'}
 					alignItems={'center'}
-					width={'600px'}
+					width={'90%'}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
-					maxW='sm'
 					boxShadow='md'
 					paddingX={'2rem'}
 					paddingY={'1rem'}
-					zIndex={1000}
 					bg='white'
+					zIndex={1000}
 				>
 					<Text
 						position={'absolute'}
-						padding={'0'}
-						marginX={'-1.60rem'}
-						marginY={'-1.2rem'}
-						alignSelf={'end'}
+						top={2}
+						right={2}
 						fontSize={'2xl'}
 						color={'brand.500'}
-						onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
+						cursor={'pointer'}
+						onClick={() => setIsUploadImageVisible(false)}
 					>
 						{closeIcon}
 					</Text>
@@ -97,29 +95,29 @@ const ResidentCard: FC = () => {
 				<Box
 					display={'flex'}
 					flexDirection={'column'}
-					position={'absolute'}
+					position={'fixed'}
 					top={'15rem'}
+					left={'50%'}
+					transform={'translateX(-50%)'}
 					alignItems={'center'}
 					width={'90%'}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
-					maxW='sm'
 					boxShadow='md'
 					paddingX={'2rem'}
 					paddingY={'1rem'}
-					zIndex={1000}
 					bg='white'
+					zIndex={1000}
 				>
 					<Text
 						position={'absolute'}
-						padding={'0'}
-						marginX={'-1.5rem'}
-						marginY={'-1rem'}
-						alignSelf={'end'}
+						top={2}
+						right={2}
 						fontSize={'2xl'}
 						color={'brand.500'}
-						onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}
+						cursor={'pointer'}
+						onClick={() => setIsAllImagesVisible(false)}
 					>
 						{closeIcon}
 					</Text>
@@ -127,11 +125,11 @@ const ResidentCard: FC = () => {
 				</Box>
 			)}
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
-				<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
+				<Button onClick={() => setIsAllImagesVisible(!isAllImagesVisible)}>Todas las imagenes</Button>
 				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
-				{user.role === 'superadmin' && <Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>}
+				{user.role === 'superadmin' && <Button onClick={() => setIsAlertVisible(!isAlertVisible)}>{trashIcon}</Button>}
 				{isAlertVisible && (
-					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
+					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'} zIndex={1000}>
 						<Box
 							display={'flex'}
 							flexDirection={'column'}
@@ -139,61 +137,51 @@ const ResidentCard: FC = () => {
 							borderWidth='1px'
 							borderRadius='lg'
 							overflow='hidden'
-							maxW='sm'
 							boxShadow='md'
 							paddingX={'2rem'}
 							paddingY={'1rem'}
-							zIndex={1000}
 							bg='white'
 						>
 							<Text
 								position={'absolute'}
-								padding={'0'}
-								marginX={'-1.60rem'}
-								marginY={'-1.2rem'}
-								alignSelf={'end'}
+								top={2}
+								right={2}
 								fontSize={'2xl'}
 								color={'brand.500'}
-								onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}
+								cursor={'pointer'}
+								onClick={() => setIsAlertVisible(false)}
 							>
-								X
+								{closeIcon}
 							</Text>
 							<Text>¿Está seguro de querer eliminar este residente? Esta acción no se puede deshacer.</Text>
-							<Button id='confirmLogoutButton' bg='red' size='sm' mt={4} onClick={() => handleDeleteResident(resident._id)}>
+							<Button bg='red' size='sm' mt={4} onClick={() => handleDeleteResident(resident._id)}>
 								Sí, eliminar
 							</Button>
 						</Box>
 					</Box>
 				)}
 			</Box>
-			<Box display={'flex'} justifyContent={'space-between'} alignContent={'center'}>
+			<Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
 				<Heading mb={'2rem'} size={'3xl'}>
 					{resident.firstname} {resident.lastname}
 				</Heading>
 			</Box>
 			<Divider marginBottom={'2rem'} bg={'brand.600'} />
 			<Box display={'flex'} gap={'1rem'}>
-				<Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={'200px'} height={'200px'}>
+				<Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={'80%'} height={'60%'}>
 					{images.length == 0 ? (
-						<Box width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'} border={'solid'}>
-							<Button
-								padding={'2rem'}
-								margin={'0'}
-								as={Button}
-								bg='transparent'
-								_hover={'transparent'}
-								onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
-							>
-								{plusBoxIcon}
-							</Button>
+						<Box width={'100%'} height={'250px'} display={'flex'} justifyContent={'center'} alignItems={'center'} border={'solid'}>
+							{imagesIsLoading ? (
+								<Spinner size='xl' />
+							) : (
+								<Button padding={'2rem'} margin={'0'} bg='transparent' _hover={{ bg: 'transparent' }} onClick={() => setIsUploadImageVisible(true)}>
+									{plusBoxIcon}
+								</Button>
+							)}
 						</Box>
 					) : (
 						<Box width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-							<Image
-								width={'120%'}
-								src={imageSrc}
-								onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
-							></Image>
+							<Image width={'120%'} src={imageSrc} cursor={'pointer'} onClick={() => setIsUploadImageVisible(true)} />
 						</Box>
 					)}
 				</Box>

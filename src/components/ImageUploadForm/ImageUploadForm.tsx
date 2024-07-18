@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Box, Button, FormControl, FormLabel, Input, Image, Spinner } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
-import { uploadImageResident } from '../../features/residents/residentSlice';
+import { getResidentById, uploadImageResident } from '../../features/residents/residentSlice';
 
 interface FormValues {
 	image: File | null;
@@ -39,7 +39,7 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 			isLoading && setIsUploading(true);
 
 			dispatch(uploadImageResident(formData));
-
+			dispatch(getResidentById(id));
 			!isLoading && setIsUploading(false);
 			formik.resetForm();
 		},

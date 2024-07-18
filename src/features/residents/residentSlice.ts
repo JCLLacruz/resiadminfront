@@ -12,6 +12,7 @@ const initialState: initialStateResidentSliceInterface = {
 	residents: [],
 	images: [],
 	image: null,
+	imagesIsLoading: false,
 	isLoading: false,
 	isSuccess: false,
 	isError: false,
@@ -201,25 +202,32 @@ const residentSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(uploadImageResident.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
 				state.isLoading = true;
+				state.imagesIsLoading = true;
 			})
 			.addCase(uploadImageResident.fulfilled, (state: any, action: any) => {
-				state.image = {src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType), _id: action.payload.image._id};
-				if (action.payload.images >= 1) {
+				state.image = {
+					src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
+					_id: action.payload.image._id
+				};
+				if (action.payload.images.length > 0) {
 					const srcImages = action.payload.images.map((image: any) => {
-						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+						return {
+							src: getImageSrc(image.data.data, image.contentType),
+							_id: image._id
+						};
 					});
 					state.images = srcImages;
-				} else {
-					state.images = [];
 				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(deleteImageResident.rejected, (state: any, action: any) => {
@@ -227,16 +235,19 @@ const residentSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(deleteImageResident.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
 				state.isLoading = true;
+				state.imagesIsLoading = true;
 			})
 			.addCase(deleteImageResident.fulfilled, (state: any, action: any) => {
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			});
 	},
