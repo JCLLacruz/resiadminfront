@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { residentValues } from '../../interfaces/residentInterfaces';
-import { groupOptions, sudivisionGropuOptions } from '../../utils/formOptions';
+import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { createResident } from '../../features/residents/residentSlice';
 
 const ResidentForm: FC = () => {
@@ -63,8 +63,8 @@ const ResidentForm: FC = () => {
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm' minHeight={'100vh'} paddingBottom={'10rem'} paddingTop={'2rem'}>
-			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
+		<Container id='residentFormContainer' maxW='container.sm' marginBottom={'5rem'} marginTop={'1rem'}>
+			<Heading id='residentFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Nuevo residente
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
@@ -285,7 +285,7 @@ const ResidentForm: FC = () => {
                 <FormLabel htmlFor='subdivisionInput'>Subdivisión</FormLabel>
                 <Select id='subdivisionInput' name='group.subdivision' placeholder='Subdivisión' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.group.subdivision}>
                         <option key='ninguna'>Ninguna</option>
-                        {sudivisionGropuOptions.map((option) => <option key={`gropuOption${option}`} value={option}>{option}</option>)}
+                        {sudivisionGroupOptions.map((option) => <option key={`gropuOption${option}`} value={option}>{option}</option>)}
 					</Select>
                     <FormErrorMessage position={'absolute'} right={'0'}>
 						{formik.errors.group?.subdivision}

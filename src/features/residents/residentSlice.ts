@@ -12,7 +12,7 @@ const initialState: initialStateResidentSliceInterface = {
 	residents: [],
 	images: [],
 	image: null,
-	isLoading: true,
+	isLoading: false,
 	isSuccess: false,
 	isError: false,
 	error: null,
@@ -210,11 +210,8 @@ const residentSlice = createSlice({
 			})
 			.addCase(uploadImageResident.fulfilled, (state: any, action: any) => {
 				state.image = {src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType), _id: action.payload.image._id};
-				console.log('action.payload.images', action.payload.images);
 				if (action.payload.images >= 1) {
 					const srcImages = action.payload.images.map((image: any) => {
-						console.log('image', image);
-
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
 					state.images = srcImages;

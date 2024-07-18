@@ -2,7 +2,7 @@ export interface ActivityInterface {
     _id: string;
 	title: string;
 	description: string;
-	sessions: [string];
+	sessions: string[];
 	image_path: string;
 }
 

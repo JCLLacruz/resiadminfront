@@ -6,7 +6,7 @@ const initialState: initialStateAuthSliceInterface = {
 	user: null,
 	users: [],
 	token: null,
-	isLoading: true,
+	isLoading: false,
 	isSuccess: false,
 	isError: false,
 	error: null,

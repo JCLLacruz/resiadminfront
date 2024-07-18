@@ -1,26 +1,13 @@
-import {
-	Box,
-	Container,
-	Divider,
-	Heading,
-	Stack,
-	Text,
-	Spinner,
-	Button,
-	Menu,
-	MenuButton,
-	MenuList,
-	MenuItem,
-	Image,
-} from '@chakra-ui/react';
+import { Box, Container, Divider, Heading, Stack, Text, Spinner, Button, Image } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
 import { deleteResident, getResidentById, resetLoading } from '../../features/residents/residentSlice';
 import { closeIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
-import FormImageUpload from '../FormImageUpload/FormImageUpload';
+import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
+import { UserInterface } from '../../interfaces/authInterfaces';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -31,6 +18,7 @@ const ResidentCard: FC = () => {
 	const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
 	const [imageSrc, setImageSrc] = useState<any>('');
+	const user:UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 
 	useEffect(() => {
 		dispatch(getResidentById(_id));
@@ -43,17 +31,17 @@ const ResidentCard: FC = () => {
 		dispatch(deleteResident(_id));
 		navigate('/residents');
 	};
-	
+
 	useEffect(() => {
-		if(resident) {
-			if(images.length > 0) {
+		if (resident) {
+			if (images.length > 0) {
 				setImageSrc(images[images.length - 1].src);
 			}
 		}
 	}, [resident, image, dispatch]);
 
 	useEffect(() => {
-		if(image) {
+		if (image) {
 			setImageSrc(image.src);
 		}
 	}, [image]);
@@ -66,17 +54,6 @@ const ResidentCard: FC = () => {
 		);
 	}
 
-	if (!Array.isArray(resident.sessions)) {
-		return (
-			<Container maxW='container.xl' width={'100%'}>
-				<Heading mb={'2rem'}>
-					{resident.firstname} {resident.lastname}
-				</Heading>
-				<Text>No hay sesiones disponibles para este residente.</Text>
-			</Container>
-		);
-	}
-
 	return (
 		<Container maxW='container.xl' width={'100%'}>
 			{isUploadImageVisible && (
@@ -84,9 +61,9 @@ const ResidentCard: FC = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					position={'absolute'}
-					top={'10rem'}
+					top={'15rem'}
 					alignItems={'center'}
-					width={'90%'}
+					width={'600px'}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
@@ -97,17 +74,19 @@ const ResidentCard: FC = () => {
 					zIndex={1000}
 					bg='white'
 				>
-					<Box
+					<Text
 						position={'absolute'}
 						padding={'0'}
-						marginX={'-1.80rem'}
-						marginY={'-0.8rem'}
+						marginX={'-1.60rem'}
+						marginY={'-1.2rem'}
 						alignSelf={'end'}
+						fontSize={'2xl'}
+						color={'brand.500'}
 						onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
 					>
 						{closeIcon}
-					</Box>
-					<FormImageUpload type='resident' id={resident._id}/>
+					</Text>
+					<ImageUploadForm type='resident' id={resident._id} />
 				</Box>
 			)}
 			{isAllImagesVisible && (
@@ -128,39 +107,25 @@ const ResidentCard: FC = () => {
 					zIndex={1000}
 					bg='white'
 				>
-					<Box
+					<Text
 						position={'absolute'}
 						padding={'0'}
-						marginX={'-1.80rem'}
-						marginY={'-0.8rem'}
+						marginX={'-1.5rem'}
+						marginY={'-1rem'}
 						alignSelf={'end'}
+						fontSize={'2xl'}
+						color={'brand.500'}
 						onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}
 					>
 						{closeIcon}
-					</Box>
-					<AllImages images={true}/>
+					</Text>
+					<AllImages images={true} />
 				</Box>
 			)}
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
-				<Menu>
-					<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
-					<MenuButton margin={'0'} as={Button} _hover={'transparent'}>
-						Sessiones
-					</MenuButton>
-					<MenuList marginBottom={'1rem'}>
-						{resident.sessions.length === 0 ? (
-							<Text paddingX={'1rem'}>No hay sesiones registradas</Text>
-						) : (
-							resident.sessions.map((session: any) => (
-								<MenuItem key={session._id} height={'4rem'} display={'flex'} flexDirection={'column'}>
-									<Text>Actividad: {session.activityId.title}</Text>
-									<Text>Fecha de sesión: {new Date(session.sessionDate).toLocaleDateString()}</Text>
-								</MenuItem>
-							))
-						)}
-					</MenuList>
-				</Menu>
-				<Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>
+				<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
+				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
+				{user.role === 'superadmin' && <Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>}
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 						<Box
@@ -220,7 +185,11 @@ const ResidentCard: FC = () => {
 						</Box>
 					) : (
 						<Box width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-							<Image width={'120%'} src={imageSrc} onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}></Image>
+							<Image
+								width={'120%'}
+								src={imageSrc}
+								onClick={isUploadImageVisible ? () => setIsUploadImageVisible(false) : () => setIsUploadImageVisible(true)}
+							></Image>
 						</Box>
 					)}
 				</Box>
