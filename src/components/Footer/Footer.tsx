@@ -1,12 +1,16 @@
 import { Box, Button, Container, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { plusBoxIcon } from '../../assets/icons/icons';
 import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 
 const Footer: FC = () => {
 	const navigate: any = useNavigate();
-	const user: UserInterface = JSON.parse(localStorage.getItem('user') || '');	
+	const [user, setUser] = useState<UserInterface | undefined>(undefined);
+
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem('user') || '{}'));
+	}, []);
 
 	const goTo = (to: string) => {
 		switch (to) {
@@ -49,7 +53,7 @@ const Footer: FC = () => {
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>
-					{user.role === 'superadmin' &&(
+					{user?.role === 'superadmin' &&(
 						<MenuItem height={'4rem'} onClick={() => goTo('register')}>
 						Registrar nuevo empleado
 					</MenuItem>
