@@ -5,7 +5,7 @@ import { initialStateSessionSliceInterface } from '../../interfaces/sessionInter
 const initialState: initialStateSessionSliceInterface = {
 	session: null,
 	sessions: [],
-	isLoading: true,
+	isLoading: false,
 	isSuccess: false,
 	isError: false,
 	error: null,

@@ -54,7 +54,7 @@ const Residents: FC = () => {
 				{filteredResidents.map((resident: any) => (
 					<>
 						<Box
-							key={resident._id}
+							key={`resident_${resident._id}`}
 							display={'flex'}
 							width={'400px'}
 							justifyContent={'space-between'}

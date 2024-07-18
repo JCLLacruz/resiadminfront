@@ -12,7 +12,7 @@ const initialState: initialStateResidentSliceInterface = {
 	residents: [],
 	images: [],
 	image: null,
-	isLoading: true,
+	isLoading: false,
 	isSuccess: false,
 	isError: false,
 	error: null,
