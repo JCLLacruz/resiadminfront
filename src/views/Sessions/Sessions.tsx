@@ -34,7 +34,8 @@ const Sessions: FC = () => {
 		}
 		if (activityState) {
 			localStorage.setItem('activity', JSON.stringify(activityState));
-		} else if (residentState) {
+		}
+		if (residentState) {
 			localStorage.setItem('resident', JSON.stringify(residentState));
 		}
 		return () => {
@@ -81,7 +82,7 @@ const Sessions: FC = () => {
 			{_id != 'activity' ? (
 				<Container maxW='container.xl'>
 					<Heading size={'3xl'} marginY={'2rem'}>
-						{_id ? `Sesiones de ${resident.firstname}` : 'Sesiones'}
+						{_id ? `Sesiones de ${resident?.firstname}` : 'Sesiones'}
 					</Heading>
 					<FormLabel>Buscar por fecha</FormLabel>
 					<Input type='date' placeholder='Buscar por fecha' mb={'1rem'} value={searchTerm} onChange={handleChange} />
