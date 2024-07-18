@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { deleteImageResident, getResidentById } from '../../features/residents/residentSlice';
 import { ImageData } from '../../interfaces/residentInterfaces';
-<<<<<<< HEAD
 
-=======
->>>>>>> develop
 interface AllImagesProps {
 	images: boolean;
 }
