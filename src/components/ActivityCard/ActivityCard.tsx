@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getActivityById } from '../../features/activities/activitySlice';
 import { AppDispatch } from '../../app/store';
 import { trashIcon } from '../../assets/icons/icons';
+import { getSessionsByActivityId } from '../../features/sessions/sessionSlice';
 
 const ActivityCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -28,6 +29,7 @@ const ActivityCard: FC = () => {
 	useEffect(() => {
 		if (_id) {
 			dispatch(getActivityById(_id));
+			dispatch(getSessionsByActivityId(_id));
 		}
 	}, [_id, dispatch]);
 

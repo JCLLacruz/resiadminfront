@@ -20,6 +20,22 @@ export const getAllSessions = createAsyncThunk('sessions/getAllSessions', async 
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const getSessionsByResidentId = createAsyncThunk('sessions/getSessionsByResidentId', async (id: string, thunkAPI) => {
+	try {
+		return await sessionService.getSessionsByResidentId(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const getSessionsByActivityId = createAsyncThunk('sessions/getSessionsByActivityId', async (id: string, thunkAPI) => {
+	try {
+		return await sessionService.getSessionsByActivityId(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
 export const createSession = createAsyncThunk('sessions/createSession', async (session: any, thunkAPI) => {
 	try {
 		return await sessionService.createSession(session);
@@ -59,7 +75,37 @@ const sessionSlice = createSlice({
 				state.sessions = action.payload.sessions;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
-			});
+			})
+			.addCase(getSessionsByResidentId.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(getSessionsByResidentId.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(getSessionsByResidentId.fulfilled, (state: any, action: any) => {
+				state.sessions = action.payload.sessions;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(getSessionsByActivityId.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(getSessionsByActivityId.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(getSessionsByActivityId.fulfilled, (state: any, action: any) => {
+				state.sessions = action.payload.sessions;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
 	},
 });
 

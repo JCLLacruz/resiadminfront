@@ -8,6 +8,7 @@ import { closeIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import { UserInterface } from '../../interfaces/authInterfaces';
+import { getSessionsByResidentId } from '../../features/sessions/sessionSlice';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -21,7 +22,10 @@ const ResidentCard: FC = () => {
 	const user:UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 
 	useEffect(() => {
-		dispatch(getResidentById(_id));
+		if (_id) {
+			dispatch(getResidentById(_id));
+			dispatch(getSessionsByResidentId(_id));
+		}
 		return () => {
 			dispatch(resetLoading());
 		};

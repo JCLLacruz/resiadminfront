@@ -46,6 +46,7 @@ const Activities: FC = () => {
 					boxShadow='md'
 					paddingX={'2rem'}
 					paddingY={'1rem'}
+					marginBottom={'1rem'}
 					onClick={() => goTo(activity._id)}
 				>
 					<Heading as='h3' size='lg'>

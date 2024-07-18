@@ -11,6 +11,24 @@ const getAllSessions = async () => {
     });
     return res.data;
 };
+const getSessionsByResidentId = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.get(API_URL + '/residentid/'+ id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
+const getSessionsByActivityId = async (id: string) => {    
+    const token = localStorage.getItem('token');
+    const res: any = await axios.get(API_URL + '/activityid/'+ id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 const createSession = async ({ group, ...session }: any) => {
     const token = localStorage.getItem('token');
     const res: any = await axios.post(API_URL + '/', session, {
@@ -24,6 +42,8 @@ const createSession = async ({ group, ...session }: any) => {
 const sessionService = {
     getAllSessions,
     createSession,
+    getSessionsByResidentId,
+    getSessionsByActivityId,
 };
 
 export default sessionService;

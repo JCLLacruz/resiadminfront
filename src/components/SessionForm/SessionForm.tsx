@@ -56,7 +56,6 @@ const SessionForm: FC = () => {
             residentIds: Yup.array().min(1, 'Elige al menos un residente'),
         }),
         onSubmit: (values) => {
-			console.log('values', values);
             dispatch(createSession(values));
             formik.resetForm();
         },

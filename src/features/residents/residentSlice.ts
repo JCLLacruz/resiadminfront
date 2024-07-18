@@ -27,7 +27,7 @@ export const getAllResidents = createAsyncThunk('residents/getAllResidents', asy
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const getResidentById = createAsyncThunk('residents/getResidentById', async (id: any, thunkAPI: any) => {
+export const getResidentById = createAsyncThunk('residents/getResidentById', async (id: string, thunkAPI: any) => {
 	try {
 		return await residentService.getResidentById(id);
 	} catch (error: any) {
