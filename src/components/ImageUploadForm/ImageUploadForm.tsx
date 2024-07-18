@@ -14,7 +14,7 @@ interface FormImageUploadProps {
 	type: string;
 }
 
-const FormImageUpload: FC<FormImageUploadProps> = ({ id, type }) => {
+const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [preview, setPreview] = useState<string | null>(null);
 	const { isLoading } = useSelector((state: any) => state.resident || {});
@@ -78,4 +78,4 @@ const FormImageUpload: FC<FormImageUploadProps> = ({ id, type }) => {
 	);
 };
 
-export default FormImageUpload;
+export default ImageUploadForm;

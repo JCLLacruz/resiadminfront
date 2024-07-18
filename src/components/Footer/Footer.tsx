@@ -2,9 +2,11 @@ import { Box, Button, Container, Menu, MenuButton, MenuItem, MenuList } from '@c
 import { FC } from 'react';
 import { plusBoxIcon } from '../../assets/icons/icons';
 import { useNavigate } from 'react-router-dom';
+import { UserInterface } from '../../interfaces/authInterfaces';
 
 const Footer: FC = () => {
 	const navigate: any = useNavigate();
+	const user: UserInterface = JSON.parse(localStorage.getItem('user') || '');	
 
 	const goTo = (to: string) => {
 		switch (to) {
@@ -18,7 +20,10 @@ const Footer: FC = () => {
 				navigate('/activities');
 				break;
 			case 'residentform':
-				navigate('/residentform/:1');
+				navigate('/residentform');
+				break;
+			case 'sessionform':
+				navigate('/sessionform/');
 				break;
 
 			default:
@@ -44,11 +49,14 @@ const Footer: FC = () => {
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>
-					<MenuItem height={'4rem'} onClick={() => goTo('register')}>
+					{user.role === 'superadmin' &&(
+						<MenuItem height={'4rem'} onClick={() => goTo('register')}>
 						Registrar nuevo empleado
 					</MenuItem>
+					)}
 					<MenuItem height={'4rem'} onClick={() => goTo('residentform')}>Nuevo residente</MenuItem>
-					<MenuItem height={'4rem'}>Nueva sesión</MenuItem>
+					<MenuItem height={'4rem'} onClick={() => goTo('sessionform')}>Nueva sesión</MenuItem>
+					<MenuItem height={'4rem'}>Nueva actividad</MenuItem>
 				</MenuList>
 			</Menu>
 			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'end'} gap={'1rem'}>

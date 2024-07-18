@@ -11,9 +11,19 @@ const getAllSessions = async () => {
     });
     return res.data;
 };
+const createSession = async ({ group, ...session }: any) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.post(API_URL + '/', session, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 
 const sessionService = {
     getAllSessions,
+    createSession,
 };
 
 export default sessionService;

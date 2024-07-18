@@ -5,8 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
 import { deleteResident, getResidentById, resetLoading } from '../../features/residents/residentSlice';
 import { closeIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
-import FormImageUpload from '../FormImageUpload/FormImageUpload';
+import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
+import { UserInterface } from '../../interfaces/authInterfaces';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -17,9 +18,7 @@ const ResidentCard: FC = () => {
 	const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
 	const [imageSrc, setImageSrc] = useState<any>('');
-
-	console.log('resident', resident);
-	
+	const user:UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 
 	useEffect(() => {
 		dispatch(getResidentById(_id));
@@ -87,7 +86,7 @@ const ResidentCard: FC = () => {
 					>
 						{closeIcon}
 					</Text>
-					<FormImageUpload type='resident' id={resident._id} />
+					<ImageUploadForm type='resident' id={resident._id} />
 				</Box>
 			)}
 			{isAllImagesVisible && (
@@ -126,7 +125,7 @@ const ResidentCard: FC = () => {
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
 				<Button onClick={isAllImagesVisible ? () => setIsAllImagesVisible(false) : () => setIsAllImagesVisible(true)}>Todas las imagenes</Button>
 				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
-				<Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>
+				{user.role === 'superadmin' && <Button onClick={isAlertVisible ? () => setIsAlertVisible(false) : () => setIsAlertVisible(true)}>{trashIcon}</Button>}
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 						<Box

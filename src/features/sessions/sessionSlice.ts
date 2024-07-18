@@ -20,6 +20,14 @@ export const getAllSessions = createAsyncThunk('sessions/getAllSessions', async 
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const createSession = createAsyncThunk('sessions/createSession', async (session: any, thunkAPI) => {
+	try {
+		return await sessionService.createSession(session);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
 
 const sessionSlice = createSlice({
 	name: 'session',

@@ -50,7 +50,7 @@ const Residents: FC = () => {
 					<Button key={i + group} onClick={() => groupFilter(group)}>{`Grupo ${group}`}</Button>
 				))}
 			</Box>
-			<Container maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
+			<Container key={'residentContainer'} maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
 				{filteredResidents.map((resident: any) => (
 					<>
 						<Box

@@ -37,9 +37,6 @@ const Sessions: FC = () => {
 			filteredActivitySessions();
 		}
 	}, [sessions, _id]);
-	console.log('id', _id);
-	console.log('activity', activity);
-	console.log('filteredSessions', filteredSessions);
 
 	return (
 		<>

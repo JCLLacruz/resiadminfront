@@ -14,3 +14,10 @@ export interface initialStateSessionSliceInterface {
 	error: string | null;
 	msg: string | null;
 }
+
+export interface SessionValues {
+    activityId: string,
+    observations: string,
+    residentIds: string[],
+	group: { identificator: string; subdivision: string };
+}
