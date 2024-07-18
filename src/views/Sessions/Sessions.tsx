@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { getAllSessions } from '../../features/sessions/sessionSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Container, Divider, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Divider, FormLabel, Heading, Input, Text } from '@chakra-ui/react';
 import { getResidentById } from '../../features/residents/residentSlice';
+
+
 
 const Sessions: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +17,16 @@ const Sessions: FC = () => {
 	const { activity } = useSelector((state: any) => state.activity || {});
 
 	const [filteredSessions, setFilteredSessions] = useState(sessions);
+	const [searchTerm, setSearchTerm] = useState('');
+
+	const filteredResidentSessions = () => {
+		const filter = sessions.filter((session: any) => session.residentIds.some((resident: any) => resident._id === _id));
+		return filter;
+	};
+	const filteredActivitySessions = () => {
+		const filter = sessions.filter((session: any) => session.activityId._id === activity._id);
+		return filter;
+	};	
 
 	useEffect(() => {
 		dispatch(getAllSessions());
@@ -23,20 +35,22 @@ const Sessions: FC = () => {
 
 	useEffect(() => {
 		if (_id != 'activity' && sessions.length > 0) {
-			const filteredResidentSessions = () => {
-				const filter = sessions.filter((session: any) => session.residentIds.some((resident: any) => resident._id === _id));
-				setFilteredSessions(filter);
-			};
-			filteredResidentSessions();
+			setFilteredSessions(filteredResidentSessions);
 		}
 		if (_id == 'activity') {
-			const filteredActivitySessions = () => {
-				const filter = sessions.filter((session: any) => session.activityId._id === activity._id);
-				setFilteredSessions(filter);
-			};
-			filteredActivitySessions();
+			setFilteredSessions(filteredActivitySessions);
 		}
 	}, [sessions, _id]);
+
+	useEffect(() => {
+		setFilteredSessions(
+			sessions.filter((session: any) => session.createdAt.slice(0, 10) === searchTerm)
+		);
+	}, [searchTerm]);
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+	};
 
 	return (
 		<>
@@ -45,9 +59,12 @@ const Sessions: FC = () => {
 					<Heading size={'3xl'} marginY={'2rem'}>
 						{_id ? `Sesiones de ${resident.firstname}` : 'Sesiones'}
 					</Heading>
+					<FormLabel>Buscra por fecha</FormLabel>
+					<Input type='date' placeholder='Buscar por fecha' mb={'1rem'} value={searchTerm} onChange={handleChange} />
+					{filteredSessions.length === 0 && (<Text fontSize={'xl'}>No hay sesiones</Text>)}
 					{filteredSessions.map((session: any) => (
 						<>
-							<Divider bg={'brand.700'} />
+							<Divider bg={'brand.700'} key={'divider' + session._id}/>
 							<Box key={session._id} marginTop={'1rem'}>
 								<Box>
 									<Heading size={'xl'} marginBottom={'1rem'}>
@@ -64,6 +81,9 @@ const Sessions: FC = () => {
 					<Heading size={'3xl'} marginY={'2rem'}>
 						Sesiones de {activity.title}
 					</Heading>
+					<FormLabel>Buscra por fecha</FormLabel>
+					<Input type='date' placeholder='Buscar por fecha' mb={'1rem'} value={searchTerm} onChange={handleChange} />
+					{filteredSessions.length === 0 && (<Text fontSize={'xl'}>No hay sesiones</Text>)}
 					{filteredSessions.map((session: any) => (
 						<>
 							<Divider bg={'brand.700'} />
@@ -80,7 +100,7 @@ const Sessions: FC = () => {
 									</Heading>
                                     <Box display={'flex'} gap={'1rem'} flexWrap={'wrap'}>
                                         {session.residentIds.map((resident:any) => (
-                                            <Box>
+                                            <Box key={'sessionBox' + resident._id}>
                                                 <Button onClick={()=> navigate('/residentcard/' + resident._id)}>{resident.firstname} {resident.lastname}</Button>
                                             </Box>
                                         ))}
