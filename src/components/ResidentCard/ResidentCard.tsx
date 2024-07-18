@@ -40,11 +40,13 @@ const ResidentCard: FC = () => {
 		if (images.length > 0) {
 			setImageSrc(images[images.length - 1].src);
 		}
-	}, [images]);
+	}, [images, image]);
 
-	useEffect(() => {
-		if (image) {
-			setImageSrc(image.src);
+	useEffect(() => {		
+		if (images.length > 0) {
+			setImageSrc(images[images.length - 1].src);
+		} else{
+			setImageSrc(image?.src);
 		}
 	}, [image]);
 
@@ -169,7 +171,7 @@ const ResidentCard: FC = () => {
 			<Divider marginBottom={'2rem'} bg={'brand.600'} />
 			<Box display={'flex'} gap={'1rem'}>
 				<Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={'80%'} height={'60%'}>
-					{images.length == 0 ? (
+					{image == null ? (
 						<Box width={'100%'} height={'250px'} display={'flex'} justifyContent={'center'} alignItems={'center'} border={'solid'}>
 							{imagesIsLoading ? (
 								<Spinner size='xl' />

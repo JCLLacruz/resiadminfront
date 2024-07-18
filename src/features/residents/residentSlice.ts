@@ -85,9 +85,12 @@ const residentSlice = createSlice({
 	initialState,
 	reducers: {
 		reset: (state: any) => {
-			state.activity = null;
-			state.activities = [];
-			state.isLoading = true;
+			state.resident = null;
+			state.residents = [];
+			state.images = [];
+			state.image = null;
+			state.imagesIsLoading = false;
+			state.isLoading = false;
 			state.isSuccess = false;
 			state.isError = false;
 			state.error = null;
@@ -100,106 +103,124 @@ const residentSlice = createSlice({
 	extraReducers: (builder: any) => {
 		builder
 			.addCase(getAllResidents.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(getAllResidents.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
 				state.isLoading = true;
+				state.imagesIsLoading = true;
 			})
 			.addCase(getAllResidents.fulfilled, (state: any, action: any) => {
 				state.residents = action.payload.residents;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(getResidentById.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(getResidentById.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
+				state.imagesIsLoading = true;
 				state.isLoading = true;
 			})
-			.addCase(getResidentById.fulfilled, (state: any, action: any) => {
+			.addCase(getResidentById.fulfilled, (state: any, action: any) => {				
 				state.resident = action.payload.resident;
-				if (action.payload.resident.images.length != 0) {
+				if (action.payload.resident.images.length > 0) {
 					const srcImages = action.payload.resident.images.map((image: any) => {
+						console.log('image', image);
+						
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
 					state.images = srcImages;
+					state.image = {src: getImageSrc(action.payload.resident.images[0].data.data, action.payload.resident.images[0].contentType), _id: action.payload.resident.images[0]._id};
 				} else {
 					state.images = [];
+					state.image = null;
 				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(createResident.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(createResident.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
+				state.imagesIsLoading = true;
 				state.isLoading = true;
 			})
 			.addCase(createResident.fulfilled, (state: any, action: any) => {
 				state.resident = action.payload.resident;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(updateResident.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(updateResident.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
+				state.imagesIsLoading = true;
 				state.isLoading = true;
 			})
 			.addCase(updateResident.fulfilled, (state: any, action: any) => {
 				state.resident = action.payload.resident;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(deleteResident.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = false;
 			})
 			.addCase(deleteResident.pending, (state: any) => {
 				state.isError = false;
 				state.isSuccess = false;
+				state.imagesIsLoading = true;
 				state.isLoading = true;
 			})
 			.addCase(deleteResident.fulfilled, (state: any, action: any) => {
-				state.resident = action.payload.resident;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.imagesIsLoading = false;
 				state.isSuccess = true;
 			})
 			.addCase(uploadImageResident.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
 				state.imagesIsLoading = false;
@@ -212,18 +233,13 @@ const residentSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(uploadImageResident.fulfilled, (state: any, action: any) => {
-				state.image = {
-					src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
-					_id: action.payload.image._id
-				};
-				if (action.payload.images.length > 0) {
-					const srcImages = action.payload.images.map((image: any) => {
-						return {
-							src: getImageSrc(image.data.data, image.contentType),
-							_id: image._id
-						};
-					});
-					state.images = srcImages;
+				if(action.payload.image){
+					const image = {
+						src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
+						_id: action.payload.image._id,
+					};
+					state.image = image;
+					state.images.push(image);
 				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;
@@ -231,8 +247,8 @@ const residentSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(deleteImageResident.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
+				state.error = action.payload;
+				state.msg = action.payload;
 				state.isError = true;
 				state.isLoading = false;
 				state.imagesIsLoading = false;
