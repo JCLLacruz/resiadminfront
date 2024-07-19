@@ -11,33 +11,18 @@ export default defineConfig({
       manifest: {
         name: 'ResiAdmin',
         short_name: 'ResiAdmin',
-        description: 'Aplicación para gestionar resdiecias de ancianos',
+        description: 'Your app description',
         theme_color: '#ffffff',
         icons: [
           {
             src: 'public/icons/icon-192x192.svg',
             sizes: '192x192',
-            type: 'image/svg'
+            type: 'image/svg+xml'
           },
           {
             src: 'public/icons/icon-512x512.svg',
             sizes: '512x512',
-            type: 'image/svg'
-          }
-        ]
-      },
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.destination === 'document' || request.destination === 'script' || request.destination === 'style' || request.destination === 'image' || request.destination === 'font',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'assets-cache',
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 días
-              }
-            }
+            type: 'image/svg+xml'
           }
         ]
       }
