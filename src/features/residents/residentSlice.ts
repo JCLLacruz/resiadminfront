@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import residentService from './residentService';
-import { initialStateResidentSliceInterface } from '../../interfaces/residentInterfaces';
+import { initialStateResidentSliceInterface, residentValues } from '../../interfaces/residentInterfaces';
 
 const getImageSrc = (data: ArrayBuffer, contentType: string) => {
 	const base64String = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
@@ -44,7 +44,7 @@ export const createResident = createAsyncThunk('residents/createResident', async
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: any; id: string }, thunkAPI: any) => {
+export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: residentValues; id: string }, thunkAPI: any) => {
 	try {
 		return await residentService.updateResident(resident, id);
 	} catch (error: any) {
@@ -98,6 +98,9 @@ const residentSlice = createSlice({
 		},
 		resetLoading: (state: any) => {
 			state.isLoading = true;
+		},
+		resetResident: (state: any) => {
+			state.resident = null
 		},
 	},
 	extraReducers: (builder: any) => {
@@ -269,6 +272,6 @@ const residentSlice = createSlice({
 	},
 });
 
-export const { reset, resetLoading } = residentSlice.actions;
+export const { reset, resetLoading, resetResident } = residentSlice.actions;
 
 export default residentSlice.reducer;

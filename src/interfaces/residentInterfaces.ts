@@ -16,7 +16,7 @@ export interface ResidentInterface {
 		phoneNumber: string;
 	};
 	birthday: string;
-	address: { street: string; yardnumber: string; zipcode: number; city: string; country: string };
+	address: { street: string; yardnumber: string; zipcode: string; city: string; country: string };
 	images: {
 		contentType: string;
 		residentId: string;

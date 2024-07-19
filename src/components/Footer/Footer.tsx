@@ -3,9 +3,13 @@ import { FC, useEffect, useState } from 'react';
 import { plusBoxIcon } from '../../assets/icons/icons';
 import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
+import { resetResident } from '../../features/residents/residentSlice';
 
 const Footer: FC = () => {
 	const navigate: any = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 	const [user, setUser] = useState<UserInterface | undefined>(undefined);
 
 	useEffect(() => {
@@ -24,6 +28,7 @@ const Footer: FC = () => {
 				navigate('/activities');
 				break;
 			case 'residentform':
+				dispatch(resetResident());
 				navigate('/residentform');
 				break;
 			case 'sessionform':

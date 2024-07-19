@@ -2,32 +2,33 @@ import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, I
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { residentValues } from '../../interfaces/residentInterfaces';
 import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
-import { createResident } from '../../features/residents/residentSlice';
+import { createResident, updateResident } from '../../features/residents/residentSlice';
 import { useNavigate } from 'react-router-dom';
 
-const ResidentForm: FC = () => {
+
+const ResidentForm: FC= () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+	const {resident} = useSelector((state: any) => state.resident || {});	
 
 	const formik = useFormik<residentValues>({
 		initialValues: {
-			firstname: '',
-			lastname: '',
-			email: '',
-			phoneNumber: '',
+			firstname: resident ? resident.firstname : '',
+			lastname: resident ? resident.lastname : '',
+			email: resident ? resident.email : '',
+			phoneNumber: resident ? resident.phoneNumber : '',
 			emergency: {
-				nameOfEmergencyContact: '',
-				phoneNumber: '',
+				nameOfEmergencyContact: resident ? resident.emergency?.nameOfEmergencyContact : '',
+				phoneNumber: resident ? resident.emergency?.phoneNumber : '',
 			},
-			birthday: '',
-			address: { street: '', yardnumber: '', zipcode: '', city: '', country: '' },
-			moreinfo: '',
-			group: { identificator: '', subdivision: '' },
-			images: [],
+			birthday: resident ? resident?.birthday.slice(0,10) : '',
+			address: { street: resident ? resident.address.street : '', yardnumber: resident ? resident.address.yardnumber : '', zipcode: resident ? resident.address.zipcode : '', city: resident ? resident.address.city : '', country: resident ? resident.address.country : '' },
+			moreinfo: resident ? resident.moreinfo : '',
+			group: { identificator: resident ? resident.group.identificator : '', subdivision: resident ? resident.group.subdivision : '' },
 		},
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Nombre es requerido'),
@@ -59,7 +60,11 @@ const ResidentForm: FC = () => {
 			}),
 		}),
 		onSubmit: (values) => {
-			dispatch(createResident(values));
+			if(resident){
+				dispatch(updateResident({ resident: values, id: resident._id }));
+			} else {
+				dispatch(createResident(values));
+			}
 			navigate('/residents');
 			formik.resetForm();
 		},

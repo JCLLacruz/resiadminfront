@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
-import { deleteResident, getResidentById, resetLoading } from '../../features/residents/residentSlice';
-import { closeIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
+import { deleteResident, getResidentById, } from '../../features/residents/residentSlice';
+import { closeIcon, editIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import { getSessionsByResidentId } from '../../features/sessions/sessionSlice';
@@ -25,9 +25,6 @@ const ResidentCard: FC = () => {
 			dispatch(getResidentById(_id));
 			dispatch(getSessionsByResidentId(_id));
 		}
-		return () => {
-			dispatch(resetLoading());
-		};
 	}, [_id, dispatch]);
 
 	const handleDeleteResident = (_id: string) => {
@@ -128,7 +125,10 @@ const ResidentCard: FC = () => {
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
 				<Button onClick={() => setIsAllImagesVisible(!isAllImagesVisible)}>Todas las imagenes</Button>
 				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
+				<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
 				{user?.role === 'superadmin' && <Button backgroundColor={'red'} _hover={{bg:'red'}} onClick={() => setIsAlertVisible(!isAlertVisible)}>{trashIcon}</Button>}
+				<Button onClick={() => navigate('/residentform')}>{editIcon}</Button>
+				</Box>
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'} zIndex={1000}>
 						<Box
