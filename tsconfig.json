@@ -20,6 +20,6 @@
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/service-worker.ts"],
+  "include": ["src", "src/service-worker.ts", "service-worker.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

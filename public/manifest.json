@@ -1,20 +1,21 @@
 {
-    "name": "Mi App",
-    "short_name": "App",
-    "start_url": ".",
+    "name": "ResiAdmin",
+    "short_name": "ResiAdmin",
+    "description": "Your app description",
     "display": "standalone",
+    "start_url": "/",
     "background_color": "#ffffff",
-    "theme_color": "#000000",
+    "theme_color": "#ffffff",
     "icons": [
       {
-        "src": "icon-192x192.svg",
+        "src": "/public/icon-192x192.svg",
         "sizes": "192x192",
-        "type": "image/png"
+        "type": "image/svg"
       },
       {
-        "src": "icon-512x512.svg",
+        "src": "/public/icon-512x512.svg",
         "sizes": "512x512",
-        "type": "image/png"
+        "type": "image/svg"
       }
     ]
   }
