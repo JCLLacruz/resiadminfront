@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { residentValues } from '../../interfaces/residentInterfaces';
 
-const API_URL: string = 'http://localhost:3001/residents';
+const API_URL: string = 'https://serverresiadmin.onrender.com/residents';
 
 const getAllResidents = async () => {
 	const token = localStorage.getItem('token');
@@ -22,7 +21,7 @@ const getResidentById = async (id: string) => {
 	return res.data;
 };
 
-const createResident = async (resident: residentValues) => {
+const createResident = async (resident: any) => {
 	const token = localStorage.getItem('token');
 	const res: any = await axios.post(API_URL + '/', resident, {
 		headers: {
@@ -31,7 +30,7 @@ const createResident = async (resident: residentValues) => {
 	});
 	return res.data;
 };
-const updateResident = async (resident: residentValues, id: string) => {
+const updateResident = async (resident: any, id: string) => {
 	const token = localStorage.getItem('token');
 	const res: any = await axios.put(API_URL + '/id/' + id, resident, {
 		headers: {
