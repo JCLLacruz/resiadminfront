@@ -7,7 +7,6 @@ import { deleteResident, getResidentById, resetLoading } from '../../features/re
 import { closeIcon, plusBoxIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
-import { UserInterface } from '../../interfaces/authInterfaces';
 import { getSessionsByResidentId } from '../../features/sessions/sessionSlice';
 
 const ResidentCard: FC = () => {
@@ -15,11 +14,11 @@ const ResidentCard: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const { resident, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.resident || {});
+	const {user} = useSelector((state: RootState) => state.auth || {});
 	const [isAlertVisible, setIsAlertVisible] = useState(false);
 	const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
 	const [isAllImagesVisible, setIsAllImagesVisible] = useState(false);
 	const [imageSrc, setImageSrc] = useState<any>('');
-	const user: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 
 	useEffect(() => {
 		if (_id) {
@@ -129,7 +128,7 @@ const ResidentCard: FC = () => {
 			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
 				<Button onClick={() => setIsAllImagesVisible(!isAllImagesVisible)}>Todas las imagenes</Button>
 				<Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
-				{user.role === 'superadmin' && <Button onClick={() => setIsAlertVisible(!isAlertVisible)}>{trashIcon}</Button>}
+				{user?.role === 'superadmin' && <Button backgroundColor={'red'} _hover={{bg:'red'}} onClick={() => setIsAlertVisible(!isAlertVisible)}>{trashIcon}</Button>}
 				{isAlertVisible && (
 					<Box position={'absolute'} right={'1rem'} top={'7.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'} zIndex={1000}>
 						<Box
@@ -156,7 +155,7 @@ const ResidentCard: FC = () => {
 								{closeIcon}
 							</Text>
 							<Text>¿Está seguro de querer eliminar este residente? Esta acción no se puede deshacer.</Text>
-							<Button bg='red' size='sm' mt={4} onClick={() => handleDeleteResident(resident._id)}>
+							<Button bg='red' _hover={{bg:'red'}} size='sm' mt={4} onClick={() => handleDeleteResident(resident._id)}>
 								Sí, eliminar
 							</Button>
 						</Box>

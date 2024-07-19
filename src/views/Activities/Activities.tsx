@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Activities: FC = () => {
 	const navigate = useNavigate();
-	const { activities } = useSelector((state: any) => state.activity || {});
+	const { activities, activity } = useSelector((state: any) => state.activity || {});
 	const [filteredActivities, setFilteredActivities] = useState(activities);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -16,7 +16,7 @@ const Activities: FC = () => {
 
 	useEffect(() => {
 		dispatch(getAllActivities());
-	}, []);
+	}, [activity]);
 
 	useEffect(() => {
 		setFilteredActivities(activities.filter((activity: any) => activity.title.toLowerCase().includes(searchTerm.toLowerCase())));

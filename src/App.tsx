@@ -11,6 +11,7 @@ import ResidentForm from './components/RedidentForm/ResidentForm';
 import Header from './components/Header/Header';
 import Sessions from './views/Sessions/Sessions';
 import SessionForm from './components/SessionForm/SessionForm';
+import ActivityForm from './components/ActivityForm/ActivityForm';
 
 function App() {
 	const location: any = useLocation();
@@ -28,6 +29,7 @@ function App() {
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
 				<Route path='/residentform' element={<ResidentForm />} />;
 				<Route path='/sessionform' element={<SessionForm />} />;
+				<Route path='/activityform' element={<ActivityForm />} />;
 			</Routes>
 			{location.pathname != '/' && <Footer />}
 		</>

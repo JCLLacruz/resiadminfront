@@ -12,12 +12,12 @@ import {
 	Spinner,
 	Text,
 } from '@chakra-ui/react';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getActivityById } from '../../features/activities/activitySlice';
+import { deleteActivity, getActivityById } from '../../features/activities/activitySlice';
 import { AppDispatch } from '../../app/store';
-import { trashIcon } from '../../assets/icons/icons';
+import { closeIcon, trashIcon } from '../../assets/icons/icons';
 import { getSessionsByActivityId } from '../../features/sessions/sessionSlice';
 
 const ActivityCard: FC = () => {
@@ -25,13 +25,26 @@ const ActivityCard: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const { activity, isLoading } = useSelector((state: any) => state.activity || {});
+	const { user } = useSelector((state: any) => state.auth || {});
+
+	const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+	console.log('activity', activity);
+	console.log('id', _id);
 
 	useEffect(() => {
+		console.log('hola');
 		if (_id) {
+
 			dispatch(getActivityById(_id));
 			dispatch(getSessionsByActivityId(_id));
 		}
 	}, [_id, dispatch]);
+
+	const handleDeleteActivity = (_id: string) => {
+		dispatch(deleteActivity(_id));
+		navigate('/activities');
+	};
 
 	if (isLoading) {
 		return (
@@ -46,7 +59,54 @@ const ActivityCard: FC = () => {
 				<Button onClick={() => navigate('/sessions/activity')} marginBottom={'1rem'}>
 					Todas las sesiones
 				</Button>
-				<Button>{trashIcon}</Button>
+				{user?.role === 'superadmin' && (
+					<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => setIsAlertVisible(!isAlertVisible)}>
+						{trashIcon}
+					</Button>
+				)}
+				{isAlertVisible && (
+					<Box
+						position={'absolute'}
+						right={'1rem'}
+						top={'7.5rem'}
+						justifyContent='center'
+						textAlign='center'
+						height='200px'
+						width={'350px'}
+						zIndex={1000}
+					>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							alignItems={'center'}
+							borderWidth='1px'
+							borderRadius='lg'
+							overflow='hidden'
+							boxShadow='md'
+							paddingX={'2rem'}
+							paddingY={'1rem'}
+							bg='white'
+						>
+							<Text
+								position={'absolute'}
+								top={2}
+								right={2}
+								fontSize={'2xl'}
+								color={'brand.500'}
+								cursor={'pointer'}
+								onClick={() => setIsAlertVisible(false)}
+							>
+								{closeIcon}
+							</Text>
+							<Text>
+								¿Está seguro de querer eliminar esta actividad? Esta acción no se puede deshacer y se borrarán todos los registros de las sessiones.
+							</Text>
+							<Button bg='red' size='sm' mt={4} _hover={{ bg: 'red' }} onClick={() => handleDeleteActivity(activity._id)}>
+								Sí, eliminar
+							</Button>
+						</Box>
+					</Box>
+				)}
 			</Box>
 			<Heading size={'3xl'} mb={'2rem'}>
 				{activity?.title}
@@ -61,23 +121,29 @@ const ActivityCard: FC = () => {
 			<Divider bg={'brand.500'} marginBottom={'1rem'} />
 			<Accordion allowToggle>
 				<Text fontSize={'xl'} mb={'1rem'}>
-					Resumen de sesiones:{' '}
+					Resumen de sesiones:
 				</Text>
-				{activity?.sessions?.map((session: any, index: number) => (
-					<AccordionItem key={index} backgroundColor={'brand.50'}>
-						<AccordionButton>
-							<Box as='span' flex='1' textAlign='left'>
-								Fecha: {session.createdAt.slice(0, 10)}
-							</Box>
-							<AccordionIcon />
-						</AccordionButton>
-						<AccordionPanel pb={4}>
-							<Text>Observaciones: {session.observations}</Text>
-							<Divider bg={'brand.700'} />
-							<Text>Numero de participantes: {session.residentIds.length}</Text>
-						</AccordionPanel>
-					</AccordionItem>
-				))}
+				{activity?.sessions.length === 0 ? (
+					<Text paddingLeft={'1rem'}>No hay sesiones</Text>
+				) : (
+					<>
+						{activity?.sessions.map((session: any, index: number) => (
+							<AccordionItem key={index} backgroundColor={'brand.50'}>
+								<AccordionButton>
+									<Box as='span' flex='1' textAlign='left'>
+										Fecha: {session.createdAt.slice(0, 10)}
+									</Box>
+									<AccordionIcon />
+								</AccordionButton>
+								<AccordionPanel pb={4}>
+									<Text>Observaciones: {session.observations}</Text>
+									<Divider bg={'brand.700'} />
+									<Text>Numero de participantes: {session.residentIds.length}</Text>
+								</AccordionPanel>
+							</AccordionItem>
+						))}
+					</>
+				)}
 			</Accordion>
 			<Divider bg={'brand.500'} marginTop={'1rem'} />
 		</Container>

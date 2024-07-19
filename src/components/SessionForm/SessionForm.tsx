@@ -22,9 +22,11 @@ import {
 import { getAllActivities } from '../../features/activities/activitySlice';
 import { getAllResidents } from '../../features/residents/residentSlice';
 import { groupOptions } from '../../utils/formOptions';
+import { useNavigate } from 'react-router-dom';
 
 const SessionForm: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const { activities } = useSelector((state: any) => state.activity || {});
     const { residents } = useSelector((state: any) => state.resident || {});
     const [group, setGroup] = useState('');
@@ -57,6 +59,7 @@ const SessionForm: FC = () => {
         }),
         onSubmit: (values) => {
             dispatch(createSession(values));
+            navigate('/activities');
             formik.resetForm();
         },
     });

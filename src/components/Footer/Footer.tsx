@@ -29,6 +29,9 @@ const Footer: FC = () => {
 			case 'sessionform':
 				navigate('/sessionform/');
 				break;
+			case 'activityform':
+				navigate('/activityform/');
+				break;
 
 			default:
 				break;
@@ -37,7 +40,7 @@ const Footer: FC = () => {
 	return (
 		<Container
 			display={'flex'}
-            padding={'0'}
+			padding={'0'}
 			maxW='container.xxl'
 			height={'3.5rem'}
 			bg='brand.50'
@@ -53,14 +56,22 @@ const Footer: FC = () => {
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>
-					{user?.role === 'superadmin' &&(
-						<MenuItem height={'4rem'} onClick={() => goTo('register')}>
-						Registrar nuevo empleado
-					</MenuItem>
+					{user?.role === 'superadmin' && (
+						<>
+							<MenuItem height={'4rem'} onClick={() => goTo('register')}>
+								Registrar nuevo empleado
+							</MenuItem>
+							<MenuItem height={'4rem'} onClick={() => goTo('activityform')}>
+								Nueva actividad
+							</MenuItem>
+						</>
 					)}
-					<MenuItem height={'4rem'} onClick={() => goTo('residentform')}>Nuevo residente</MenuItem>
-					<MenuItem height={'4rem'} onClick={() => goTo('sessionform')}>Nueva sesión</MenuItem>
-					<MenuItem height={'4rem'}>Nueva actividad</MenuItem>
+					<MenuItem height={'4rem'} onClick={() => goTo('residentform')}>
+						Nuevo residente
+					</MenuItem>
+					<MenuItem height={'4rem'} onClick={() => goTo('sessionform')}>
+						Nueva sesión
+					</MenuItem>
 				</MenuList>
 			</Menu>
 			<Box paddingX={'0.75rem'} width={'100%'} display={'flex'} justifyContent={'end'} gap={'1rem'}>

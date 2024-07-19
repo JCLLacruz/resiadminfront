@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
-import { initialStateAuthSliceInterface, LoginValues, RegisterValues } from '../../interfaces/authInterfaces';
+import { initialStateAuthSliceInterface, LoginValues, RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
+
+const user: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
+const token: string = localStorage.getItem('token') || '';
 
 const initialState: initialStateAuthSliceInterface = {
-	user: null,
+	user,
 	users: [],
-	token: null,
+	token,
 	isLoading: false,
 	isSuccess: false,
 	isError: false,

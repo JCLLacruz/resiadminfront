@@ -38,12 +38,22 @@ const createSession = async ({ group, ...session }: any) => {
     });
     return res.data;
 };
+const deleteSession = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.delete(API_URL + '/id/' + id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+}
 
 const sessionService = {
     getAllSessions,
     createSession,
     getSessionsByResidentId,
     getSessionsByActivityId,
+    deleteSession,
 };
 
 export default sessionService;

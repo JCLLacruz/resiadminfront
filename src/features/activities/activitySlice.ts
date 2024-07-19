@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import activityService from './activityService';
-import { initialStateActivitySliceInterface } from '../../interfaces/activityIntefaces';
+import { ActivityValues, initialStateActivitySliceInterface } from '../../interfaces/activityIntefaces';
 
 const initialState: initialStateActivitySliceInterface = {
 	activity: null,
@@ -27,6 +27,22 @@ export const getActivityById = createAsyncThunk('activities/getActivityById', as
         const errorMessage: string = error.response.data.msg;
         return thunkAPI.rejectWithValue(errorMessage);
     }
+});
+export const createActivity = createAsyncThunk('activities/createActivity', async (activity: ActivityValues, thunkAPI) => {
+	try {
+		return await activityService.createActivity(activity);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const deleteActivity = createAsyncThunk('activities/deleteActivity', async (id: string, thunkAPI) => {
+	try {
+		return await activityService.deleteActivity(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 
 const activitySlice = createSlice({
@@ -71,6 +87,36 @@ const activitySlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getActivityById.fulfilled, (state: any, action: any) => {
+				state.activity = action.payload.activity;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(createActivity.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(createActivity.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(createActivity.fulfilled, (state: any, action: any) => {
+				state.activity = action.payload.activity;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(deleteActivity.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(deleteActivity.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(deleteActivity.fulfilled, (state: any, action: any) => {
 				state.activity = action.payload.activity;
 				state.msg = action.payload.msg;
 				state.isLoading = false;

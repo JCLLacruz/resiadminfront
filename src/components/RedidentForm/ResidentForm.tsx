@@ -7,9 +7,11 @@ import { AppDispatch } from '../../app/store';
 import { residentValues } from '../../interfaces/residentInterfaces';
 import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { createResident } from '../../features/residents/residentSlice';
+import { useNavigate } from 'react-router-dom';
 
 const ResidentForm: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
 
 	const formik = useFormik<residentValues>({
 		initialValues: {
@@ -58,6 +60,7 @@ const ResidentForm: FC = () => {
 		}),
 		onSubmit: (values) => {
 			dispatch(createResident(values));
+			navigate('/residents');
 			formik.resetForm();
 		},
 	});

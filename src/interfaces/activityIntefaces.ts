@@ -15,3 +15,8 @@ export interface initialStateActivitySliceInterface {
 	error: string | null;
 	msg: string | null;
 }
+
+export interface ActivityValues {
+	title: string;
+	description: string;
+}
