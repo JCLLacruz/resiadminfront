@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: [ 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'ResiAdmin',
         short_name: 'ResiAdmin',
