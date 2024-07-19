@@ -23,14 +23,19 @@ const Footer: FC = () => {
 				break;
 			case 'residents':
 				dispatch(resetResident());
-				navigate('/residents');
+				setTimeout(() => {
+					navigate('/residents');
+				}, 1000);
 				break;
 			case 'activities':
 				navigate('/activities');
 				break;
 			case 'residentform':
 				dispatch(resetResident());
-				navigate('/residentform');
+				navigate('/residents');
+				setTimeout(() => {
+					navigate('/residentform');
+				}, 5);
 				break;
 			case 'sessionform':
 				navigate('/sessionform/');

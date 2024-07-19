@@ -73,7 +73,7 @@ const ResidentForm: FC= () => {
 	return (
 		<Container id='residentFormContainer' maxW='container.sm' marginBottom={'5rem'} marginTop={'1rem'}>
 			<Heading id='residentFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
-				Nuevo residente
+				{resident ? `Edita el residente ${resident.firstname}`: 'Nuevo residente'}
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl isInvalid={!!(formik.errors.firstname && formik.touched.firstname)}>
