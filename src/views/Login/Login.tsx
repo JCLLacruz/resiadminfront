@@ -29,7 +29,7 @@ const Login: FC = () => {
       formik.resetForm();
 	  setTimeout(() => {
 		  navigate('/activities');
-	  }, 1000);
+	  }, 2000);
 		},
 	});
 
