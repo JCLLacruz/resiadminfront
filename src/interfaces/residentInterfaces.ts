@@ -60,6 +60,5 @@ export interface initialStateResidentSliceInterface {
 	address: { street: string; yardnumber: string; zipcode: string; city: string; country: string };
 	moreinfo: string;
 	group: { identificator: string; subdivision: string };
-	images: Array<string>;
  }
 

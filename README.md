@@ -1,30 +1,33 @@
-# React + TypeScript + Vite
+# ResiAdmin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ResiAdmin es una aplicación de gestión de residencias diseñada para facilitar la administración y organización de diferentes tipos de residencias, ya sean residencias estudiantiles, residencias de ancianos o cualquier otro tipo de alojamiento colectivo.
 
-Currently, two official plugins are available:
+## Características principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Gestión de usuarios: Permite registrar y gestionar los usuarios de la aplicación, incluyendo administradores, personal de la residencia y residentes.
+- Gestión de habitaciones: Permite asignar y administrar las habitaciones de la residencia, incluyendo información sobre su disponibilidad, ocupantes y estado.
+- Control de accesos: Permite controlar el acceso a las diferentes áreas de la residencia, registrando la entrada y salida de los residentes y visitantes.
+- Gestión de servicios: Permite gestionar los servicios ofrecidos por la residencia, como comedor, lavandería, gimnasio, etc.
+- Comunicación interna: Proporciona un sistema de mensajería interna para facilitar la comunicación entre los residentes y el personal de la residencia.
+- Informes y estadísticas: Genera informes y estadísticas sobre la ocupación de la residencia, el uso de los servicios y otros datos relevantes.
 
-## Expanding the ESLint configuration
+## Instalación
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clona el repositorio de ResiAdmin en tu máquina local.
+2. Abre una terminal y navega hasta el directorio del proyecto.
+3. Ejecuta el comando `npm install` para instalar las dependencias.
+4. Configura las variables de entorno necesarias, como la conexión a la base de datos y las credenciales de acceso.
+5. Ejecuta el comando `npm start` para iniciar la aplicación.
 
-- Configure the top-level `parserOptions` property like this:
+## Contribución
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Si deseas contribuir al desarrollo de ResiAdmin, sigue estos pasos:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Haz un fork del repositorio de ResiAdmin.
+2. Crea una rama con un nombre descriptivo para tu contribución.
+3. Realiza los cambios necesarios en tu rama.
+4. Envía un pull request para que tus cambios sean revisados.
+
+## Licencia
+
+ResiAdmin se distribuye bajo la licencia MIT. Para más información, consulta el archivo [LICENSE](./LICENSE).

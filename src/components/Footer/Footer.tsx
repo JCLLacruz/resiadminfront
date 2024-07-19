@@ -22,6 +22,7 @@ const Footer: FC = () => {
 				navigate('/register');
 				break;
 			case 'residents':
+				dispatch(resetResident());
 				navigate('/residents');
 				break;
 			case 'activities':
