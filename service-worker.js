@@ -6,8 +6,8 @@ self.addEventListener('install', (event) => {
             './',
             './index.html',
             './manifest.json',
-              './icon-192x192.svg',
-              './icon-512x512.svg',
+              './public/icon-192x192.svg',
+              './public/icon-512x512.svg',
             // Agrega aquí otros recursos que quieras cachear
         ]);
     }));

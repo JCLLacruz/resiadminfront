@@ -1,0 +1,9 @@
+{
+  "name": "ResiAdmin",
+  "short_name": "ResiAdmin",
+  "description": "Your app description",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
