@@ -29,6 +29,9 @@ const Footer: FC = () => {
 			case 'activityform':
 				navigate('/activityform/');
 				break;
+			case 'userform':
+				navigate('/userform/');
+				break;
 			default:
 				break;
 		}
@@ -54,7 +57,7 @@ const Footer: FC = () => {
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>
 					{user?.role === 'superadmin' && (
 						<>
-							<MenuItem height={'4rem'} onClick={() => goTo('register')}>
+							<MenuItem height={'4rem'} onClick={() => goTo('userform')}>
 								Registrar nuevo empleado
 							</MenuItem>
 							<MenuItem height={'4rem'} onClick={() => goTo('activityform')}>
