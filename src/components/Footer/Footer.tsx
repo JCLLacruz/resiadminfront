@@ -51,19 +51,19 @@ const Footer: FC = () => {
 	return (
 		<Container
 			display={'flex'}
-			padding={'0'}
 			maxW='container.xxl'
-			height={'3.5rem'}
+			paddingTop={'0.5rem'}
+			height={'5rem'}
 			bg='brand.50'
 			position={'fixed'}
 			bottom={'0'}
 			boxShadow='0 -10px 6px rgba(0, 0, 0, 0.1)'
-			alignItems={'center'}
+			alignItems={'start'}
 			justifyContent={'space-between'}
 			zIndex={1000}
 		>
 			<Menu>
-				<MenuButton padding={'2rem'} margin={'0'} as={Button} bg='transparent' _hover={'transparent'}>
+				<MenuButton padding={'2rem'} marginLeft={'1rem'} as={Button} bg='transparent' _hover={'transparent'}>
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>

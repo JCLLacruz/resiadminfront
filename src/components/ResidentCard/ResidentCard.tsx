@@ -18,9 +18,8 @@ const ResidentCard: FC = () => {
   const { resident, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.resident || {});
   const { user } = useSelector((state: RootState) => state.auth || {});
   const [isAlertVisible, setIsAlertVisible] = useState(false);
-  const [isUploadImageVisible, setIsUploadImageVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState<any>('');
-  const [modalContent, setModalContent] = useState<'images' | 'form' | null>(null);
+  const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | null>(null);
 
   useEffect(() => {
     if (_id) {
@@ -59,39 +58,6 @@ const ResidentCard: FC = () => {
   return (
     <>
       <Container maxW='container.xl' paddingBottom={'10rem'} overflowY={'auto'}>
-        {isUploadImageVisible && (
-          <Box
-            display={'flex'}
-            flexDirection={'column'}
-            position={'fixed'}
-            top={'15rem'}
-            left={'50%'}
-            transform={'translateX(-50%)'}
-            alignItems={'center'}
-            width={'90%'}
-            borderWidth='1px'
-            borderRadius='lg'
-            overflow='hidden'
-            boxShadow='md'
-            paddingX={'2rem'}
-            paddingY={'1rem'}
-            bg='white'
-            zIndex={1000}
-          >
-            <Text
-              position={'absolute'}
-              top={2}
-              right={2}
-              fontSize={'2xl'}
-              color={'brand.500'}
-              cursor={'pointer'}
-              onClick={() => setIsUploadImageVisible(false)}
-            >
-              {closeIcon}
-            </Text>
-            <ImageUploadForm type='resident' id={resident._id} />
-          </Box>
-        )}
         <Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'} >
           <Button onClick={() => { setModalContent('images'); onOpen(); }}>Todas las imagenes</Button>
           <Button onClick={() => navigate('/sessions/' + resident._id)}>Sesiones</Button>
@@ -145,14 +111,14 @@ const ResidentCard: FC = () => {
                 {imagesIsLoading ? (
                   <Spinner size='xl' />
                 ) : (
-                  <Button padding={'2rem'} margin={'0'} bg='transparent' _hover={{ bg: 'transparent' }} onClick={() => setIsUploadImageVisible(true)}>
+                  <Button padding={'2rem'} margin={'0'} bg='transparent' _hover={{ bg: 'transparent' }} onClick={() => { setModalContent('upload'); onOpen(); }}>
                     {plusBoxIcon}
                   </Button>
                 )}
               </Box>
             ) : (
               <Box width={'100%'} height={'100%'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                <Image width={'120%'} src={imageSrc} cursor={'pointer'} onClick={() => setIsUploadImageVisible(true)} />
+                <Image width={'120%'} src={imageSrc} cursor={'pointer'} onClick={() => { setModalContent('upload'); onOpen(); }} />
               </Box>
             )}
           </Box>
@@ -192,7 +158,7 @@ const ResidentCard: FC = () => {
           {resident.moreinfo}
         </Text>
       </Container>
-      <Modal isOpen={isOpen} onClose={onClose} size={'full'}>
+      <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
         <ModalOverlay />
         <ModalContent>
 		<Text
@@ -208,6 +174,8 @@ const ResidentCard: FC = () => {
                 </Text>          <ModalBody>
             {modalContent === 'images' && <AllImages images={true} />}
             {modalContent === 'form' && <ResidentForm residentProp={resident}/>}
+			{modalContent === 'upload' && <ImageUploadForm type='resident' id={resident._id} />
+		}
           </ModalBody>
         </ModalContent>
       </Modal>

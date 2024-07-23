@@ -159,7 +159,7 @@ const ActivityCard: FC = () => {
 				</Accordion>
 				<Divider bg={'brand.500'} marginTop={'1rem'} />
 			</Container>
-			<Modal isOpen={isOpen} onClose={onClose} size={'full'}>
+			<Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
 				<ModalOverlay />
 				<ModalContent>
 					<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
