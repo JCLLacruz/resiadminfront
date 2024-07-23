@@ -86,10 +86,11 @@ import {
 	  onSubmit: (values) => {
 		if (residentProp) {
 		  dispatch(updateResident({ resident: values, id: residentProp._id }));
+		  navigate('/residentcard' + residentProp._id)
 		} else {
 		  dispatch(createResident(values));
+		  navigate('/residents');
 		}
-		navigate('/residents');
 		formik.resetForm();
 	  },
 	});

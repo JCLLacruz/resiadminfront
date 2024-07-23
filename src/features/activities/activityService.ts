@@ -25,6 +25,15 @@ const createActivity = async (activity: ActivityValues) => {
     });
     return res.data;
 }
+const updateActivity = async (activity: ActivityValues, id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.post(API_URL + '/id/' + id, activity, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+}
 const deleteActivity = async (id: string) => {
     const token = localStorage.getItem('token');
     const res: any = await axios.delete(API_URL + '/id/' + id, {
@@ -39,6 +48,7 @@ const activityService = {
     getActivityById,
     createActivity,
     deleteActivity,
+    updateActivity,
 };
 
 export default activityService;

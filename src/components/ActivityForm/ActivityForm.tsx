@@ -1,29 +1,47 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, Textarea } from '@chakra-ui/react';
-import { ActivityValues } from '../../interfaces/activityIntefaces';
-import { createActivity } from '../../features/activities/activitySlice';
+import { ActivityInterface, ActivityValues } from '../../interfaces/activityIntefaces';
+import { createActivity, updateActivity } from '../../features/activities/activitySlice';
 import { useNavigate } from 'react-router-dom';
 
-const ActivityForm: FC = () => {
+interface ActivityFormProps {
+	activityProp?: ActivityInterface;
+}
+
+const ActivityForm: FC<ActivityFormProps> = ({activityProp}) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+	const [activity, setActivity] = useState<ActivityValues>({
+		title: '',
+		description:''
+	})
+
+	useEffect(()=> {
+		if(activityProp){
+			const {_id, ...editActivity} = activityProp;
+			setActivity(editActivity)
+		}
+	},[activityProp]);
 
 	const formik = useFormik<ActivityValues>({
-		initialValues: {
-			title: '',
-			description: '',
-		},
+		initialValues: activity,
+		enableReinitialize: true,
 		validationSchema: Yup.object({
 			title: Yup.string().required('Añade un tíluto'),
 			description: Yup.string().required('Añade una descripción'),
 		}),
 		onSubmit: (values) => {
-			dispatch(createActivity(values));
-			navigate('/activities');
+			if (activityProp){
+				dispatch(updateActivity({activity: values, id: activityProp._id}))
+				navigate('/activitycard/' + activityProp._id)
+			} else {
+				dispatch(createActivity(values));
+				navigate('/activities');
+			}
 			formik.resetForm();
 		},
 	});
@@ -31,7 +49,7 @@ const ActivityForm: FC = () => {
 	return (
 		<Container id='sessionFormContainer' maxW='container.sm' minHeight={'90vh'} marginTop={'1rem'}>
 			<Heading id='sessionFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
-				Nueva Actividad
+				{activityProp ? 'Editar Actividad' : 'Nueva Actividad'}
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl isInvalid={!!(formik.errors.title && formik.touched.title)}>
@@ -67,7 +85,7 @@ const ActivityForm: FC = () => {
 					</FormErrorMessage>
 				</FormControl>
 				<Button mt={'2rem'} type='submit'>
-					Registrar
+					{activityProp ? 'Actualizar actividad' : 'Crear actividad'}
 				</Button>
 			</form>
 		</Container>

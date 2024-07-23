@@ -44,6 +44,15 @@ export const deleteActivity = createAsyncThunk('activities/deleteActivity', asyn
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const updateActivity = createAsyncThunk('activities/updateActivity', async ({activity, id} : {activity: ActivityValues; id: string}, thunkAPI) => {
+	try {
+		return await activityService.updateActivity(activity, id)
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+
+	}
+})
 
 const activitySlice = createSlice({
 	name: 'activity',
@@ -117,6 +126,21 @@ const activitySlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(deleteActivity.fulfilled, (state: any, action: any) => {
+				state.activity = action.payload.activity;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(updateActivity.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(updateActivity.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(updateActivity.fulfilled, (state: any, action: any) => {
 				state.activity = action.payload.activity;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
