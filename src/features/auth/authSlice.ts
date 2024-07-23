@@ -2,12 +2,21 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
 import { initialStateAuthSliceInterface, LoginValues, RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
 
-const user: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
+const getImageSrc = (data: ArrayBuffer, contentType: string) => {
+	const base64String = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+	return `data:${contentType};base64,${base64String}`;
+};
+
+const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 const token: string = localStorage.getItem('token') || '';
 
 const initialState: initialStateAuthSliceInterface = {
-	user,
+	currentUser,
+	user: null,
 	users: [],
+	images: [],
+	image: null,
+	imagesIsLoading : false,
 	token,
 	isLoading: false,
 	isSuccess: false,
@@ -33,6 +42,30 @@ export const register = createAsyncThunk('auth/register', async (user: RegisterV
         return thunkAPI.rejectWithValue(errorMessage);
     }
 });
+export const updateUser = createAsyncThunk('auth/updateUser', async ({user, id}: {user: RegisterValues; id: string}, thunkAPI: any) => {
+    try {
+        return await authService.updateUser(user, id);
+    } catch (error: any) {
+        const errorMessage: string = error.response.data.msg;
+        return thunkAPI.rejectWithValue(errorMessage);
+    }
+});
+export const getUserById = createAsyncThunk('auth/getUserById', async (id: string, thunkAPI: any) => {
+    try {
+        return await authService.getUserById(id);
+    } catch (error: any) {
+        const errorMessage: string = error.response.data.msg;
+        return thunkAPI.rejectWithValue(errorMessage);
+    }
+});
+export const deleteUser = createAsyncThunk('auth/deleteUser', async (id: string, thunkAPI: any) => {
+    try {
+        return await authService.deleteUser(id);
+    } catch (error: any) {
+        const errorMessage: string = error.response.data.msg;
+        return thunkAPI.rejectWithValue(errorMessage);
+    }
+});
 
 export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI: any) => {
 	try {
@@ -42,6 +75,25 @@ export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI: an
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const uploadImageUser = createAsyncThunk('residents/uploadImageUser', async (image: any, thunkAPI: any) => {
+	try {
+		return await authService.uploadImageUser(image);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const deleteImageUser = createAsyncThunk(
+	'residents/deleteImageUser',
+	async ({ imageId, id }: { imageId: string; id: string }, thunkAPI: any) => {
+		try {
+			return await authService.deleteImageUser(imageId, id);
+		} catch (error: any) {
+			const errorMessage: string = error.response.data.msg;
+			return thunkAPI.rejectWithValue(errorMessage);
+		}
+	}
+);
 
 const authSlice = createSlice({
 	name: 'auth',
@@ -50,6 +102,8 @@ const authSlice = createSlice({
 		reset: (state: any) => {
 			state.user = null;
 			state.users = [];
+			state.image = null;
+			state.images = [];
 			state.token = null;
 			state.isLoading = true;
 			state.isSuccess = false;
@@ -71,10 +125,46 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(login.fulfilled, (state: any, action: any) => {
+				state.currentUser = action.payload.user;
+				if (action.payload.user.images.length > 0) {
+					const srcImages = action.payload.user.images.map((image: any) => {						
+						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+					});
+					state.images = srcImages;
+					state.image = {src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType), _id: action.payload.user.images[0]._id};
+				} else {
+					state.images = [];
+					state.image = null;
+				}
+				state.token = action.payload.token;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(getUserById.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(getUserById.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(getUserById.fulfilled, (state: any, action: any) => {
 				state.user = action.payload.user;
 				state.token = action.payload.token;
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
+				if (action.payload.user.images.length > 0) {
+					const srcImages = action.payload.user.images.map((image: any) => {						
+						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+					});
+					state.images = srcImages;
+					state.image = {src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType), _id: action.payload.user.images[0]._id};
+				} else {
+					state.images = [];
+					state.image = null;
+				}
 			})
 			.addCase(logoutUser.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -91,6 +181,21 @@ const authSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.loading = false;
 			})
+			.addCase(deleteUser.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(deleteUser.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(deleteUser.fulfilled, (state: any, action: any) => {
+				state.user = action.payload.user;
+				state.msg = action.payload.msg;
+				state.loading = false;
+			})
 			.addCase(register.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
 				state.msg = action.payload.msg;
@@ -104,8 +209,56 @@ const authSlice = createSlice({
 			.addCase(register.fulfilled, (state: any, action: any) => {
 				state.user = action.payload.user;
 				state.msg = action.payload.msg;
-				state.loading = false;
-			});
+				state.isLoading = false;
+			})
+			.addCase(uploadImageUser.rejected, (state: any, action: any) => {
+				state.error = action.payload;
+				state.msg = action.payload;
+				state.isError = true;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = false;
+			})
+			.addCase(uploadImageUser.pending, (state: any) => {
+				state.isError = false;
+				state.isSuccess = false;
+				state.isLoading = true;
+				state.imagesIsLoading = true;
+			})
+			.addCase(uploadImageUser.fulfilled, (state: any, action: any) => {
+				if(action.payload.image){
+					const image = {
+						src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
+						_id: action.payload.image._id,
+					};
+					state.image = image;
+					state.images.push(image);
+				}
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(deleteImageUser.rejected, (state: any, action: any) => {
+				state.error = action.payload;
+				state.msg = action.payload;
+				state.isError = true;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = false;
+			})
+			.addCase(deleteImageUser.pending, (state: any) => {
+				state.isError = false;
+				state.isSuccess = false;
+				state.isLoading = true;
+				state.imagesIsLoading = true;
+			})
+			.addCase(deleteImageUser.fulfilled, (state: any, action: any) => {
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = true;
+			})
 	},
 });
 

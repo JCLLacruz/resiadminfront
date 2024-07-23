@@ -1,39 +1,43 @@
-import {
-	Button,
-	Container,
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	Heading,
-	Input,
-	InputGroup,
-	InputRightElement,
-} from '@chakra-ui/react';
-import { FC, useState } from 'react';
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { RegisterValues } from '../../interfaces/authInterfaces';
+import { RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
 import { useDispatch } from 'react-redux';
-import { register } from '../../features/auth/authSlice';
+import { register, updateUser } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
 import { AppDispatch } from '../../app/store';
+import { useNavigate } from 'react-router-dom';
 
-const Register: FC = () => {
+interface UserFormProps {
+	userProp?: UserInterface;
+}
+
+const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
+	const [user, setUser] = useState<RegisterValues>({
+		firstname: '',
+		lastname: '',
+		email: '',
+		telephonnumber: '',
+		password: '',
+		confirmPassword: '',
+		birthday: new Date(),
+	});
+
+	useEffect(() => {
+		if (userProp) {
+			const { images, connections, CommentIds, emailConfirmed, birthday, role, ...restUser } = userProp;
+			const birthdaySliced = birthday.slice(0, 10);
+			setUser({ ...restUser, birthday: birthdaySliced, password: '', confirmPassword: '' });
+		}
+	}, [userProp]);
 
 	const formik = useFormik<RegisterValues>({
-		initialValues: {
-			firstname: '',
-			lastname: '',
-			email: '',
-			telephonnumber: '',
-			password: '',
-			confirmPassword: '',
-			birthday: new Date(),
-			images: [],
-		},
+		initialValues: user,
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Required'),
 			lastname: Yup.string().required('Required'),
@@ -50,15 +54,21 @@ const Register: FC = () => {
 			birthday: Yup.date().required('Required'),
 		}),
 		onSubmit: (values) => {
-			dispatch(register(values));
+			if (userProp) {
+				dispatch(updateUser({ user: values, id: userProp._id }));
+				navigate('/usercard' + userProp._id);
+			} else {
+				dispatch(register(values));
+				navigate('/users');
+			}
 			formik.resetForm();
 		},
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm'>
+		<Container id='registerContainer' maxW='container.sm' marginBottom={'6rem'} marginTop={'1rem'}>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
-				Registra un empleado
+				{userProp ? `Edita el usuario ${userProp.firstname}` : 'Registra un empleado'}
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl isInvalid={!!(formik.errors.firstname && formik.touched.firstname)}>
@@ -73,8 +83,10 @@ const Register: FC = () => {
 							value={formik.values.firstname}
 						/>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.firstname}</FormErrorMessage>
-				</FormControl >
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.firstname}
+					</FormErrorMessage>
+				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.lastname && formik.touched.lastname)} mt={'1rem'}>
 					<FormLabel htmlFor='lastnameInput'>Apellidos</FormLabel>
 					<InputGroup>
@@ -87,7 +99,9 @@ const Register: FC = () => {
 							value={formik.values.lastname}
 						/>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.lastname}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.lastname}
+					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.email && formik.touched.email)} mt={'1rem'}>
 					<FormLabel htmlFor='emailInput'>Email</FormLabel>
@@ -101,7 +115,9 @@ const Register: FC = () => {
 							value={formik.values.email}
 						/>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.email}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.email}
+					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.telephonnumber && formik.touched.telephonnumber)} mt={'1rem'}>
 					<FormLabel htmlFor='telephonnumberInput'>Teléfono</FormLabel>
@@ -116,7 +132,9 @@ const Register: FC = () => {
 							value={formik.values.telephonnumber}
 						/>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.telephonnumber}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.telephonnumber}
+					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.password && formik.touched.password)} mt={'1rem'}>
 					<FormLabel htmlFor='passwordInput'>Contraseña</FormLabel>
@@ -137,7 +155,9 @@ const Register: FC = () => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.password}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.password}
+					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)} mt={'2rem'}>
 					<InputGroup size='md'>
@@ -156,7 +176,9 @@ const Register: FC = () => {
 							</Button>
 						</InputRightElement>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{formik.errors.confirmPassword}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.confirmPassword}
+					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.birthday && formik.touched.birthday)} mt={'1rem'}>
 					<FormLabel htmlFor='birthdayInput'>Fecha de nacimiento</FormLabel>
@@ -170,14 +192,16 @@ const Register: FC = () => {
 							value={formik.values.birthday}
 						/>
 					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>{!!formik.errors.birthday}</FormErrorMessage>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{!!formik.errors.birthday}
+					</FormErrorMessage>
 				</FormControl>
-				<Button mt={'2rem'} type='submit'>
-					Registrar
+				<Button mt={'2rem'} size={'lg'} width={'full'} type='submit'>
+					{userProp ? 'Actualizar usuario' : 'Registrar'}
 				</Button>
 			</form>
 		</Container>
 	);
 };
 
-export default Register;
+export default UserForm;

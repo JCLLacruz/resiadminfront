@@ -1,15 +1,31 @@
-import { Box, Button, Container, Text } from '@chakra-ui/react';
-import { FC, useState } from 'react';
-import { closeIcon, switchOffIcon } from '../../assets/icons/icons';
-import { useDispatch } from 'react-redux';
+import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
+import { FC, useEffect, useState } from 'react';
+import { closeIcon, switchOffIcon, userIcon } from '../../assets/icons/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
+	const { currentUser, image, images } = useSelector((state: any) => state.auth || {});
+	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (images.length > 0) {
+			setImageSrc(images[images.length - 1].src);
+		}
+	}, [images, image]);
+
+	useEffect(() => {
+		if (images.length > 0) {
+			setImageSrc(images[images.length - 1].src);
+		} else {
+			setImageSrc(image?.src);
+		}
+	}, [image]);
 
 	const logout = () => {
 		setIsVisible(false);
@@ -31,9 +47,22 @@ const Footer: FC = () => {
 			top={'0'}
 			boxShadow='0 10px 6px rgba(0, 0, 0, 0.1)'
 			alignItems={'center'}
-			justifyContent={'end'}
+			justifyContent={'space-between'}
 			zIndex={1000}
 		>
+			<Box
+				height={'3rem'}
+				width={'3rem'}
+				marginLeft={'1rem'}
+				backgroundColor={'brand.100'}
+				borderRadius={'50%'}
+				display={'flex'}
+				justifyContent={'center'}
+				alignItems={'center'}
+				onClick={() => navigate('/usercard/' + currentUser._id)}
+			>
+				{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+			</Box>
 			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
 				{switchOffIcon}
 			</Button>
@@ -64,7 +93,9 @@ const Footer: FC = () => {
 						>
 							{closeIcon}
 						</Text>
-						<Text marginTop={'1rem'} marginBottom={'0.5rem'}>¿Está seguro de querer cerrar sesión?</Text>
+						<Text marginTop={'1rem'} marginBottom={'0.5rem'}>
+							¿Está seguro de querer cerrar sesión?
+						</Text>
 						<Button id='confirmLogoutButton' bg='red' size='sm' mt={4} onClick={logout}>
 							Sí, cerrar sesión!
 						</Button>

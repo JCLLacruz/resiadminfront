@@ -96,7 +96,7 @@ import {
 	});
   
 	return (
-	  <Container id="residentFormContainer" maxW="container.sm" marginBottom={'5rem'} marginTop={'1rem'}>
+	  <Container id="residentFormContainer" maxW="container.sm" marginBottom={'6rem'} marginTop={'1rem'}>
 		<Heading id="residentFormHeading" as="h1" size="lg" textAlign="center" mb={'1rem'}>
 		  {residentProp ? `Edita el residente ${residentProp.firstname}` : 'Nuevo residente'}
 		</Heading>
@@ -351,7 +351,6 @@ import {
 		  </FormControl>
 		  <Button
 			mt={'2rem'}
-			colorScheme={'teal'}
 			size={'lg'}
 			width={'full'}
 			type="submit"

@@ -19,7 +19,7 @@ const Footer: FC = () => {
 	const goTo = (to: string) => {
 		switch (to) {
 			case 'register':
-				navigate('/register');
+				navigate('/userform');
 				break;
 			case 'residents':
 				dispatch(resetResident());
@@ -63,7 +63,7 @@ const Footer: FC = () => {
 			zIndex={1000}
 		>
 			<Menu>
-				<MenuButton padding={'2rem'} marginLeft={'1rem'} as={Button} bg='transparent' _hover={'transparent'}>
+				<MenuButton  as={Button} bg='transparent' _hover={'transparent'} alignItems={'start'} paddingTop={'3px'}>
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>

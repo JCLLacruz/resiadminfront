@@ -172,7 +172,7 @@ const ResidentCard: FC = () => {
                 >
                   {closeIcon}
                 </Text>          <ModalBody>
-            {modalContent === 'images' && <AllImages images={true} />}
+            {modalContent === 'images' && <AllImages images={'resident'} />}
             {modalContent === 'form' && <ResidentForm residentProp={resident}/>}
 			{modalContent === 'upload' && <ImageUploadForm type='resident' id={resident._id} />
 		}

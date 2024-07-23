@@ -58,16 +58,16 @@ const uploadImageResident = async (image: any) => {
 	});
 	return res.data;
 };
-const deleteImageResident = async (imageId: string, residentId:any) => {
+const deleteImageResident = async (imageId: string, id: string) => {
     const token = localStorage.getItem('token');
     const res = await axios.delete('http://localhost:3001/images/delete/' + imageId,{
         headers: {
-            Residentid: residentId,
+            Residentid: id,
             Authorization: token,
         },
     });
     return res.data;
-}
+};
 const activityService = {
 	getAllResidents,
 	getResidentById,

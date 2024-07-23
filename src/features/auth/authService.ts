@@ -21,6 +21,33 @@ const register = async (user: RegisterValues) => {
     });
     return res.data;
 };
+const getUserById = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.get(API_URL + '/id/' + id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
+const deleteUser = async (id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.delete(API_URL + '/id/' + id, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
+const updateUser = async (user: RegisterValues, id: string) => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.put(API_URL + '/id/' + id, user, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 
 const logoutUser = async () => {
     const token = localStorage.getItem('token');
@@ -34,12 +61,37 @@ const logoutUser = async () => {
         localStorage.removeItem('token');
     };
 return res.data;
+};
+const uploadImageUser = async (image: any) => {
+	const token = localStorage.getItem('token');
+	const res = await axios.post('http://localhost:3001/images/upload/user', image, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			Authorization: token,
+		},
+	});
+	return res.data;
+};
+const deleteImageUser = async (imageId: string, id:string) => {
+    const token = localStorage.getItem('token');
+    const res = await axios.delete('http://localhost:3001/images/delete/' + imageId,{
+        headers: {
+            Userid: id,
+            Authorization: token,
+        },
+    });
+    return res.data;
 }
 
 const authService = {
     login,
     register,
+    updateUser,
+    getUserById,
+    deleteUser,
     logoutUser,
+    uploadImageUser,
+    deleteImageUser,
 };
 
 export default authService;

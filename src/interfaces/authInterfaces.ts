@@ -1,9 +1,17 @@
+export interface ImageData {
+    contentType: string;
+    residentId: string;
+    _id: string;
+    data: { data: ArrayBuffer };
+    src: string;
+ }
 export interface ConnectionsInterface {
     token: string,
     date: string,
 }
 
 export interface UserInterface  {
+    _id: string,
     firstname: string,
     lastname: string,
     email: string,
@@ -28,11 +36,14 @@ export interface RegisterValues {
 	password: string;
 	confirmPassword: string;
 	birthday: any;
-    images: Array<string>;
 }
 export interface initialStateAuthSliceInterface {
+    currentUser: UserInterface | null,
     user: UserInterface | null,
     users: Array<UserInterface>,
+	images: Array<ImageData>,
+	image: ImageData | null,
+	imagesIsLoading: boolean,
     token: string | null,
     isLoading: boolean,
     isError: boolean,

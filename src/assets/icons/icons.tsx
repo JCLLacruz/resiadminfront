@@ -98,3 +98,7 @@ export const closeIcon = (
 );
 
 export const editIcon = <svg width="2rem" height="2rem" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/><g id="Complete"><g id="edit"><g><path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke={theme.colors.brand[50]} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/><polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke={theme.colors.brand[50]} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/></g></g></g></svg>
+
+export const userIcon = <svg width="2rem" height="2rem" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke={theme.colors.brand[500]} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+</svg>

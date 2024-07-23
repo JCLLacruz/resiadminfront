@@ -70,9 +70,9 @@ export const uploadImageResident = createAsyncThunk('residents/uploadImageReside
 });
 export const deleteImageResident = createAsyncThunk(
 	'residents/deleteImageResident',
-	async ({ imageId, residentId }: { imageId: string; residentId: string }, thunkAPI: any) => {
+	async ({ imageId, id }: { imageId: string; id: string }, thunkAPI: any) => {
 		try {
-			return await residentService.deleteImageResident(imageId, residentId);
+			return await residentService.deleteImageResident(imageId, id);
 		} catch (error: any) {
 			const errorMessage: string = error.response.data.msg;
 			return thunkAPI.rejectWithValue(errorMessage);

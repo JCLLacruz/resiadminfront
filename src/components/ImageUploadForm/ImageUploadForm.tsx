@@ -4,6 +4,7 @@ import { Box, Button, FormControl, FormLabel, Input, Image, Spinner } from '@cha
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { getResidentById, uploadImageResident } from '../../features/residents/residentSlice';
+import { getUserById, uploadImageUser } from '../../features/auth/authSlice';
 
 interface FormValues {
 	image: File | null;
@@ -20,6 +21,9 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	const { isLoading } = useSelector((state: any) => state.resident || {});
 	const [isUploading, setIsUploading] = useState(false);
 
+	console.log(type);
+	
+
 	const formik = useFormik<FormValues>({
 		initialValues: {
 			image: null,
@@ -35,12 +39,15 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 			if (type === 'user') {
 				formData.append('userId', id);
 			}
-
 			isLoading && setIsUploading(true);
-
-			dispatch(uploadImageResident(formData));
-			dispatch(getResidentById(id));
-			!isLoading && setIsUploading(false);
+			if(type == 'resident'){
+				dispatch(uploadImageResident(formData));
+				dispatch(getResidentById(id));
+				!isLoading && setIsUploading(false);
+			} else if(type == 'user'){
+				dispatch(uploadImageUser(formData));
+				dispatch(getUserById(id))
+			}
 			formik.resetForm();
 		},
 	});

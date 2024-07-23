@@ -12,20 +12,20 @@ interface ActivityFormProps {
 	activityProp?: ActivityInterface;
 }
 
-const ActivityForm: FC<ActivityFormProps> = ({activityProp}) => {
+const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const [activity, setActivity] = useState<ActivityValues>({
 		title: '',
-		description:''
-	})
+		description: '',
+	});
 
-	useEffect(()=> {
-		if(activityProp){
-			const {_id, ...editActivity} = activityProp;
-			setActivity(editActivity)
+	useEffect(() => {
+		if (activityProp) {
+			const { _id, ...editActivity } = activityProp;
+			setActivity(editActivity);
 		}
-	},[activityProp]);
+	}, [activityProp]);
 
 	const formik = useFormik<ActivityValues>({
 		initialValues: activity,
@@ -35,9 +35,9 @@ const ActivityForm: FC<ActivityFormProps> = ({activityProp}) => {
 			description: Yup.string().required('Añade una descripción'),
 		}),
 		onSubmit: (values) => {
-			if (activityProp){
-				dispatch(updateActivity({activity: values, id: activityProp._id}))
-				navigate('/activitycard/' + activityProp._id)
+			if (activityProp) {
+				dispatch(updateActivity({ activity: values, id: activityProp._id }));
+				navigate('/activitycard/' + activityProp._id);
 			} else {
 				dispatch(createActivity(values));
 				navigate('/activities');
@@ -84,7 +84,7 @@ const ActivityForm: FC<ActivityFormProps> = ({activityProp}) => {
 						{formik.errors.description}
 					</FormErrorMessage>
 				</FormControl>
-				<Button mt={'2rem'} type='submit'>
+				<Button mt={'2rem'} size={'lg'} width={'full'} type='submit'>
 					{activityProp ? 'Actualizar actividad' : 'Crear actividad'}
 				</Button>
 			</form>
