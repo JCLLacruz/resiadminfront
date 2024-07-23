@@ -33,7 +33,6 @@ const Sessions: FC = () => {
 	};
 
 	const handleDeleteSession = (id: string) => {
-		console.log('delete session', id);
 		dispatch(deleteSession(id));
 		setIsAlertVisible(false);
 		setFilteredSessions(sessions.filter((session: any) => session._id !== id));

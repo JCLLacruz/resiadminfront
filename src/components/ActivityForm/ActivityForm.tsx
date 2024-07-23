@@ -22,7 +22,6 @@ const ActivityForm: FC = () => {
 			description: Yup.string().required('Añade una descripción'),
 		}),
 		onSubmit: (values) => {
-			console.log('values', values);
 			dispatch(createActivity(values));
 			navigate('/activities');
 			formik.resetForm();

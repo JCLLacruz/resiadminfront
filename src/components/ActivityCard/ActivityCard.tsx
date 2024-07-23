@@ -29,11 +29,7 @@ const ActivityCard: FC = () => {
 
 	const [isAlertVisible, setIsAlertVisible] = useState(false);
 
-	console.log('activity', activity);
-	console.log('id', _id);
-
 	useEffect(() => {
-		console.log('hola');
 		if (_id) {
 
 			dispatch(getActivityById(_id));

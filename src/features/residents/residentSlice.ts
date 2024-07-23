@@ -143,9 +143,7 @@ const residentSlice = createSlice({
 			.addCase(getResidentById.fulfilled, (state: any, action: any) => {				
 				state.resident = action.payload.resident;
 				if (action.payload.resident.images.length > 0) {
-					const srcImages = action.payload.resident.images.map((image: any) => {
-						console.log('image', image);
-						
+					const srcImages = action.payload.resident.images.map((image: any) => {						
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
 					state.images = srcImages;
