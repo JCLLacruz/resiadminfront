@@ -111,7 +111,7 @@ const Login: FC = () => {
 				</Button>
 			</form>
 			<Text mt={4} textAlign='center'>
-				forgot your password? <Link href='#'>click here</Link>
+				Has olvidado tu contraseña? <Link href='#'>haz click aquí</Link>
 			</Text>
 		</Container>
 	);
