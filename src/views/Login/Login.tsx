@@ -1,20 +1,56 @@
-import { Button, Container, FormControl, FormErrorMessage, Heading, Input, InputGroup, InputRightElement, Link, Text } from '@chakra-ui/react';
-import { FC, useState } from 'react';
+import {
+	Button,
+	Container,
+	FormControl,
+	FormErrorMessage,
+	Heading,
+	Input,
+	InputGroup,
+	InputRightElement,
+	Link,
+	Text,
+	useToast,
+} from '@chakra-ui/react';
+import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, resetError, resetSuccess } from '../../features/auth/authSlice';
 import { LoginValues } from '../../interfaces/authInterfaces';
 import { AppDispatch } from '../../app/store';
 
-
 const Login: FC = () => {
+	const { isError, isSuccess, msg } = useSelector((state: any) => state.auth || {});
+	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
 
+	useEffect(() => {
+		if (isError) {
+			toast({
+				title: 'Ha ocurrido un error',
+				description: 'Por favor, intenta de nuevo',
+				status: 'error',
+				duration: 6000,
+				isClosable: true,
+			});
+			dispatch(resetError());
+		}
+		if (isSuccess) {
+			toast({
+				title: 'Login exitoso',
+				description: 'Has iniciado sesión correctamente',
+				status: 'success',
+				duration: 6000,
+				isClosable: true,
+			});
+			dispatch(resetSuccess());
+			navigate('/activities');
+		}
+	}, [isError, isSuccess, msg, toast, dispatch, navigate]);
 	const formik = useFormik<LoginValues>({
 		initialValues: {
 			email: '',
@@ -25,11 +61,7 @@ const Login: FC = () => {
 			password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
 		}),
 		onSubmit: (values) => {
-      dispatch(login(values));
-      formik.resetForm();
-	  setTimeout(() => {
-		  navigate('/activities');
-	  }, 1000);
+			dispatch(login(values));
 		},
 	});
 
@@ -74,9 +106,9 @@ const Login: FC = () => {
 					Login
 				</Button>
 			</form>
-      <Text mt={4} textAlign='center'>
-        forgot your password? <Link href='#'>click here</Link>
-      </Text>
+			<Text mt={4} textAlign='center'>
+				forgot your password? <Link href='#'>click here</Link>
+			</Text>
 		</Container>
 	);
 };

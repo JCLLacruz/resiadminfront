@@ -3,13 +3,9 @@ import { FC, useEffect, useState } from 'react';
 import { plusBoxIcon } from '../../assets/icons/icons';
 import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../app/store';
-import { resetResident } from '../../features/residents/residentSlice';
 
 const Footer: FC = () => {
 	const navigate: any = useNavigate();
-	const dispatch = useDispatch<AppDispatch>();
 	const [user, setUser] = useState<UserInterface | undefined>(undefined);
 
 	useEffect(() => {
@@ -18,24 +14,14 @@ const Footer: FC = () => {
 
 	const goTo = (to: string) => {
 		switch (to) {
-			case 'register':
-				navigate('/userform');
-				break;
 			case 'residents':
-				dispatch(resetResident());
-				setTimeout(() => {
-					navigate('/residents');
-				}, 1000);
+				navigate('/residents');
 				break;
 			case 'activities':
 				navigate('/activities');
 				break;
 			case 'residentform':
-				dispatch(resetResident());
-				navigate('/residents');
-				setTimeout(() => {
-					navigate('/residentform');
-				}, 5);
+				navigate('/residentform');
 				break;
 			case 'sessionform':
 				navigate('/sessionform/');
@@ -43,7 +29,6 @@ const Footer: FC = () => {
 			case 'activityform':
 				navigate('/activityform/');
 				break;
-
 			default:
 				break;
 		}
@@ -63,7 +48,7 @@ const Footer: FC = () => {
 			zIndex={1000}
 		>
 			<Menu>
-				<MenuButton  as={Button} bg='transparent' _hover={'transparent'} alignItems={'start'} paddingTop={'3px'}>
+				<MenuButton as={Button} bg='transparent' _hover={'transparent'} alignItems={'start'} paddingTop={'3px'}>
 					{plusBoxIcon}
 				</MenuButton>
 				<MenuList marginBottom={'1rem'} marginLeft={'1rem'}>

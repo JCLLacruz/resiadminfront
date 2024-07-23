@@ -214,6 +214,8 @@ const residentSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(deleteResident.fulfilled, (state: any, action: any) => {
+				state.images = action.payload.images;
+				state.image = null;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				state.imagesIsLoading = false;

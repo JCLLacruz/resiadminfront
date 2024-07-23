@@ -51,13 +51,10 @@ const UserCard: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.auth || {});
   const [isAlertVisible, setIsAlertVisible] = useState(false);
-  const [connections, setConnections] = useState([]);
+  const [connections, setConnections] = useState<GroupedConnections[]>([]);
   const [imageSrc, setImageSrc] = useState<any>('');
   const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | null>(null);    
-
-  console.log('images', images);
   
-
   useEffect(() => {
     if (_id) {
       dispatch(getUserById(_id));
@@ -86,7 +83,6 @@ const UserCard: FC = () => {
   useEffect(()=>{
     if(user){
         const groupedConnections: GroupedConnections[] = groupConnectionsByMonth(user.connections);
-        
         setConnections(groupedConnections)
     }
   },[user])
@@ -193,7 +189,7 @@ const UserCard: FC = () => {
 								<AccordionItem key={`month_connections_${index}`} backgroundColor={'brand.50'}>
 									<AccordionButton>
 										<Box as='span' flex='1' textAlign='left'>
-                                        Total conexiones: {connection.month.length} en {connection.month}. 
+                                        Total conexiones: <strong>{connection.connections.length}</strong> en {connection.month} 
 										</Box>
 										<AccordionIcon />
 									</AccordionButton>
@@ -227,7 +223,7 @@ const UserCard: FC = () => {
           </Text>
           <ModalBody>
             {modalContent === 'images' && <AllImages images={'user'} />}
-            {modalContent === 'form' && <UserForm userProp={user} />}
+            {modalContent === 'form' && <UserForm userProp={_id ? user : currentUser} />}
             {modalContent === 'upload' && <ImageUploadForm type='user' id={user._id} />}
           </ModalBody>
         </ModalContent>

@@ -22,6 +22,8 @@ export interface UserInterface  {
 	images: Array<string>;
     connections: Array <ConnectionsInterface>,
     CommentIds: string[],
+    createdAt: string,
+    updatedAt: string,
 }
 
 export interface LoginValues {
@@ -36,6 +38,7 @@ export interface RegisterValues {
 	password: string;
 	confirmPassword: string;
 	birthday: any;
+    role: string;
 }
 export interface initialStateAuthSliceInterface {
     currentUser: UserInterface | null,

@@ -1,16 +1,17 @@
-import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightElement, Select } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register, updateUser } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
 import { AppDispatch } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
+import { roleOptions } from '../../utils/formOptions';
 
 interface UserFormProps {
-	userProp?: UserInterface;
+	userProp?: UserInterface | null;
 }
 
 const UserForm: FC<UserFormProps> = ({ userProp }) => {
@@ -18,6 +19,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+    const {user: userState} = useSelector((state: any) => state.auth || {});
 	const [user, setUser] = useState<RegisterValues>({
 		firstname: '',
 		lastname: '',
@@ -25,19 +27,24 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 		telephonnumber: '',
 		password: '',
 		confirmPassword: '',
+		role: '',
 		birthday: new Date(),
 	});
+	console.log(userProp);
 
 	useEffect(() => {
 		if (userProp) {
-			const { images, connections, CommentIds, emailConfirmed, birthday, role, ...restUser } = userProp;
+			const { _id, connections, createdAt, CommentIds,  images, updatedAt, birthday, emailConfirmed, ...restUser } = userProp;
 			const birthdaySliced = birthday.slice(0, 10);
+			console.log(birthdaySliced);
+
 			setUser({ ...restUser, birthday: birthdaySliced, password: '', confirmPassword: '' });
 		}
-	}, [userProp]);
+	}, [userProp, userState]);
 
 	const formik = useFormik<RegisterValues>({
 		initialValues: user,
+        enableReinitialize: true,
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Required'),
 			lastname: Yup.string().required('Required'),
@@ -47,16 +54,21 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 				.positive('Must be a positive number')
 				.integer('Must be an integer')
 				.min(9, 'Must be at least 9 digits'),
-			password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
-			confirmPassword: Yup.string()
-				.oneOf([Yup.ref('password')], 'Passwords must match')
-				.required('Required'),
 			birthday: Yup.date().required('Required'),
+			role: Yup.string().required('Required'),
+			...(userProp
+				? {}
+				: {
+						password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+						confirmPassword: Yup.string()
+							.oneOf([Yup.ref('password')], 'Passwords must match')
+							.required('Required'),
+				  }),
 		}),
 		onSubmit: (values) => {
 			if (userProp) {
 				dispatch(updateUser({ user: values, id: userProp._id }));
-				navigate('/usercard' + userProp._id);
+				navigate('/usercard/' + userProp._id);
 			} else {
 				dispatch(register(values));
 				navigate('/users');
@@ -136,50 +148,54 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 						{formik.errors.telephonnumber}
 					</FormErrorMessage>
 				</FormControl>
-				<FormControl isInvalid={!!(formik.errors.password && formik.touched.password)} mt={'1rem'}>
-					<FormLabel htmlFor='passwordInput'>Contraseña</FormLabel>
-					<InputGroup size='md'>
-						<Input
-							id='passwordInput'
-							name='password'
-							pr='4.5rem'
-							type={show ? 'text' : 'password'}
-							placeholder='Enter password'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.password}
-						/>
-						<InputRightElement width='4.5rem'>
-							<Button h='1.75rem' size='sm' onClick={handleClick}>
-								{show ? eyeClosedIcon : eyeOpenIcon}
-							</Button>
-						</InputRightElement>
-					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>
-						{formik.errors.password}
-					</FormErrorMessage>
-				</FormControl>
-				<FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)} mt={'2rem'}>
-					<InputGroup size='md'>
-						<Input
-							name='confirmPassword'
-							pr='4.5rem'
-							type={show ? 'text' : 'password'}
-							placeholder='Confirma la contraseña'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.confirmPassword}
-						/>
-						<InputRightElement width='4.5rem'>
-							<Button h='1.75rem' size='sm' onClick={handleClick}>
-								{show ? eyeClosedIcon : eyeOpenIcon}
-							</Button>
-						</InputRightElement>
-					</InputGroup>
-					<FormErrorMessage position={'absolute'} right={'0'}>
-						{formik.errors.confirmPassword}
-					</FormErrorMessage>
-				</FormControl>
+				{!userProp && (
+					<>
+						<FormControl isInvalid={!!(formik.errors.password && formik.touched.password)} mt={'1rem'}>
+							<FormLabel htmlFor='passwordInput'>Contraseña</FormLabel>
+							<InputGroup size='md'>
+								<Input
+									id='passwordInput'
+									name='password'
+									pr='4.5rem'
+									type={show ? 'text' : 'password'}
+									placeholder='Enter password'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.password}
+								/>
+								<InputRightElement width='4.5rem'>
+									<Button h='1.75rem' size='sm' onClick={handleClick}>
+										{show ? eyeClosedIcon : eyeOpenIcon}
+									</Button>
+								</InputRightElement>
+							</InputGroup>
+							<FormErrorMessage position={'absolute'} right={'0'}>
+								{formik.errors.password}
+							</FormErrorMessage>
+						</FormControl>
+						<FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)} mt={'2rem'}>
+							<InputGroup size='md'>
+								<Input
+									name='confirmPassword'
+									pr='4.5rem'
+									type={show ? 'text' : 'password'}
+									placeholder='Confirma la contraseña'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.confirmPassword}
+								/>
+								<InputRightElement width='4.5rem'>
+									<Button h='1.75rem' size='sm' onClick={handleClick}>
+										{show ? eyeClosedIcon : eyeOpenIcon}
+									</Button>
+								</InputRightElement>
+							</InputGroup>
+							<FormErrorMessage position={'absolute'} right={'0'}>
+								{formik.errors.confirmPassword}
+							</FormErrorMessage>
+						</FormControl>
+					</>
+				)}
 				<FormControl isInvalid={!!(formik.errors.birthday && formik.touched.birthday)} mt={'1rem'}>
 					<FormLabel htmlFor='birthdayInput'>Fecha de nacimiento</FormLabel>
 					<InputGroup>
@@ -195,6 +211,23 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 					<FormErrorMessage position={'absolute'} right={'0'}>
 						{!!formik.errors.birthday}
 					</FormErrorMessage>
+				</FormControl>
+				<FormControl isInvalid={!!(formik.errors.role && formik.touched.role)} mt={'1rem'}>
+					<FormLabel htmlFor='identificatorInput'>Identificador de grupo</FormLabel>
+					<Select
+						id='roleInput'
+						name='role'
+						placeholder='Selecciona un rol'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.role}
+					>
+						{roleOptions.map((role) => (
+							<option key={role} value={role}>
+								{role}
+							</option>
+						))}
+					</Select>
 				</FormControl>
 				<Button mt={'2rem'} size={'lg'} width={'full'} type='submit'>
 					{userProp ? 'Actualizar usuario' : 'Registrar'}

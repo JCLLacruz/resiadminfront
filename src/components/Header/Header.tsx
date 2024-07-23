@@ -50,6 +50,7 @@ const Footer: FC = () => {
 			justifyContent={'space-between'}
 			zIndex={1000}
 		>
+			<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
 			<Box
 				height={'3rem'}
 				width={'3rem'}
@@ -62,6 +63,8 @@ const Footer: FC = () => {
 				onClick={() => navigate('/usercard/' + currentUser._id)}
 			>
 				{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+			</Box>
+			{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
 			</Box>
 			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
 				{switchOffIcon}

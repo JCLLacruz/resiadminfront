@@ -30,6 +30,15 @@ const getUserById = async (id: string) => {
     });
     return res.data;
 };
+const getAllUsers = async () => {
+    const token = localStorage.getItem('token');
+    const res: any = await axios.get(API_URL + '/' , {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return res.data;
+};
 const deleteUser = async (id: string) => {
     const token = localStorage.getItem('token');
     const res: any = await axios.delete(API_URL + '/id/' + id, {
@@ -88,6 +97,7 @@ const authService = {
     register,
     updateUser,
     getUserById,
+    getAllUsers,
     deleteUser,
     logoutUser,
     uploadImageUser,

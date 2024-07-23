@@ -17,6 +17,10 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 
 	const [allImages, setAllImages] = useState<ImageData[]>([]);
 
+	console.log(imagesUserState);
+	console.log('all', allImages);
+	
+
 	useEffect(() => {
 		if (images === 'resident') {
 			setAllImages(imagesResidentState);
@@ -36,7 +40,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 
 	return (
 		<Box>
-			{residentImage == null || userImage == null ? (
+			{allImages.length === 0 ? (
 				<Text>No hay imágenes</Text>
 			) : (
 				<>

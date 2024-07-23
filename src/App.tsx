@@ -13,6 +13,7 @@ import SessionForm from './components/SessionForm/SessionForm';
 import ActivityForm from './components/ActivityForm/ActivityForm';
 import UserCard from './components/UserCard/UserCard';
 import UserForm from './components/UserForm/UserForm';
+import Users from './views/Users/Users';
 
 function App() {
 	const location: any = useLocation();
@@ -24,6 +25,7 @@ function App() {
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
 				<Route path='/activities' element={<Activities />} />;
+				<Route path='/users' element={<Users />} />;
 				<Route path='/sessions/:_id' element={<Sessions />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;

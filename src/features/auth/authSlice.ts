@@ -58,6 +58,14 @@ export const getUserById = createAsyncThunk('auth/getUserById', async (id: strin
         return thunkAPI.rejectWithValue(errorMessage);
     }
 });
+export const getAllUsers = createAsyncThunk('auth/getAllUsers', async (_, thunkAPI: any) => {
+    try {
+        return await authService.getAllUsers();
+    } catch (error: any) {
+        const errorMessage: string = error.response.data.msg;
+        return thunkAPI.rejectWithValue(errorMessage);
+    }
+});
 export const deleteUser = createAsyncThunk('auth/deleteUser', async (id: string, thunkAPI: any) => {
     try {
         return await authService.deleteUser(id);
@@ -105,11 +113,18 @@ const authSlice = createSlice({
 			state.image = null;
 			state.images = [];
 			state.token = null;
-			state.isLoading = true;
+			state.isLoading = false;
 			state.isSuccess = false;
 			state.isError = false;
 			state.error = null;
 			state.msg = null;
+		},
+		resetError: (state: any) => {
+			state.isError = false;
+			state.error = null;
+		},
+		resetSuccess: (state: any) => {
+			state.isSuccess = false;
 		},
 	},
 	extraReducers: (builder: any) => {
@@ -119,10 +134,12 @@ const authSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.isError = true;
 				state.isLoading = false;
+				state.isSuccess = false;
 			})
 			.addCase(login.pending, (state: any) => {
 				state.isError = false;
 				state.isLoading = true;
+				state.isSuccess = false;
 			})
 			.addCase(login.fulfilled, (state: any, action: any) => {
 				state.currentUser = action.payload.user;
@@ -139,6 +156,7 @@ const authSlice = createSlice({
 				state.token = action.payload.token;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
+				state.isSuccess = true;
 			})
 			.addCase(getUserById.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -181,6 +199,21 @@ const authSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.loading = false;
 			})
+			.addCase(getAllUsers.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(getAllUsers.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(getAllUsers.fulfilled, (state: any, action: any) => {
+				state.users = action.payload.users;
+				state.msg = action.payload.msg;
+				state.loading = false;
+			})
 			.addCase(deleteUser.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
 				state.msg = action.payload.msg;
@@ -207,6 +240,21 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(register.fulfilled, (state: any, action: any) => {
+				state.user = action.payload.user;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+			})
+			.addCase(updateUser.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(updateUser.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(updateUser.fulfilled, (state: any, action: any) => {
 				state.user = action.payload.user;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
@@ -254,6 +302,8 @@ const authSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(deleteImageUser.fulfilled, (state: any, action: any) => {
+				state.images = action.payload.images;
+				state.image = null;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				state.imagesIsLoading = false;
@@ -262,6 +312,6 @@ const authSlice = createSlice({
 	},
 });
 
-export const {reset} = authSlice.actions;
+export const {reset, resetError, resetSuccess} = authSlice.actions;
 
 export default authSlice.reducer;
