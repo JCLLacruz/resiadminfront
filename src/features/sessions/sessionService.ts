@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL: string = 'http://localhost:3001/sessions';
+const API_URL: string = 'https://serverresiadmin.onrender.com/sessions';
 
 const getAllSessions = async () => {
     const token = localStorage.getItem('token');
