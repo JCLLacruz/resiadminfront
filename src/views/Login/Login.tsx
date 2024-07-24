@@ -21,13 +21,17 @@ import { LoginValues } from '../../interfaces/authInterfaces';
 import { AppDispatch } from '../../app/store';
 
 const Login: FC = () => {
-	const { isError, isSuccess, msg } = useSelector((state: any) => state.auth || {});
+	const { isError, isSuccess, msg, currentUser} = useSelector((state: any) => state.auth || {});
 	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
+	console.log('isError', isError);
+	console.log('isSuccess', isSuccess);
+	
+	
 	useEffect(() => {
 		if (isError) {
 			toast({
@@ -50,7 +54,7 @@ const Login: FC = () => {
 			dispatch(resetSuccess());
 			navigate('/activities');
 		}
-	}, [isError, isSuccess, msg, toast, dispatch, navigate]);
+	}, [currentUser, isError, isSuccess, msg, toast, dispatch, navigate]);
 	const formik = useFormik<LoginValues>({
 		initialValues: {
 			email: '',
@@ -63,9 +67,6 @@ const Login: FC = () => {
 		onSubmit: (values) => {
 			dispatch(login(values));
 			formik.resetForm();
-			setTimeout(() => {
-				navigate('/activities');
-			}, 2000);
 		},
 	});
 

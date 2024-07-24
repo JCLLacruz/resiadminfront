@@ -129,20 +129,21 @@ const authSlice = createSlice({
 	},
 	extraReducers: (builder: any) => {
 		builder
-			.addCase(login.rejected, (state: any, action: any) => {
-				state.error = action.payload.error;
-				state.msg = action.payload.msg;
-				state.isError = true;
-				state.isLoading = false;
-				state.isSuccess = false;
-			})
 			.addCase(login.pending, (state: any) => {
-				state.isError = false;
 				state.isLoading = true;
+				state.isError = false;
 				state.isSuccess = false;
+				state.msg = null;
+				state.error = null;
 			})
 			.addCase(login.fulfilled, (state: any, action: any) => {
 				state.currentUser = action.payload.user;
+				state.isSuccess = true;
+				state.token = action.payload.token;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+				console.log('action.payload', action.payload.user.images);
+				
 				if (action.payload.user.images.length > 0) {
 					const srcImages = action.payload.user.images.map((image: any) => {						
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
@@ -153,10 +154,13 @@ const authSlice = createSlice({
 					state.images = [];
 					state.image = null;
 				}
-				state.token = action.payload.token;
+			})
+			.addCase(login.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
 				state.msg = action.payload.msg;
+				state.isError = true;
 				state.isLoading = false;
-				state.isSuccess = true;
+				state.isSuccess = false;
 			})
 			.addCase(getUserById.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
