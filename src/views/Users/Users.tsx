@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image, Input, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../features/auth/authSlice';
@@ -6,6 +6,7 @@ import { AppDispatch } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 import { roleOptions } from '../../utils/formOptions';
+import { getImageSrc } from '../../utils/functions';
 
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,7 @@ const Users: FC = () => {
 		setSearchTerm(e.target.value);
 	};
 
-    const roleFilter = (role: string) => {
+	const roleFilter = (role: string) => {
 		setFilteredUsers(users.filter((user: any) => user.role === role));
 	};
 
@@ -46,10 +47,12 @@ const Users: FC = () => {
 				Empleados
 			</Heading>
 			<Input placeholder='Buscar usuario' mb={'1rem'} value={searchTerm} onChange={handleChange} />
-            <Box display={'flex'} mb={'1rem'} gap={'1rem'}>
+			<Box display={'flex'} mb={'1rem'} gap={'1rem'}>
 				<Button onClick={() => setFilteredUsers(users)}>Todos</Button>
 				{roleOptions.map((role, i) => (
-					<Button key={i + role} onClick={() => roleFilter(role)}>{role}</Button>
+					<Button key={i + role} onClick={() => roleFilter(role)}>
+						{role}
+					</Button>
 				))}
 			</Box>
 			<Container
@@ -66,9 +69,11 @@ const Users: FC = () => {
 						key={`user_${user._id}`}
 						display={'flex'}
 						flexDirection={'column'}
-						width={'400px'}
+						gap={'1rem'}
+						width={'300px'}
+						height={'300px'}
 						justifyContent={'space-between'}
-						alignItems={'start'}
+						alignItems={'center'}
 						borderWidth='1px'
 						borderRadius='lg'
 						overflow='hidden'
@@ -78,10 +83,15 @@ const Users: FC = () => {
 						paddingY={'1rem'}
 						onClick={() => handleClick(user._id)}
 					>
+						<Heading>
+							{user.firstname} {user.lastname}
+						</Heading>
+						{user.images.length > 0 && (
+							<Box width={'8rem'} height={'8rem'}>
+								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)} cursor={'pointer'} />
+							</Box>
+						)}
 						<Box>
-							<Heading>
-								{user.firstname} {user.lastname}
-							</Heading>
 							<Text fontSize={'rem'} color={'brand.500'} mb={'0.5rem'}>
 								Rol: {user.role}
 							</Text>

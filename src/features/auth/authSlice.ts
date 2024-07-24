@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
 import { initialStateAuthSliceInterface, LoginValues, RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
-
-const getImageSrc = (data: ArrayBuffer, contentType: string) => {
-	const base64String = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-	return `data:${contentType};base64,${base64String}`;
-};
+import { getImageSrc } from '../../utils/functions';
 
 const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 const token: string = localStorage.getItem('token') || '';
