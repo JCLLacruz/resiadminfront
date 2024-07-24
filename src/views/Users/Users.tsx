@@ -71,7 +71,7 @@ const Users: FC = () => {
 						flexDirection={'column'}
 						gap={'1rem'}
 						width={'400px'}
-						height={'400px'}
+						height={'450px'}
 						justifyContent={'space-between'}
 						alignItems={'center'}
 						borderWidth='1px'

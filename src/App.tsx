@@ -19,10 +19,12 @@ import RecoverPassword from './views/RecoverPassword/RecoverPassword';
 
 function App() {
 	const location: any = useLocation();
+	console.log(location.pathname);
+	
 
 	return (
 		<>
-			{location.pathname != '/' || location.pathname != '/recoverPassword' || location.pathname != '/users/resetPassword/:recovertoken' && <Header />}
+			{location.pathname !== '/' && location.pathname !== '/recoverpassword' && location.pathname !== '/users/resetPassword/:recovertoken' && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
@@ -39,7 +41,7 @@ function App() {
 				<Route path='/recoverpassword' element={<RecoverPassword />} />;
 				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>
-			{location.pathname != '/' || location.pathname != '/recoverPassword' || location.pathname != '/users/resetPassword/:recovertoken' && <Footer />}
+			{location.pathname !== '/' && location.pathname !== '/recoverpassword' && location.pathname !== '/users/resetPassword/:recovertoken' && <Footer />}
 		</>
 	);
 }
