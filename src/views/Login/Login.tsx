@@ -8,7 +8,6 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
-	Link,
 	Text,
 	useToast,
 } from '@chakra-ui/react';
@@ -113,6 +112,7 @@ const Login: FC = () => {
 				Login
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
+				<Box>
 				<FormControl id='email' isInvalid={!!formik.errors.email && formik.touched.email}>
 					<InputGroup>
 						<Input
@@ -148,13 +148,14 @@ const Login: FC = () => {
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
 				</FormControl>
+				</Box>
 				<Button mt={4} type='submit' isDisabled={isDisabled}>
 					Login
 				</Button>
 			</form>
-			<Text mt={4} textAlign='center'>
-				Has olvidado tu contraseña? <Link href='#'>haz click aquí</Link>
-			</Text>
+			<Box mt={4} textAlign='center'>
+				Has olvidado tu contraseña? <Text color={'brand.500'} onClick={()=>navigate('/recoverpassword')}>haz click aquí</Text>
+			</Box>
 			<Box display={'flex'} justifyContent={'center'} marginTop={'5rem'}>
 				<Button onClick={handleStatusServer} isDisabled={serverButtonDisabled} isLoading={loadingServer}>
 					Conectar servidor
