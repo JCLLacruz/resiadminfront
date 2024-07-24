@@ -31,18 +31,19 @@ const Activities: FC = () => {
 	};
 
 	return (
-		<Container maxW='container.sm'>
+		<Container maxW='container.sm' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Actividades
 			</Heading>
 			<Input placeholder='Buscar actividad' mb={'2rem'} value={searchTerm} onChange={handleChange} />
+			<Container key={'residentContainerFilter'} maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
 			{filteredActivities.map((activity: ActivityInterface) => (
 				<Box
-        key={activity._id}
+					key={activity._id}
 					borderWidth='1px'
 					borderRadius='lg'
 					overflow='hidden'
-					maxW='sm'
+					width={'400px'}
 					boxShadow='md'
 					paddingX={'2rem'}
 					paddingY={'1rem'}
@@ -55,6 +56,7 @@ const Activities: FC = () => {
 					<Text>{activity.description}</Text>
 				</Box>
 			))}
+		</Container>
 		</Container>
 	);
 };

@@ -39,7 +39,7 @@ const Residents: FC = () => {
 	};
 
 	return (
-		<Container maxW='container.xl'>
+		<Container maxW='container.xl' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Residentes
 			</Heading>

@@ -42,7 +42,7 @@ const Users: FC = () => {
 	};
 
 	return (
-		<Container maxW='container.xl'>
+		<Container maxW='container.xl' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Empleados
 			</Heading>
@@ -70,8 +70,8 @@ const Users: FC = () => {
 						display={'flex'}
 						flexDirection={'column'}
 						gap={'1rem'}
-						width={'300px'}
-						height={'300px'}
+						width={'400px'}
+						height={'400px'}
 						justifyContent={'space-between'}
 						alignItems={'center'}
 						borderWidth='1px'
@@ -87,7 +87,7 @@ const Users: FC = () => {
 							{user.firstname} {user.lastname}
 						</Heading>
 						{user.images.length > 0 && (
-							<Box width={'8rem'} height={'8rem'}>
+							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
 								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)} cursor={'pointer'} />
 							</Box>
 						)}

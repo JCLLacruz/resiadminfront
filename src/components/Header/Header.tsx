@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { getImageSrc } from '../../utils/functions';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -14,10 +15,10 @@ const Footer: FC = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (images.length > 0) {
-			setImageSrc(images[images.length - 1].src);
+		if (currentUser.images.length > 0) {
+			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
 		}
-	}, [images, image]);
+	}, [images, image, currentUser]);
 
 	useEffect(() => {
 		if (images.length > 0) {
