@@ -24,7 +24,7 @@ const ResetPassword: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
     const {recovertoken} = useParams();
-    const {isLoading, isError, isSuccess} = useSelector((state: any) => state.auth || {});
+    const { isError, isSuccess} = useSelector((state: any) => state.auth || {});
     const [show, setShow] = useState<boolean>(false);
     const toast = useToast();
     const handleClick = () => setShow(!show);
@@ -119,7 +119,7 @@ const ResetPassword: FC = () => {
 								{formik.errors.confirmPassword}
 							</FormErrorMessage>
 						</FormControl>
-				<Button mt={4} type='submit' isLoading={isLoading}>
+				<Button mt={4} type='submit' >
 					Cambiar contraseña
 				</Button>
 			</form>
