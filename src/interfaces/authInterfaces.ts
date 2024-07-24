@@ -54,3 +54,11 @@ export interface initialStateAuthSliceInterface {
     error: string | null,
     msg: string | null,
 }
+
+export interface resetPasswordValues {
+	password: string;
+	confirmPassword: string;
+}
+export interface recoverPasswordValues {
+	email: string;
+}

@@ -14,13 +14,15 @@ import ActivityForm from './components/ActivityForm/ActivityForm';
 import UserCard from './components/UserCard/UserCard';
 import UserForm from './components/UserForm/UserForm';
 import Users from './views/Users/Users';
+import ResetPassword from './views/ResetPassword/ResetPassword';
+import RecoverPassword from './views/RecoverPassword/RecoverPassword';
 
 function App() {
 	const location: any = useLocation();
 
 	return (
 		<>
-			{location.pathname != '/' && <Header />}
+			{location.pathname != '/' || location.pathname != '/recoverPassword' || location.pathname != '/users/resetPassword/:recovertoken' && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
@@ -34,8 +36,10 @@ function App() {
 				<Route path='/sessionform' element={<SessionForm />} />;
 				<Route path='/activityform' element={<ActivityForm />} />;
 				<Route path='/userform' element={<UserForm />} />;
+				<Route path='/recoverpassword' element={<RecoverPassword />} />;
+				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>
-			{location.pathname != '/' && <Footer />}
+			{location.pathname != '/' || location.pathname != '/recoverPassword' || location.pathname != '/users/resetPassword/:recovertoken' && <Footer />}
 		</>
 	);
 }

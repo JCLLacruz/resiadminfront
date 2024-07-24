@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
-import { initialStateAuthSliceInterface, LoginValues, RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
+import { initialStateAuthSliceInterface, LoginValues, RegisterValues, resetPasswordValues, UserInterface } from '../../interfaces/authInterfaces';
 import { getImageSrc } from '../../utils/functions';
 
 const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
@@ -12,7 +12,7 @@ const initialState: initialStateAuthSliceInterface = {
 	users: [],
 	images: [],
 	image: null,
-	imagesIsLoading : false,
+	imagesIsLoading: false,
 	token,
 	isLoading: false,
 	isSuccess: false,
@@ -22,53 +22,53 @@ const initialState: initialStateAuthSliceInterface = {
 };
 
 export const login = createAsyncThunk('auth/login', async (user: LoginValues, thunkAPI: any) => {
-    try {
-        return await authService.login(user);
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await authService.login(user);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 
 export const register = createAsyncThunk('auth/register', async (user: RegisterValues, thunkAPI: any) => {
-    try {
-        return await authService.register(user);
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await authService.register(user);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
-export const updateUser = createAsyncThunk('auth/updateUser', async ({user, id}: {user: RegisterValues; id: string}, thunkAPI: any) => {
-    try {
-        return await authService.updateUser(user, id);
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+export const updateUser = createAsyncThunk('auth/updateUser', async ({ user, id }: { user: RegisterValues; id: string }, thunkAPI: any) => {
+	try {
+		return await authService.updateUser(user, id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 export const getUserById = createAsyncThunk('auth/getUserById', async (id: string, thunkAPI: any) => {
-    try {
-        return await authService.getUserById(id);
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await authService.getUserById(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 export const getAllUsers = createAsyncThunk('auth/getAllUsers', async (_, thunkAPI: any) => {
-    try {
-        return await authService.getAllUsers();
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await authService.getAllUsers();
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 export const deleteUser = createAsyncThunk('auth/deleteUser', async (id: string, thunkAPI: any) => {
-    try {
-        return await authService.deleteUser(id);
-    } catch (error: any) {
-        const errorMessage: string = error.response.data.msg;
-        return thunkAPI.rejectWithValue(errorMessage);
-    }
+	try {
+		return await authService.deleteUser(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
 });
 
 export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI: any) => {
@@ -79,6 +79,25 @@ export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI: an
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const recoverPassword = createAsyncThunk('auth/recoverPassword', async (email: string, thunkAPI: any) => {
+	try {
+		return await authService.recoverPassword(email);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const resetPassword = createAsyncThunk(
+	'auth/resetPassword',
+	async ({ password, recoverToken }: { password: resetPasswordValues; recoverToken: string }, thunkAPI: any) => {
+		try {
+			return await authService.resetPassword(password, recoverToken);
+		} catch (error: any) {
+			const errorMessage: string = error.response.data.msg;
+			return thunkAPI.rejectWithValue(errorMessage);
+		}
+	}
+);
 export const uploadImageUser = createAsyncThunk('residents/uploadImageUser', async (image: any, thunkAPI: any) => {
 	try {
 		return await authService.uploadImageUser(image);
@@ -139,13 +158,16 @@ const authSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				console.log('action.payload', action.payload.user.images);
-				
+
 				if (action.payload.user.images.length > 0) {
-					const srcImages = action.payload.user.images.map((image: any) => {						
+					const srcImages = action.payload.user.images.map((image: any) => {
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
 					state.images = srcImages;
-					state.image = {src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType), _id: action.payload.user.images[0]._id};
+					state.image = {
+						src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType),
+						_id: action.payload.user.images[0]._id,
+					};
 				} else {
 					state.images = [];
 					state.image = null;
@@ -174,11 +196,14 @@ const authSlice = createSlice({
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				if (action.payload.user.images.length > 0) {
-					const srcImages = action.payload.user.images.map((image: any) => {						
+					const srcImages = action.payload.user.images.map((image: any) => {
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
 					state.images = srcImages;
-					state.image = {src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType), _id: action.payload.user.images[0]._id};
+					state.image = {
+						src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType),
+						_id: action.payload.user.images[0]._id,
+					};
 				} else {
 					state.images = [];
 					state.image = null;
@@ -196,6 +221,34 @@ const authSlice = createSlice({
 			})
 			.addCase(logoutUser.fulfilled, (state: any, action: any) => {
 				state.user = [];
+				state.msg = action.payload.msg;
+				state.loading = false;
+			})
+			.addCase(recoverPassword.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(recoverPassword.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(recoverPassword.fulfilled, (state: any, action: any) => {
+				state.msg = action.payload.msg;
+				state.loading = false;
+			})
+			.addCase(resetPassword.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+			})
+			.addCase(resetPassword.pending, (state: any) => {
+				state.isError = false;
+				state.isLoading = true;
+			})
+			.addCase(resetPassword.fulfilled, (state: any, action: any) => {
 				state.msg = action.payload.msg;
 				state.loading = false;
 			})
@@ -274,7 +327,7 @@ const authSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(uploadImageUser.fulfilled, (state: any, action: any) => {
-				if(action.payload.image){
+				if (action.payload.image) {
 					const image = {
 						src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
 						_id: action.payload.image._id,
@@ -308,10 +361,10 @@ const authSlice = createSlice({
 				state.isLoading = false;
 				state.imagesIsLoading = false;
 				state.isSuccess = true;
-			})
+			});
 	},
 });
 
-export const {reset, resetError, resetSuccess} = authSlice.actions;
+export const { reset, resetError, resetSuccess } = authSlice.actions;
 
 export default authSlice.reducer;
