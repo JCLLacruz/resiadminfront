@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	Container,
 	FormControl,
@@ -19,19 +20,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, resetError, resetSuccess } from '../../features/auth/authSlice';
 import { LoginValues } from '../../interfaces/authInterfaces';
 import { AppDispatch } from '../../app/store';
+import { serverStatus } from '../../features/server/serverSlice';
 
 const Login: FC = () => {
-	const { isError, isSuccess, msg, currentUser} = useSelector((state: any) => state.auth || {});
+	const { isError, isSuccess, msg, currentUser } = useSelector((state: any) => state.auth || {});
+	const {
+		isError: errorServer,
+		isSuccess: successServer,
+		isLoading: loadingServer,
+		msg: msgServer,
+	} = useSelector((state: any) => state.server || {});
 	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
-	const handleClick = () => setShow(!show);
+	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [serverButtonDisabled, setServerButtonDisabled] = useState<boolean>(false);
+
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
-	console.log('isError', isError);
-	console.log('isSuccess', isSuccess);
-	
-	
 	useEffect(() => {
 		if (isError) {
 			toast({
@@ -55,6 +61,37 @@ const Login: FC = () => {
 			navigate('/activities');
 		}
 	}, [currentUser, isError, isSuccess, msg, toast, dispatch, navigate]);
+
+	useEffect(() => {
+		if (errorServer) {
+			toast({
+				title: 'Ha ocurrido un error',
+				description: 'Por favor, intenta de nuevo',
+				status: 'error',
+				duration: 6000,
+				isClosable: true,
+			});
+			dispatch(resetError());
+		}
+		if (successServer) {
+			toast({
+				title: 'Servidor conectado',
+				description: 'El servidor se ha conectado correctamente',
+				status: 'success',
+				duration: 6000,
+				isClosable: true,
+			});
+			setIsDisabled(false);
+			setServerButtonDisabled(true);
+		}
+	}, [errorServer, successServer, msgServer, dispatch]);
+
+	const handleClick = () => setShow(!show);
+
+	const handleStatusServer = () => {
+		dispatch(serverStatus());
+	};
+
 	const formik = useFormik<LoginValues>({
 		initialValues: {
 			email: '',
@@ -85,6 +122,7 @@ const Login: FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.email}
+							isDisabled={isDisabled}
 						/>
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
@@ -100,20 +138,28 @@ const Login: FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.password}
+							isDisabled={isDisabled}
 						/>
 						<InputRightElement width='4.5rem'>
-							<Button onClick={handleClick}>{show ? 'Hide' : 'Show'}</Button>
+							<Button onClick={handleClick} isDisabled={isDisabled}>
+								{show ? 'Hide' : 'Show'}
+							</Button>
 						</InputRightElement>
 					</InputGroup>
 					<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
 				</FormControl>
-				<Button mt={4} type='submit'>
+				<Button mt={4} type='submit' isDisabled={isDisabled}>
 					Login
 				</Button>
 			</form>
 			<Text mt={4} textAlign='center'>
 				Has olvidado tu contraseña? <Link href='#'>haz click aquí</Link>
 			</Text>
+			<Box display={'flex'} justifyContent={'center'} marginTop={'5rem'}>
+				<Button onClick={handleStatusServer} isDisabled={serverButtonDisabled} isLoading={loadingServer}>
+					Conectar servidor
+				</Button>
+			</Box>
 		</Container>
 	);
 };

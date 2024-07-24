@@ -3,6 +3,7 @@ import auth from '../features/auth/authSlice'
 import activity from '../features/activities/activitySlice'
 import resident from '../features/residents/residentSlice'
 import session from '../features/sessions/sessionSlice'
+import server from '../features/server/serverSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     activity,
     resident,
     session,
+    server,
   },
 })
 
