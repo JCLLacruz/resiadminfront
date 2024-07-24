@@ -83,7 +83,7 @@ const uploadImageUser = async (image: any) => {
 };
 const deleteImageUser = async (imageId: string, id: string) => {
 	const token = localStorage.getItem('token');
-	const res = await axios.delete('http://localhost:3001/images/delete/' + imageId, {
+	const res = await axios.delete('https://serverresiadmin.onrender.com/images/delete/' + imageId, {
 		headers: {
 			Userid: id,
 			Authorization: token,
