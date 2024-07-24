@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -8,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: [ 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'ResiAdmin',
         short_name: 'ResiAdmin',
@@ -16,14 +15,19 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: 'public/icons/icon-192x192.svg',
+            src: 'icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/svg+xml'
+            type: 'image/png'
           },
           {
-            src: 'public/icons/icon-512x512.svg',
+            src: 'icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml'
+            type: 'image/png'
+          },
+          {
+            src: 'favicon.png',
+            sizes: '192x192',
+            type: 'image/png'
           }
         ]
       }
