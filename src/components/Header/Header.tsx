@@ -20,13 +20,6 @@ const Footer: FC = () => {
 		}
 	}, [images, image, currentUser]);
 
-	useEffect(() => {
-		if (images.length > 0) {
-			setImageSrc(images[images.length - 1].src);
-		} else {
-			setImageSrc(image?.src);
-		}
-	}, [image]);
 
 	const logout = () => {
 		setIsVisible(false);
