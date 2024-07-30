@@ -116,6 +116,36 @@ const theme = extendTheme({
 				},
 			},
 		},
+		Tag: {
+			baseStyle: {
+				fontWeight: 'bold',
+				borderRadius: 'base',
+			},
+			variants: {
+				solid: {
+					bg: 'brand.500',
+					color: 'brand.50',
+					_hover: {
+						bg: 'brand.600',
+					},
+				},
+				outline: {
+					bg: 'brand.50',
+					borderColor: 'brand.500',
+					color: 'brand.500',
+					_hover: {
+						bg: 'brand.50',
+					},
+				},
+				opac: {
+					bg: 'brand.50',
+					color: 'brand.500',
+					_hover: {
+						bg: 'brand.200',
+					},
+				},
+			},
+		},
 		Heading: {
 			baseStyle: {
 				fontWeight: 'bold',

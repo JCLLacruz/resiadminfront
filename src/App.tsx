@@ -16,6 +16,7 @@ import UserForm from './components/UserForm/UserForm';
 import Users from './views/Users/Users';
 import ResetPassword from './views/ResetPassword/ResetPassword';
 import RecoverPassword from './views/RecoverPassword/RecoverPassword';
+import AttendanceForm from './components/AttendanceForm/AttendanceForm';
 
 function App() {
 	const location: any = useLocation();
@@ -36,6 +37,7 @@ function App() {
 				<Route path='/sessionform' element={<SessionForm />} />;
 				<Route path='/activityform' element={<ActivityForm />} />;
 				<Route path='/userform' element={<UserForm />} />;
+				<Route path='/attendanceform' element={<AttendanceForm />} />;
 				<Route path='/recoverpassword' element={<RecoverPassword />} />;
 				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>

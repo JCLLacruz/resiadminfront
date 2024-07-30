@@ -37,8 +37,6 @@ const Login: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
-	console.log('disabled', isDisabled);
-
 	useEffect(() => {
 		if (isError) {
 			toast({

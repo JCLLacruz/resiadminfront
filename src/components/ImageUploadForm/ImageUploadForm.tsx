@@ -42,9 +42,7 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 				dispatch(uploadImageResident(formData));
 				dispatch(getResidentById(id));
 				!isLoading && setIsUploading(false);
-			} else if(type == 'user'){
-				console.log('user', values);
-				
+			} else if(type == 'user'){				
 				dispatch(uploadImageUser(formData));
 				dispatch(getUserById(id))
 			}

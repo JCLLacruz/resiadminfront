@@ -35,8 +35,6 @@ const serverSlice = createSlice({
 	extraReducers: (builder: any) => {
 		builder
 			.addCase(serverStatus.rejected, (state: any, action: any) => {
-                console.log(action.payload);
-                
 				state.error = action.payload.error;
 				state.msg = action.payload.msg;
 				state.isError = true;

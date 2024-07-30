@@ -15,9 +15,6 @@ const Footer: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
-	console.log('imageSrc', imageSrc);
-	
-
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
 			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));

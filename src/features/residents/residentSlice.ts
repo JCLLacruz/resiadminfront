@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import residentService from './residentService';
-import { initialStateResidentSliceInterface, residentValues } from '../../interfaces/residentInterfaces';
+import { attendanceValues, initialStateResidentSliceInterface, residentValues } from '../../interfaces/residentInterfaces';
 import { getImageSrc } from '../../utils/functions';
 
 const initialState: initialStateResidentSliceInterface = {
@@ -43,6 +43,14 @@ export const createResident = createAsyncThunk('residents/createResident', async
 export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: residentValues; id: string }, thunkAPI: any) => {
 	try {
 		return await residentService.updateResident(resident, id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
+export const updateAttendance = createAsyncThunk('residents/updateAttendance', async (attendance: attendanceValues, thunkAPI: any) => {
+	try {
+		return await residentService.updateAttendance(attendance);
 	} catch (error: any) {
 		const errorMessage: string = error.response.data.msg;
 		return thunkAPI.rejectWithValue(errorMessage);
@@ -190,6 +198,26 @@ const residentSlice = createSlice({
 			})
 			.addCase(updateResident.fulfilled, (state: any, action: any) => {
 				state.resident = action.payload.resident;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(updateAttendance.rejected, (state: any, action: any) => {
+				state.error = action.payload;
+				state.msg = action.payload;
+				state.isError = true;
+				state.isLoading = false;
+				state.imagesIsLoading = false;
+				state.isSuccess = false;
+			})
+			.addCase(updateAttendance.pending, (state: any) => {
+				state.isError = false;
+				state.isSuccess = false;
+				state.imagesIsLoading = true;
+				state.isLoading = true;
+			})
+			.addCase(updateAttendance.fulfilled, (state: any, action: any) => {
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				state.imagesIsLoading = false;

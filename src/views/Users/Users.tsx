@@ -14,7 +14,6 @@ const Users: FC = () => {
 	const { users } = useSelector((state: any) => state.auth || {});
 	const [filteredUsers, setFilteredUsers] = useState(users);
 	const [searchTerm, setSearchTerm] = useState('');
-	console.log('users', users);
 
 	useEffect(() => {
 		dispatch(getAllUsers());

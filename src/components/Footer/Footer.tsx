@@ -32,6 +32,9 @@ const Footer: FC = () => {
 			case 'userform':
 				navigate('/userform/');
 				break;
+			case 'attendanceform':
+				navigate('/attendanceform/');
+				break;
 			default:
 				break;
 		}
@@ -70,6 +73,9 @@ const Footer: FC = () => {
 					</MenuItem>
 					<MenuItem height={'4rem'} onClick={() => goTo('sessionform')}>
 						Nueva sesión
+					</MenuItem>
+					<MenuItem height={'4rem'} onClick={() => goTo('attendanceform')}>
+						Registrar asistencia
 					</MenuItem>
 				</MenuList>
 			</Menu>

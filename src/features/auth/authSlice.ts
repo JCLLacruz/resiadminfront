@@ -165,7 +165,6 @@ const authSlice = createSlice({
 				state.token = action.payload.token;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
-				console.log('action.payload', action.payload.user.images);
 
 				if (action.payload.user.images.length > 0) {
 					const srcImages = action.payload.user.images.map((image: any) => {
@@ -201,8 +200,6 @@ const authSlice = createSlice({
 				state.token = action.payload.token;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
-				console.log('action.payload', action.payload.user.images);
-
 				if (action.payload.user.images.length > 0) {
 					const srcImages = action.payload.user.images.map((image: any) => {
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };

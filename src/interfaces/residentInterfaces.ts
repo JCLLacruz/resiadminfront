@@ -62,3 +62,8 @@ export interface initialStateResidentSliceInterface {
 	group: { identificator: string; subdivision: string };
  }
 
+ export interface attendanceValues {
+	residentIds: string[];
+	date: string;
+ }
+

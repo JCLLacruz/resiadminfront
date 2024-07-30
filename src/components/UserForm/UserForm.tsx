@@ -30,14 +30,11 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 		role: '',
 		birthday: new Date(),
 	});
-	console.log(userProp);
 
 	useEffect(() => {
 		if (userProp) {
 			const { _id, connections, createdAt, CommentIds,  images, updatedAt, birthday, emailConfirmed, ...restUser } = userProp;
 			const birthdaySliced = birthday.slice(0, 10);
-			console.log(birthdaySliced);
-
 			setUser({ ...restUser, birthday: birthdaySliced, password: '', confirmPassword: '' });
 		}
 	}, [userProp, userState]);

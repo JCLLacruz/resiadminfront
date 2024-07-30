@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { attendanceValues } from '../../interfaces/residentInterfaces';
 
 const API_URL: string = 'http://localhost:3001/residents';
 
@@ -33,6 +34,15 @@ const createResident = async (resident: any) => {
 const updateResident = async (resident: any, id: string) => {
 	const token = localStorage.getItem('token');
 	const res: any = await axios.put(API_URL + '/id/' + id, resident, {
+		headers: {
+			Authorization: token,
+		},
+	});
+	return res.data;
+};
+const updateAttendance = async (attendance: attendanceValues) => {
+	const token = localStorage.getItem('token');
+	const res: any = await axios.put(API_URL + '/updateattendance', attendance, {
 		headers: {
 			Authorization: token,
 		},
@@ -76,6 +86,7 @@ const activityService = {
 	deleteResident,
 	uploadImageResident,
     deleteImageResident,
+	updateAttendance,
 };
 
 export default activityService;
