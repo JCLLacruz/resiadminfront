@@ -9,8 +9,8 @@ self.addEventListener('install', (event) => {
                     './',
                     './index.html',
                     './manifest.json',
-                    // './public/icon-192x192.svg',
-                    // './public/icon-512x512.svg',
+                    './public/icons/icon-192x192.svg',
+                    './public/icons/icon-512x512.svg',
                     // Add more resources here
                 ];
 

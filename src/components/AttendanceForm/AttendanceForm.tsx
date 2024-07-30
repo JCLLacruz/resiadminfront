@@ -48,7 +48,7 @@ const AttendanceForm: FC = () => {
 	const formik = useFormik<attendanceValues>({
 		initialValues: {
 			residentIds: [],
-			date: '',
+			date: new Date().toISOString().split('T')[0],
 		},
 		enableReinitialize: true,
 		validationSchema: Yup.object({
