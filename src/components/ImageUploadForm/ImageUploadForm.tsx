@@ -4,7 +4,7 @@ import { Box, Button, FormControl, FormLabel, Input, Image, Spinner } from '@cha
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { getResidentById, uploadImageResident } from '../../features/residents/residentSlice';
-import { getUserById, uploadImageUser } from '../../features/auth/authSlice';
+import { getUserById, updateCurrentUser, uploadImageUser } from '../../features/auth/authSlice';
 
 interface FormValues {
 	image: File | null;
@@ -19,10 +19,8 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [preview, setPreview] = useState<string | null>(null);
 	const { isLoading } = useSelector((state: any) => state.resident || {});
-	const [isUploading, setIsUploading] = useState(false);
-
-	console.log(type);
-	
+	const { currentUser } = useSelector((state: any) => state.auth || {});
+	const [isUploading, setIsUploading] = useState(false);	
 
 	const formik = useFormik<FormValues>({
 		initialValues: {
@@ -49,6 +47,9 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 				
 				dispatch(uploadImageUser(formData));
 				dispatch(getUserById(id))
+			}
+			if (currentUser._id == id) {
+				dispatch(updateCurrentUser(id))
 			}
 			formik.resetForm();
 		},

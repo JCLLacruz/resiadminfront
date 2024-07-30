@@ -197,35 +197,35 @@ const ResidentCard: FC = () => {
 				<Box display={'flex'} gap={'2rem'}>
 					<Box>
 						<Text fontSize='lg' mb={'1rem'}>
-							Información de contacto:
+            <strong>Información de contacto:</strong>
 						</Text>
 						<Text mb={'1rem'} paddingLeft={'1rem'}>
-							Email: {resident.email}
+            <strong>Email:</strong> {resident.email}
 						</Text>
 						<Text mb={'1rem'} paddingLeft={'1rem'}>
-							Teléfono: {resident.phoneNumber}
+            <strong>Teléfono:</strong> {resident.phoneNumber}
 						</Text>
-						<Text mb={'1rem'}>Dirección:</Text>
+						<Text mb={'1rem'}><strong>Dirección:</strong></Text>
 						<Text mb={'1rem'} paddingLeft={'1rem'}>
 							{resident.address.street}, {resident.address.yardnumber}, {resident.address.zipcode}, {resident.address.city},{' '}
 							{resident.address.country}
 						</Text>
-						<Text mb={'1rem'}>Cumpleaños: {new Date(resident.birthday).toLocaleDateString()}</Text>
+						<Text mb={'1rem'}><strong>Cumpleaños:</strong> {new Date(resident.birthday).toLocaleDateString()}</Text>
 					</Box>
 				</Box>
 				<Divider my={'2rem'} bg={'brand.600'} />
 				<Text fontSize='lg' mb={'1rem'}>
-					Información de emergencia:
+        <strong>Información de emergencia:</strong>
 				</Text>
 				<Text mb={'1rem'} paddingLeft={'1rem'}>
-					Contacto de emergencia: {resident.emergency.nameOfEmergencyContact}
+        <strong>Contacto de emergencia:</strong> {resident.emergency.nameOfEmergencyContact}
 				</Text>
 				<Text mb={'1rem'} paddingLeft={'1rem'}>
-					Teléfono de emergencia: {resident.emergency.phoneNumber}
+        <strong>Teléfono de emergencia:</strong> {resident.emergency.phoneNumber}
 				</Text>
 				<Divider my={'2rem'} bg={'brand.600'} />
 				<Text fontSize='lg' mb={'1rem'}>
-					Más información:
+        <strong>Más información:</strong>
 				</Text>
 				<Text mb={'1rem'} paddingLeft={'1rem'}>
 					{resident.moreinfo}

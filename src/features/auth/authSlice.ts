@@ -54,6 +54,14 @@ export const getUserById = createAsyncThunk('auth/getUserById', async (id: strin
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
+export const updateCurrentUser = createAsyncThunk('auth/updateCurrentUser', async (id: string, thunkAPI: any) => {
+	try {
+		return await authService.getUserById(id);
+	} catch (error: any) {
+		const errorMessage: string = error.response.data.msg;
+		return thunkAPI.rejectWithValue(errorMessage);
+	}
+});
 export const getAllUsers = createAsyncThunk('auth/getAllUsers', async (_, thunkAPI: any) => {
 	try {
 		return await authService.getAllUsers();
@@ -174,6 +182,42 @@ const authSlice = createSlice({
 				}
 			})
 			.addCase(login.rejected, (state: any, action: any) => {
+				state.error = action.payload.error;
+				state.msg = action.payload.msg;
+				state.isError = true;
+				state.isLoading = false;
+				state.isSuccess = false;
+			})
+			.addCase(updateCurrentUser.pending, (state: any) => {
+				state.isLoading = true;
+				state.isError = false;
+				state.isSuccess = false;
+				state.msg = null;
+				state.error = null;
+			})
+			.addCase(updateCurrentUser.fulfilled, (state: any, action: any) => {
+				state.currentUser = action.payload.user;
+				state.isSuccess = true;
+				state.token = action.payload.token;
+				state.msg = action.payload.msg;
+				state.isLoading = false;
+				console.log('action.payload', action.payload.user.images);
+
+				if (action.payload.user.images.length > 0) {
+					const srcImages = action.payload.user.images.map((image: any) => {
+						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+					});
+					state.images = srcImages;
+					state.image = {
+						src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType),
+						_id: action.payload.user.images[0]._id,
+					};
+				} else {
+					state.images = [];
+					state.image = null;
+				}
+			})
+			.addCase(updateCurrentUser.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
 				state.msg = action.payload.msg;
 				state.isError = true;
