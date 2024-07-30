@@ -28,6 +28,9 @@ const serverSlice = createSlice({
 			state.error = null;
 			state.msg = null;
 		},
+		resetSuccess: (state: any) => {
+			state.isSuccess = false;
+		}
 	},
 	extraReducers: (builder: any) => {
 		builder
@@ -53,6 +56,6 @@ const serverSlice = createSlice({
 	},
 });
 
-export const { reset } = serverSlice.actions;
+export const { reset, resetSuccess } = serverSlice.actions;
 
 export default serverSlice.reducer;

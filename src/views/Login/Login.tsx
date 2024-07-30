@@ -31,11 +31,13 @@ const Login: FC = () => {
 	} = useSelector((state: any) => state.server || {});
 	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [isDisabled, setIsDisabled] = useState<boolean>(successServer ? false : true);
 	const [serverButtonDisabled, setServerButtonDisabled] = useState<boolean>(false);
 
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+
+	console.log('disabled', isDisabled);
 
 	useEffect(() => {
 		if (isError) {
@@ -56,10 +58,10 @@ const Login: FC = () => {
 				duration: 6000,
 				isClosable: true,
 			});
-			dispatch(resetSuccess());
 			navigate('/activities');
+			dispatch(resetSuccess());
 		}
-	}, [currentUser, isError, isSuccess, msg, toast, dispatch, navigate]);
+	}, [currentUser, isError, isSuccess, msg, toast, dispatch]);
 
 	useEffect(() => {
 		if (errorServer) {
@@ -113,48 +115,51 @@ const Login: FC = () => {
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>
 				<Box>
-				<FormControl id='email' isInvalid={!!formik.errors.email && formik.touched.email}>
-					<InputGroup>
-						<Input
-							id='emailInput'
-							name='email'
-							placeholder='Your email'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.email}
-							isDisabled={isDisabled}
-						/>
-					</InputGroup>
-					<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-				</FormControl>
-				<FormControl id='password' isInvalid={!!formik.errors.password && formik.touched.password} mt={'1rem'}>
-					<InputGroup size='md'>
-						<Input
-							id='passwordInput'
-							name='password'
-							pr='4.5rem'
-							type={show ? 'text' : 'password'}
-							placeholder='Enter password'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.password}
-							isDisabled={isDisabled}
-						/>
-						<InputRightElement width='4.5rem'>
-							<Button onClick={handleClick} isDisabled={isDisabled}>
-								{show ? 'Hide' : 'Show'}
-							</Button>
-						</InputRightElement>
-					</InputGroup>
-					<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-				</FormControl>
+					<FormControl id='email' isInvalid={!!formik.errors.email && formik.touched.email}>
+						<InputGroup>
+							<Input
+								id='emailInput'
+								name='email'
+								placeholder='Your email'
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.email}
+								isDisabled={isDisabled}
+							/>
+						</InputGroup>
+						<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+					</FormControl>
+					<FormControl id='password' isInvalid={!!formik.errors.password && formik.touched.password} mt={'1rem'}>
+						<InputGroup size='md'>
+							<Input
+								id='passwordInput'
+								name='password'
+								pr='4.5rem'
+								type={show ? 'text' : 'password'}
+								placeholder='Enter password'
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.password}
+								isDisabled={isDisabled}
+							/>
+							<InputRightElement width='4.5rem'>
+								<Button onClick={handleClick} isDisabled={isDisabled}>
+									{show ? 'Hide' : 'Show'}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+						<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+					</FormControl>
 				</Box>
 				<Button mt={4} type='submit' isDisabled={isDisabled}>
 					Login
 				</Button>
 			</form>
 			<Box mt={4} textAlign='center'>
-				Has olvidado tu contraseña? <Text color={'brand.500'} onClick={()=>navigate('/recoverpassword')}>haz click aquí</Text>
+				Has olvidado tu contraseña?{' '}
+				<Text color={'brand.500'} onClick={() => navigate('/recoverpassword')}>
+					haz click aquí
+				</Text>
 			</Box>
 			<Box display={'flex'} justifyContent={'center'} marginTop={'5rem'}>
 				<Button onClick={handleStatusServer} isDisabled={serverButtonDisabled} isLoading={loadingServer}>

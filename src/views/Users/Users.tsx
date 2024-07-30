@@ -86,9 +86,13 @@ const Users: FC = () => {
 						<Heading>
 							{user.firstname} {user.lastname}
 						</Heading>
-						{user.images.length > 0 && (
+						{user.images.length > 0 ? (
 							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
 								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)} cursor={'pointer'} />
+							</Box>
+						) : (
+							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
+								<Image width={'100%'} height={'100%'} objectFit={'cover'} src='src/assets/images/no-profile-image.png' cursor={'pointer'} />
 							</Box>
 						)}
 						<Box>

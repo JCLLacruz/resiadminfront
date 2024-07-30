@@ -6,6 +6,7 @@ import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { getImageSrc } from '../../utils/functions';
+import { resetSuccess } from '../../features/server/serverSlice';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -20,11 +21,11 @@ const Footer: FC = () => {
 		}
 	}, [images, image, currentUser]);
 
-
 	const logout = () => {
 		setIsVisible(false);
 		dispatch(logoutUser());
-		reset();
+		dispatch(reset());
+		dispatch(resetSuccess());
 		navigate('/');
 	};
 
@@ -45,20 +46,20 @@ const Footer: FC = () => {
 			zIndex={1000}
 		>
 			<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
-			<Box
-				height={'3rem'}
-				width={'3rem'}
-				marginLeft={'1rem'}
-				backgroundColor={'brand.100'}
-				borderRadius={'50%'}
-				display={'flex'}
-				justifyContent={'center'}
-				alignItems={'center'}
-				onClick={() => navigate('/usercard/' + currentUser._id)}
-			>
-				{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
-			</Box>
-			{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
+				<Box
+					height={'3rem'}
+					width={'3rem'}
+					marginLeft={'1rem'}
+					backgroundColor={'brand.100'}
+					borderRadius={'50%'}
+					display={'flex'}
+					justifyContent={'center'}
+					alignItems={'center'}
+					onClick={() => navigate('/usercard/' + currentUser._id)}
+				>
+					{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+				</Box>
+				{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
 			</Box>
 			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
 				{switchOffIcon}

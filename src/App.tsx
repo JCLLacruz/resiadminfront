@@ -19,8 +19,6 @@ import RecoverPassword from './views/RecoverPassword/RecoverPassword';
 
 function App() {
 	const location: any = useLocation();
-	console.log(location.pathname);
-	
 
 	return (
 		<>
