@@ -28,6 +28,7 @@ import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import UserForm from '../UserForm/UserForm';
 import { ConnectionsInterface } from '../../interfaces/authInterfaces';
+import noProfileImage from '../../assets/images/no-profile-image.png';
 
 interface GroupedConnections {
 	month: string;
@@ -198,7 +199,7 @@ const UserCard: FC = () => {
 												width={'100%'}
 												height={'100%'}
 												objectFit={'cover'}
-												src='/src/assets/images/no-profile-image.png'
+												src={noProfileImage}
 												cursor={'pointer'}
 												onClick={() => {
 													setModalContent('upload');

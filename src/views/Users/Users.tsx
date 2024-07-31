@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 import { roleOptions } from '../../utils/formOptions';
 import { getImageSrc } from '../../utils/functions';
+import noProfileImage from '../../assets/images/no-profile-image.png';
+
 
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -91,7 +93,7 @@ const Users: FC = () => {
 							</Box>
 						) : (
 							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
-								<Image width={'100%'} height={'100%'} objectFit={'cover'} src='src/assets/images/no-profile-image.png' cursor={'pointer'} />
+								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={noProfileImage} cursor={'pointer'} />
 							</Box>
 						)}
 						<Box>
