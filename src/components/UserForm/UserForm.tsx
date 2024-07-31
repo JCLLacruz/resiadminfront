@@ -210,7 +210,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.role && formik.touched.role)} mt={'1rem'}>
-					<FormLabel htmlFor='identificatorInput'>Identificador de grupo</FormLabel>
+					<FormLabel htmlFor='identificatorInput'>Elige un rol</FormLabel>
 					<Select
 						id='roleInput'
 						name='role'

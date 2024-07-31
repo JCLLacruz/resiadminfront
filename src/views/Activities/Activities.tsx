@@ -31,32 +31,40 @@ const Activities: FC = () => {
 	};
 
 	return (
-		<Container maxW='container.sm' marginBottom={'7rem'}>
+		<Container maxW='container.xl' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'}>
 				Actividades
 			</Heading>
 			<Input placeholder='Buscar actividad' mb={'2rem'} value={searchTerm} onChange={handleChange} />
-			<Container key={'residentContainerFilter'} maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
-			{filteredActivities.map((activity: ActivityInterface) => (
-				<Box
-					key={activity._id}
-					borderWidth='1px'
-					borderRadius='lg'
-					overflow='hidden'
-					width={'400px'}
-					boxShadow='md'
-					paddingX={'2rem'}
-					paddingY={'1rem'}
-					marginBottom={'1rem'}
-					onClick={() => goTo(activity._id)}
-				>
-					<Heading as='h3' size='lg'>
-						{activity.title}
-					</Heading>
-					<Text>{activity.description}</Text>
-				</Box>
-			))}
-		</Container>
+			<Container
+				key={'activityContainerFilter'}
+				maxW='container.xl'
+				display={'flex'}
+				gap={'1rem'}
+				width={'100%'}
+				justifyContent={'center'}
+				flexWrap={'wrap'}
+			>
+				{filteredActivities.map((activity: ActivityInterface) => (
+					<Box
+						key={activity._id}
+						borderWidth='1px'
+						borderRadius='lg'
+						overflow='hidden'
+						width={'20rem'}
+						boxShadow='md'
+						paddingX={'2rem'}
+						paddingY={'1rem'}
+						marginBottom={'1rem'}
+						onClick={() => goTo(activity._id)}
+					>
+						<Heading as='h3' size='lg'>
+							{activity.title}
+						</Heading>
+						<Text>{activity.description}</Text>
+					</Box>
+				))}
+			</Container>
 		</Container>
 	);
 };

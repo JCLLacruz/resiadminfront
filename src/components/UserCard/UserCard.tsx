@@ -88,16 +88,10 @@ const UserCard: FC = () => {
 	useEffect(() => {
 		if (images.length > 0) {
 			setImageSrc(images[images.length - 1].src);
-		}
-	}, [images, image]);
-
-	useEffect(() => {
-		if (images.length > 0) {
-			setImageSrc(images[images.length - 1].src);
 		} else {
 			setImageSrc(image);
 		}
-	}, [image]);
+	}, [image, images]);
 
 	useEffect(() => {
 		if (user) {
