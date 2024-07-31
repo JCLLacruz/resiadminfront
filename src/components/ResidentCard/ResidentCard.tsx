@@ -71,7 +71,7 @@ const ResidentCard: FC = () => {
 
 	return (
 		<>
-			<Container maxW='container.xl' paddingBottom={'10rem'} overflowY={'auto'}>
+			<Container maxW='container.md' paddingBottom={'10rem'} overflowY={'auto'}>
 				<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
 					<Button
 						onClick={() => {

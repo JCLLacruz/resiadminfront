@@ -1,4 +1,4 @@
-import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { closeIcon, switchOffIcon, userIcon } from '../../assets/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { getImageSrc } from '../../utils/functions';
 import { resetSuccess } from '../../features/server/serverSlice';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -14,12 +15,17 @@ const Footer: FC = () => {
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
+	const isMobile = useWindowSize();	
 
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
 			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
 		}
 	}, [images, image, currentUser]);
+
+	useEffect(()=>{
+		isMobile ? navigate('/activities') : navigate('/adminpanel');
+	},[useWindowSize, isMobile])
 
 	const logout = () => {
 		setIsVisible(false);
@@ -45,6 +51,7 @@ const Footer: FC = () => {
 			justifyContent={'space-between'}
 			zIndex={1000}
 		>
+			{isMobile ? (
 			<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
 				<Box
 					height={'3rem'}
@@ -61,9 +68,12 @@ const Footer: FC = () => {
 				</Box>
 				{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
 			</Box>
+			) : <Heading cursor={'pointer'} onClick={()=> navigate('/adminpanel')} marginLeft={'1rem'}>Panel administrador</Heading>}
+			<Box display={'flex'} justifyContent={'end'}>
 			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
 				{switchOffIcon}
 			</Button>
+			</Box>
 			{isVisible && (
 				<Box position={'absolute'} top={'4rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 					<Box

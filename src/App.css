@@ -1,0 +1,11 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+	display: none; /* Chrome, Safari y Opera */
+}
