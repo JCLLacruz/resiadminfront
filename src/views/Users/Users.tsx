@@ -44,7 +44,7 @@ const Users: FC = () => {
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>
-			<Heading size={'3xl'} mb={'2rem'}>
+			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/users')} cursor={'pointer'}>
 				Empleados
 			</Heading>
 			<Input placeholder='Buscar usuario' mb={'1rem'} value={searchTerm} onChange={handleChange} />
@@ -82,6 +82,7 @@ const Users: FC = () => {
 						boxShadow='md'
 						paddingX={'2rem'}
 						paddingY={'1rem'}
+						cursor={'pointer'}
 						onClick={() => handleClick(user._id)}
 					>
 						<Heading>

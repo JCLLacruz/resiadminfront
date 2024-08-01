@@ -8,7 +8,7 @@ import { register, updateUser } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
 import { AppDispatch } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
-import { roleOptions } from '../../utils/formOptions';
+import { jobPositionOptions, roleOptions } from '../../utils/formOptions';
 
 interface UserFormProps {
 	userProp?: UserInterface | null;
@@ -19,7 +19,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-    const {user: userState} = useSelector((state: any) => state.auth || {});
+	const { user: userState } = useSelector((state: any) => state.auth || {});
 	const [user, setUser] = useState<RegisterValues>({
 		firstname: '',
 		lastname: '',
@@ -28,12 +28,13 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 		password: '',
 		confirmPassword: '',
 		role: '',
-		birthday: new Date(),
+		jobPosition: '',
+		birthday: new Date().toISOString().slice(0,10),
 	});
 
 	useEffect(() => {
 		if (userProp) {
-			const { _id, connections, createdAt, CommentIds,  images, updatedAt, birthday, emailConfirmed, ...restUser } = userProp;
+			const { _id, connections, createdAt, CommentIds, images, updatedAt, birthday, emailConfirmed, ...restUser } = userProp;
 			const birthdaySliced = birthday.slice(0, 10);
 			setUser({ ...restUser, birthday: birthdaySliced, password: '', confirmPassword: '' });
 		}
@@ -41,7 +42,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 
 	const formik = useFormik<RegisterValues>({
 		initialValues: user,
-        enableReinitialize: true,
+		enableReinitialize: true,
 		validationSchema: Yup.object({
 			firstname: Yup.string().required('Required'),
 			lastname: Yup.string().required('Required'),
@@ -53,6 +54,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 				.min(9, 'Must be at least 9 digits'),
 			birthday: Yup.date().required('Required'),
 			role: Yup.string().required('Required'),
+			jobPosition: Yup.string().required('Required'),
 			...(userProp
 				? {}
 				: {
@@ -210,7 +212,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 					</FormErrorMessage>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.role && formik.touched.role)} mt={'1rem'}>
-					<FormLabel htmlFor='identificatorInput'>Elige un rol</FormLabel>
+					<FormLabel htmlFor='roleInput'>Rol</FormLabel>
 					<Select
 						id='roleInput'
 						name='role'
@@ -225,6 +227,29 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 							</option>
 						))}
 					</Select>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.role}
+					</FormErrorMessage>
+				</FormControl>
+				<FormControl isInvalid={!!(formik.errors.jobPosition && formik.touched.jobPosition)} mt={'1rem'}>
+					<FormLabel htmlFor='jobPositionInput'>Cargo</FormLabel>
+					<Select
+						id='jobPositionInput'
+						name='jobPosition'
+						placeholder='Elige un cargo'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.jobPosition}
+					>
+						{jobPositionOptions.map((jobPosition) => (
+							<option key={jobPosition} value={jobPosition}>
+								{jobPosition}
+							</option>
+						))}
+					</Select>
+					<FormErrorMessage position={'absolute'} right={'0'}>
+						{formik.errors.jobPosition}
+					</FormErrorMessage>
 				</FormControl>
 				<Button mt={'2rem'} size={'lg'} width={'full'} type='submit'>
 					{userProp ? 'Actualizar usuario' : 'Registrar'}

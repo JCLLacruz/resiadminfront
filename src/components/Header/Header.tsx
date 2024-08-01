@@ -75,7 +75,7 @@ const Footer: FC = () => {
 			</Button>
 			</Box>
 			{isVisible && (
-				<Box position={'absolute'} top={'4rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
+				<Box position={'absolute'} top={'4rem'} right={'0.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
@@ -97,6 +97,7 @@ const Footer: FC = () => {
 							marginY={'-0.8rem'}
 							alignSelf={'end'}
 							fontSize={'2xl'}
+							cursor={'pointer'}
 							onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}
 						>
 							{closeIcon}

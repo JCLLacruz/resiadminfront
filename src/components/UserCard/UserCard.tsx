@@ -27,42 +27,9 @@ import { closeIcon, editIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import UserForm from '../UserForm/UserForm';
-import { ConnectionsInterface } from '../../interfaces/authInterfaces';
+import { ConnectionsInterface, GroupedConnections } from '../../interfaces/authInterfaces';
 import noProfileImage from '../../assets/images/no-profile-image.png';
-
-interface GroupedConnections {
-	month: string;
-	connections: { token: string; date: string }[];
-}
-
-const formatDate = (dateString: string): string => {
-	const date = new Date(dateString);
-	const day = String(date.getDate()).padStart(2, '0');
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const year = date.getFullYear();
-	return `${day}-${month}-${year}`;
-};
-
-const groupConnectionsByMonth = (connections: ConnectionsInterface[]): GroupedConnections[] => {
-	const grouped: { [key: string]: { token: string; date: string }[] } = connections.reduce((acc, connection) => {
-		const date = new Date(connection.date);
-		const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-
-		if (!acc[monthYear]) {
-			acc[monthYear] = [];
-		}
-
-		const formattedDate = formatDate(connection.date);
-		acc[monthYear].push({ token: connection.token, date: formattedDate });
-
-		return acc;
-	}, {} as { [key: string]: { token: string; date: string }[] });
-
-	return Object.keys(grouped).map((month) => ({
-		month,
-		connections: grouped[month],
-	}));
-};
+import { groupConnectionsByMonth } from '../../utils/functions';
 
 const UserCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -103,7 +70,7 @@ const UserCard: FC = () => {
 
 	return (
 		<>
-			<Container maxW='container.xl' paddingBottom={'10rem'} overflowY={'auto'}>
+			<Container maxW='container.md' paddingBottom={'10rem'} overflowY={'auto'} border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} padding={'1rem'} marginBottom={'7rem'}>
 				{isLoading || !user ? (
 					<Spinner size='xl' />
 				) : (
@@ -245,6 +212,9 @@ const UserCard: FC = () => {
 								</Text>
 								<Text mb={'1rem'} paddingLeft={'1rem'}>
 									<strong>Rol:</strong> {user.role}
+								</Text>
+								<Text mb={'1rem'} paddingLeft={'1rem'}>
+									<strong>Cargo:</strong> {user.jobPosition}
 								</Text>
 							</Box>
 						</Box>

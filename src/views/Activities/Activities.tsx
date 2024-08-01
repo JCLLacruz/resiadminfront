@@ -32,7 +32,7 @@ const Activities: FC = () => {
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>
-			<Heading size={'3xl'} mb={'2rem'}>
+			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/activities')} cursor={'pointer'}>
 				Actividades
 			</Heading>
 			<Input placeholder='Buscar actividad' mb={'2rem'} value={searchTerm} onChange={handleChange} />
@@ -56,6 +56,7 @@ const Activities: FC = () => {
 						paddingX={'2rem'}
 						paddingY={'1rem'}
 						marginBottom={'1rem'}
+						cursor={'pointer'}
 						onClick={() => goTo(activity._id)}
 					>
 						<Heading as='h3' size='lg'>
