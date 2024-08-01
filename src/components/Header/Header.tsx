@@ -15,7 +15,7 @@ const Footer: FC = () => {
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-	const isMobile = useWindowSize();	
+	const isMobile = useWindowSize();
 
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
@@ -23,9 +23,9 @@ const Footer: FC = () => {
 		}
 	}, [images, image, currentUser]);
 
-	useEffect(()=>{
+	useEffect(() => {
 		isMobile ? navigate('/activities') : navigate('/adminpanel');
-	},[useWindowSize, isMobile])
+	}, [useWindowSize, isMobile]);
 
 	const logout = () => {
 		setIsVisible(false);
@@ -52,27 +52,36 @@ const Footer: FC = () => {
 			zIndex={1000}
 		>
 			{isMobile ? (
-			<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
-				<Box
-					height={'3rem'}
-					width={'3rem'}
-					marginLeft={'1rem'}
-					backgroundColor={'brand.100'}
-					borderRadius={'50%'}
-					display={'flex'}
-					justifyContent={'center'}
-					alignItems={'center'}
-					onClick={() => navigate('/usercard/' + currentUser._id)}
-				>
-					{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+				<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
+					<Box
+						height={'3rem'}
+						width={'3rem'}
+						marginLeft={'1rem'}
+						backgroundColor={'brand.100'}
+						borderRadius={'50%'}
+						display={'flex'}
+						justifyContent={'center'}
+						alignItems={'center'}
+						onClick={() => navigate('/usercard/' + currentUser._id)}
+					>
+						{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+					</Box>
+					{currentUser.role === 'superadmin' && (
+						<>
+							<Button onClick={() => navigate('/users')}>Empleados</Button>
+							<Button onClick={() => navigate('/information')}>Información</Button>
+						</>
+					)}
 				</Box>
-				{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
-			</Box>
-			) : <Heading cursor={'pointer'} onClick={()=> navigate('/adminpanel')} marginLeft={'1rem'}>Panel administrador</Heading>}
+			) : (
+				<Heading cursor={'pointer'} onClick={() => navigate('/adminpanel')} marginLeft={'1rem'}>
+					Panel administrador
+				</Heading>
+			)}
 			<Box display={'flex'} justifyContent={'end'}>
-			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
-				{switchOffIcon}
-			</Button>
+				<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
+					{switchOffIcon}
+				</Button>
 			</Box>
 			{isVisible && (
 				<Box position={'absolute'} top={'4rem'} right={'0.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>

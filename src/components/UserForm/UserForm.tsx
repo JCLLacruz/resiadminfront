@@ -29,7 +29,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 		confirmPassword: '',
 		role: '',
 		jobPosition: '',
-		birthday: new Date().toISOString().slice(0,10),
+		birthday: new Date().toISOString().slice(0, 10),
 	});
 
 	useEffect(() => {
@@ -77,7 +77,17 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	});
 
 	return (
-		<Container id='registerContainer' maxW='container.sm' marginBottom={'6rem'} marginTop={'1rem'}>
+		<Container
+			id='registerContainer'
+			maxW='container.sm'
+			marginBottom={'6rem'}
+			marginTop={'1rem'}
+			border={'solid'}
+			borderColor={'brand.500'}
+			backgroundColor={'brand.50'}
+			borderRadius={'lg'}
+			padding={'1rem'}
+		>
 			<Heading id='registerHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				{userProp ? `Edita el usuario ${userProp.firstname}` : 'Registra un empleado'}
 			</Heading>

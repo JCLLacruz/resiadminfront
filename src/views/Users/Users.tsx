@@ -5,7 +5,7 @@ import { getAllUsers } from '../../features/auth/authSlice';
 import { AppDispatch } from '../../app/store';
 import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
-import { roleOptions } from '../../utils/formOptions';
+import { jobPositionOptions } from '../../utils/formOptions';
 import { getImageSrc } from '../../utils/functions';
 import noProfileImage from '../../assets/images/no-profile-image.png';
 
@@ -34,8 +34,8 @@ const Users: FC = () => {
 		setSearchTerm(e.target.value);
 	};
 
-	const roleFilter = (role: string) => {
-		setFilteredUsers(users.filter((user: any) => user.role === role));
+	const roleFilter = (jobPosition: string) => {
+		setFilteredUsers(users.filter((user: any) => user.jobPosition === jobPosition));
 	};
 
 	const handleClick = (_id: string) => {
@@ -47,12 +47,12 @@ const Users: FC = () => {
 			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/users')} cursor={'pointer'}>
 				Empleados
 			</Heading>
-			<Input placeholder='Buscar usuario' mb={'1rem'} value={searchTerm} onChange={handleChange} />
-			<Box display={'flex'} mb={'1rem'} gap={'1rem'}>
+			<Input placeholder='Buscar empleado' mb={'1rem'} value={searchTerm} onChange={handleChange} />
+			<Box display={'flex'} mb={'1rem'} gap={'1rem'} flexWrap={'wrap'}>
 				<Button onClick={() => setFilteredUsers(users)}>Todos</Button>
-				{roleOptions.map((role, i) => (
-					<Button key={i + role} onClick={() => roleFilter(role)}>
-						{role}
+				{jobPositionOptions.map((jobPosition, i) => (
+					<Button key={i + jobPosition} onClick={() => roleFilter(jobPosition)}>
+						{jobPosition}
 					</Button>
 				))}
 			</Box>
@@ -97,9 +97,9 @@ const Users: FC = () => {
 								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={noProfileImage} cursor={'pointer'} />
 							</Box>
 						)}
-						<Box>
+						<Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
 							<Text fontSize={'rem'} color={'brand.500'} mb={'0.5rem'}>
-								Rol: {user.role}
+								Cargo: {user.jobPosition}
 							</Text>
 							<Text>Teléfono: {user.telephonnumber}</Text>
 							<Text>Email: {user.email}</Text>

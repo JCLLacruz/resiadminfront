@@ -6,18 +6,19 @@ import Residents from '../Residents/Residents';
 import { useSelector } from 'react-redux';
 import { getImageSrc } from '../../utils/functions';
 import noProfileImage from '../../assets/images/no-profile-image.png';
-import { closeIcon } from '../../assets/icons/icons';
 import ResidentForm from '../../components/RedidentForm/ResidentForm';
 import ImageUploadForm from '../../components/ImageUploadForm/ImageUploadForm';
 import ActivityForm from '../../components/ActivityForm/ActivityForm';
 import SessionForm from '../../components/SessionForm/SessionForm';
+import Birthdays from '../../components/Birthdays/Birthdays';
 
 const AdminPanel: FC = () => {
 	const { currentUser, image, images } = useSelector((state: any) => state.auth);
+	const { residents } = useSelector((state: any) => state.resident);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [databaseVisible, setDatabaseVisible] = useState<string>('activities');
 	const [imageSrc, setImageSrc] = useState('');
-	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | null>(null);
+	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | 'birthdays' | null>(null);
 
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
@@ -114,6 +115,15 @@ const AdminPanel: FC = () => {
 							>
 								Nueva sesión
 							</Text>
+							<Text
+								as='u'
+								onClick={() => {
+									setModalContent('birthdays');
+									onOpen();
+								}}
+							>
+								Proximos  cumpleaños
+							</Text>
 						</Box>
 					</Box>
 				</Box>
@@ -153,16 +163,14 @@ const AdminPanel: FC = () => {
 					</Box>
 				</Box>
 			</Box>
-			<Modal isOpen={isOpen} onClose={onClose} size={'lg'}>
+			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} >
 				<ModalOverlay />
-				<ModalContent>
-					<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
-						{closeIcon}
-					</Text>{' '}
-					<ModalBody>
+				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
+					<ModalBody padding={'3rem'}>
 						{modalContent === 'residentform' && <ResidentForm />}
 						{modalContent === 'activityform' && <ActivityForm />}
 						{modalContent === 'sessionform' && <SessionForm />}
+						{modalContent === 'birthdays' && <Birthdays residents={residents}/>}
 						{modalContent === 'upload' && <ImageUploadForm type='user' id={currentUser._id} />}
 					</ModalBody>
 				</ModalContent>

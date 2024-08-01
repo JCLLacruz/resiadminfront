@@ -20,7 +20,7 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	const [preview, setPreview] = useState<string | null>(null);
 	const { isLoading } = useSelector((state: any) => state.resident || {});
 	const { currentUser } = useSelector((state: any) => state.auth || {});
-	const [isUploading, setIsUploading] = useState(false);	
+	const [isUploading, setIsUploading] = useState(false);
 
 	const formik = useFormik<FormValues>({
 		initialValues: {
@@ -38,18 +38,18 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 				formData.append('userId', id);
 			}
 			isLoading && setIsUploading(true);
-			if(type == 'resident'){
+			if (type == 'resident') {
 				dispatch(uploadImageResident(formData));
 				dispatch(getResidentById(id));
 				!isLoading && setIsUploading(false);
-			} else if(type == 'user'){				
+			} else if (type == 'user') {
 				dispatch(uploadImageUser(formData));
-				dispatch(getUserById(id))
+				dispatch(getUserById(id));
 			}
 			if (currentUser._id == id) {
-				setTimeout(()=>{
-					dispatch(updateCurrentUser(id))
-				},1000)
+				setTimeout(() => {
+					dispatch(updateCurrentUser(id));
+				}, 1000);
 			}
 			formik.resetForm();
 		},
@@ -68,7 +68,16 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	};
 
 	return (
-		<Box padding={'0.25rem'} maxW='md' mx='auto' zIndex={2000}>
+		<Box
+			padding={'1rem'}
+			maxW='md'
+			mx='auto'
+			zIndex={2000}
+			border={'solid'}
+			borderColor={'brand.500'}
+			borderRadius={'lg'}
+			backgroundColor={'brand.50'}
+		>
 			<form onSubmit={formik.handleSubmit}>
 				<FormControl>
 					<FormLabel>Sube una imagen</FormLabel>

@@ -19,6 +19,7 @@ import RecoverPassword from './views/RecoverPassword/RecoverPassword';
 import AttendanceForm from './components/AttendanceForm/AttendanceForm';
 import AdminPanel from './views/AdminPanel/AdminPanel';
 import useWindowSize from './hooks/useWindowSize';
+import Information from './views/Information/Information';
 
 function App() {
 	const location: any = useLocation();
@@ -36,6 +37,7 @@ function App() {
 				<Route path='/residents' element={<Residents />} />;
 				<Route path='/activities' element={<Activities />} />;
 				<Route path='/users' element={<Users />} />;
+				<Route path='/information' element={<Information />} />;
 				<Route path='/adminpanel' element={<AdminPanel />} />;
 				<Route path='/sessions/:_id' element={<Sessions />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
