@@ -5,21 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { getImageSrc } from '../../utils/functions';
 import { resetSuccess } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const { image, images } = useSelector((state: any) => state.auth || {});
+	const { currentUser, user, image, images } = useSelector((state: any) => state.auth || {});
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const isMobile = useWindowSize();
-	const currentUser = JSON.parse(localStorage.getItem('user') || '') || null;
 	useEffect(() => {
-		if (currentUser.images.length > 0) {
-			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
+		if (currentUser.images.length > 0 && currentUser._id === user._id) {
+			if(images.length > 0){
+				setImageSrc(images[0].src);
+			} else {
+				setImageSrc('');
+			}
 		}
 	}, [images, image]);
 
