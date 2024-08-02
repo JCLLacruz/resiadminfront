@@ -20,8 +20,10 @@ import { login, resetError, resetSuccess } from '../../features/auth/authSlice';
 import { LoginValues } from '../../interfaces/authInterfaces';
 import { AppDispatch } from '../../app/store';
 import { serverStatus } from '../../features/server/serverSlice';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const Login: FC = () => {
+	const isMobile = useWindowSize();
 	const { isError, isSuccess, msg, currentUser } = useSelector((state: any) => state.auth || {});
 	const {
 		isError: errorServer,
@@ -35,7 +37,7 @@ const Login: FC = () => {
 	const [serverButtonDisabled, setServerButtonDisabled] = useState<boolean>(false);
 
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate = useNavigate();	
 
 	useEffect(() => {
 		if (isError) {
@@ -56,7 +58,7 @@ const Login: FC = () => {
 				duration: 6000,
 				isClosable: true,
 			});
-			navigate('/activities');
+			isMobile ? navigate('/activities') : navigate('/adminpanel');
 			dispatch(resetSuccess());
 		}
 	}, [currentUser, isError, isSuccess, msg, toast, dispatch]);
@@ -154,7 +156,7 @@ const Login: FC = () => {
 				</Button>
 			</form>
 			<Box mt={4} textAlign='center'>
-				Has olvidado tu contraseña?{' '}
+				Has olvidado tu contraseña?
 				<Text color={'brand.500'} onClick={() => navigate('/recoverpassword')}>
 					haz click aquí
 				</Text>

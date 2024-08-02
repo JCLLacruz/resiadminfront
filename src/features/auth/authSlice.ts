@@ -197,7 +197,6 @@ const authSlice = createSlice({
 			.addCase(updateCurrentUser.fulfilled, (state: any, action: any) => {
 				state.currentUser = action.payload.user;
 				state.isSuccess = true;
-				state.token = action.payload.token;
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				if (action.payload.user.images.length > 0) {

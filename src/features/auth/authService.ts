@@ -55,6 +55,10 @@ const updateUser = async (user: RegisterValues, id: string) => {
 			Authorization: token,
 		},
 	});
+	if (res.data) {
+		localStorage.setItem('user', JSON.stringify(res.data.user));
+		localStorage.setItem('token', res.data.token);
+	}
 	return res.data;
 };
 

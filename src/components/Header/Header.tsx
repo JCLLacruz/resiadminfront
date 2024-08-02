@@ -1,4 +1,4 @@
-import { Box, Button, Container, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { closeIcon, switchOffIcon, userIcon } from '../../assets/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,19 +7,25 @@ import { logoutUser, reset } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { getImageSrc } from '../../utils/functions';
 import { resetSuccess } from '../../features/server/serverSlice';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const { currentUser, image, images } = useSelector((state: any) => state.auth || {});
+	const { image, images } = useSelector((state: any) => state.auth || {});
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-
+	const isMobile = useWindowSize();
+	const currentUser = JSON.parse(localStorage.getItem('user') || '') || null;
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
 			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
 		}
-	}, [images, image, currentUser]);
+	}, [images, image]);
+
+	useEffect(() => {
+		isMobile ? navigate('/activities') : navigate('/adminpanel');
+	}, [useWindowSize, isMobile]);
 
 	const logout = () => {
 		setIsVisible(false);
@@ -45,27 +51,40 @@ const Footer: FC = () => {
 			justifyContent={'space-between'}
 			zIndex={1000}
 		>
-			<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
-				<Box
-					height={'3rem'}
-					width={'3rem'}
-					marginLeft={'1rem'}
-					backgroundColor={'brand.100'}
-					borderRadius={'50%'}
-					display={'flex'}
-					justifyContent={'center'}
-					alignItems={'center'}
-					onClick={() => navigate('/usercard/' + currentUser._id)}
-				>
-					{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+			{isMobile ? (
+				<Box display={'flex'} alignItems={'center'} gap={'1rem'}>
+					<Box
+						height={'3rem'}
+						width={'3rem'}
+						marginLeft={'1rem'}
+						backgroundColor={'brand.100'}
+						borderRadius={'50%'}
+						display={'flex'}
+						justifyContent={'center'}
+						alignItems={'center'}
+						onClick={() => navigate('/usercard/' + currentUser._id)}
+					>
+						{imageSrc == '' ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+					</Box>
+					{currentUser.role === 'superadmin' && (
+						<>
+							<Button onClick={() => navigate('/users')}>Empleados</Button>
+							<Button onClick={() => navigate('/information')}>Información</Button>
+						</>
+					)}
 				</Box>
-				{currentUser.role === 'superadmin' && <Button onClick={() => navigate('/users')}>Empleados</Button>}
+			) : (
+				<Heading cursor={'pointer'} onClick={() => navigate('/adminpanel')} marginLeft={'1rem'}>
+					Panel administrador
+				</Heading>
+			)}
+			<Box display={'flex'} justifyContent={'end'}>
+				<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
+					{switchOffIcon}
+				</Button>
 			</Box>
-			<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
-				{switchOffIcon}
-			</Button>
 			{isVisible && (
-				<Box position={'absolute'} top={'4rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
+				<Box position={'absolute'} top={'4rem'} right={'0.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
 					<Box
 						display={'flex'}
 						flexDirection={'column'}
@@ -87,6 +106,7 @@ const Footer: FC = () => {
 							marginY={'-0.8rem'}
 							alignSelf={'end'}
 							fontSize={'2xl'}
+							cursor={'pointer'}
 							onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}
 						>
 							{closeIcon}

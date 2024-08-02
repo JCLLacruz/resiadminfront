@@ -1,5 +1,5 @@
 export interface ActivityInterface {
-    _id: string;
+	_id: string;
 	title: string;
 	description: string;
 	sessions: string[];
@@ -19,4 +19,25 @@ export interface initialStateActivitySliceInterface {
 export interface ActivityValues {
 	title: string;
 	description: string;
+}
+
+export interface Session {
+	activityId: string;
+	createdAt: string;
+	observations: string;
+	residentIds: any[];
+	updatedAt: string;
+	_id: string;
+}
+
+export interface GroupedSessions {
+	month: string;
+	sessions: Session[];
+}
+
+export interface MonthResumeValuesInterface {
+	month: string;
+	year: string;
+	identificator: string;
+	subdivision: string;
 }

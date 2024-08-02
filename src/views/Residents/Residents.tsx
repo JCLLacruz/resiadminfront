@@ -40,7 +40,7 @@ const Residents: FC = () => {
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>
-			<Heading size={'3xl'} mb={'2rem'}>
+			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/residents')} cursor={'pointer'}>
 				Residentes
 			</Heading>
 			<Input placeholder='Buscar residente' mb={'1rem'} value={searchTerm} onChange={handleChange} />
@@ -50,41 +50,36 @@ const Residents: FC = () => {
 					<Button key={i + group} onClick={() => groupFilter(group)}>{`Grupo ${group}`}</Button>
 				))}
 			</Box>
-			<Container key={'residentContainerFilter'} maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
+			<Box key={'residentContainerFilter'} display={'flex'} gap={'0.5rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
 				{filteredResidents.map((resident: any) => (
 					<>
 						<Box
 							key={`resident_${resident._id}`}
+							width={'16rem'}
 							display={'flex'}
-							width={'400px'}
-							justifyContent={'space-between'}
-							alignItems={'center'}
+							flexDirection={'column'}
+							justifyContent={'center'}
 							borderWidth='1px'
 							borderRadius='lg'
 							overflow='hidden'
-							maxW='sm'
 							boxShadow='md'
 							paddingX={'2rem'}
 							paddingY={'1rem'}
+							cursor={'pointer'}
 							onClick={() => handleClick(resident._id)}
 						>
+							<Heading>
+								{resident.firstname} {resident.lastname}
+							</Heading>
+							<Text color={'brand.500'}>Grupo {resident.group.identificator}</Text>
 							<Box>
-								<Heading mb={'0.5rem'}>
-									{resident.firstname} {resident.lastname}
-								</Heading>
-								<Box>
-									<Text>Teléfono: {resident.phoneNumber}</Text>
-								</Box>
-							</Box>
-							<Box>
-								<Text fontSize={'rem'} color={'brand.500'}>
-									Grupo {resident.group.identificator}
-								</Text>
+								<Text>Teléfono:</Text>
+								<Text>{resident.phoneNumber}</Text>
 							</Box>
 						</Box>
 					</>
 				))}
-			</Container>
+			</Box>
 		</Container>
 	);
 };

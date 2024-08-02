@@ -1,16 +1,4 @@
-import {
-	Box,
-	Button,
-	Container,
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	Heading,
-	Input,
-	InputGroup,
-	Tag,
-	TagLabel,
-} from '@chakra-ui/react';
+import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, Tag, TagLabel } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FC, useEffect, useState } from 'react';
@@ -25,7 +13,7 @@ const AttendanceForm: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const { residents } = useSelector((state: any) => state.resident || {});
-    const [filteredResidents, setFilteredResidents] = useState(residents);
+	const [filteredResidents, setFilteredResidents] = useState(residents);
 	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
@@ -41,7 +29,7 @@ const AttendanceForm: FC = () => {
 		);
 	}, [residents, searchTerm]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
 	};
 
@@ -57,13 +45,23 @@ const AttendanceForm: FC = () => {
 		}),
 		onSubmit: (values) => {
 			const formattedDate = formatToISODate(values.date);
-            dispatch(updateAttendance({ ...values, date: formattedDate }));
-            navigate('/residents');
+			dispatch(updateAttendance({ ...values, date: formattedDate }));
+			navigate('/residents');
 			formik.resetForm();
 		},
 	});
 	return (
-		<Container id='sessionFormContainer' maxW='container.sm' minHeight={'90vh'} marginTop={'1rem'} marginBottom={'10rem'}>
+		<Container
+			id='sessionFormContainer'
+			maxW='container.sm'
+			marginTop={'1rem'}
+			marginBottom={'10rem'}
+			border={'solid'}
+			borderColor={'brand.500'}
+			backgroundColor={'brand.50'}
+			borderRadius={'lg'}
+			padding={'1rem'}
+		>
 			<Heading id='sessionFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Registrar asistencia
 			</Heading>
@@ -87,7 +85,7 @@ const AttendanceForm: FC = () => {
 				</FormControl>
 				<FormControl mt={'1rem'}>
 					<FormLabel>No asistentes</FormLabel>
-                    <Input placeholder='Buscar residente' mb={'1rem'} value={searchTerm} onChange={handleChange} />
+					<Input placeholder='Buscar residente' mb={'1rem'} value={searchTerm} onChange={handleChange} />
 					<Box display={'flex'} flexWrap={'wrap'} gap={'0.5rem'}>
 						{filteredResidents.map((resident: ResidentInterface) => (
 							<Tag

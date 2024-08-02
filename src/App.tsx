@@ -17,18 +17,29 @@ import Users from './views/Users/Users';
 import ResetPassword from './views/ResetPassword/ResetPassword';
 import RecoverPassword from './views/RecoverPassword/RecoverPassword';
 import AttendanceForm from './components/AttendanceForm/AttendanceForm';
+import AdminPanel from './views/AdminPanel/AdminPanel';
+import useWindowSize from './hooks/useWindowSize';
+import Information from './views/Information/Information';
+import MonthResumeForm from './components/MonthResumeForm/MonthResumeForm';
 
 function App() {
 	const location: any = useLocation();
+	const isMobile = useWindowSize();
+
+	const isLoginRoute = location.pathname === '/';
+	const isRecoverPasswordRoute = location.pathname === '/recoverpassword';
+	const isResetPasswordRoute = location.pathname.startsWith('/users/resetPassword/');
 
 	return (
 		<>
-			{location.pathname !== '/' && location.pathname !== '/recoverpassword' && location.pathname !== '/users/resetPassword/:recovertoken' && <Header />}
+			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
 				<Route path='/activities' element={<Activities />} />;
 				<Route path='/users' element={<Users />} />;
+				<Route path='/information' element={<Information />} />;
+				<Route path='/adminpanel' element={<AdminPanel />} />;
 				<Route path='/sessions/:_id' element={<Sessions />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
@@ -38,10 +49,11 @@ function App() {
 				<Route path='/activityform' element={<ActivityForm />} />;
 				<Route path='/userform' element={<UserForm />} />;
 				<Route path='/attendanceform' element={<AttendanceForm />} />;
+				<Route path='/monthresume' element={<MonthResumeForm />} />;
 				<Route path='/recoverpassword' element={<RecoverPassword />} />;
 				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>
-			{location.pathname !== '/' && location.pathname !== '/recoverpassword' && location.pathname !== '/users/resetPassword/:recovertoken' && <Footer />}
+			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && isMobile && <Footer />}
 		</>
 	);
 }
