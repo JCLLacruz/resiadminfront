@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { MonthResumeValuesInterface } from '../../interfaces/activityIntefaces';
 
-const API_URL: string = 'http://localhost:3001/documents';
+const API_URL: string = 'https://serverresiadmin.onrender.com/documents';
 
 const monthResume = async (values: MonthResumeValuesInterface) => {    
     const token = localStorage.getItem('token');
