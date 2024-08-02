@@ -11,6 +11,7 @@ import ImageUploadForm from '../../components/ImageUploadForm/ImageUploadForm';
 import ActivityForm from '../../components/ActivityForm/ActivityForm';
 import SessionForm from '../../components/SessionForm/SessionForm';
 import Birthdays from '../../components/Birthdays/Birthdays';
+import MonthResumeForm from '../../components/MonthResumeForm/MonthResumeForm';
 
 const AdminPanel: FC = () => {
 	const { currentUser, image, images } = useSelector((state: any) => state.auth);
@@ -18,7 +19,7 @@ const AdminPanel: FC = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [databaseVisible, setDatabaseVisible] = useState<string>('activities');
 	const [imageSrc, setImageSrc] = useState('');
-	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | 'birthdays' | null>(null);
+	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | 'birthdays' | 'monthresume' |null>(null);
 
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
@@ -87,7 +88,11 @@ const AdminPanel: FC = () => {
 					<Box border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} width={'100%'} height={'30%'} padding={'1rem'}>
 						<Heading marginBottom={'1rem'}>Herramientas</Heading>
 						<Box display={'flex'} flexDirection={'column'} gap={'0.5rem'} width={'100%'} cursor={'pointer'}>
-							<Text as='u'>Resumen mensual</Text>
+							<Text as='u'
+								onClick={() => {
+									setModalContent('monthresume');
+									onOpen();
+								}}>Resumen mensual</Text>
 							<Text
 								as='u'
 								onClick={() => {
@@ -163,7 +168,7 @@ const AdminPanel: FC = () => {
 					</Box>
 				</Box>
 			</Box>
-			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} >
+			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 				<ModalOverlay />
 				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
 					<ModalBody padding={'3rem'}>
@@ -171,6 +176,7 @@ const AdminPanel: FC = () => {
 						{modalContent === 'activityform' && <ActivityForm />}
 						{modalContent === 'sessionform' && <SessionForm />}
 						{modalContent === 'birthdays' && <Birthdays residents={residents}/>}
+						{modalContent === 'monthresume' && <MonthResumeForm/>}
 						{modalContent === 'upload' && <ImageUploadForm type='user' id={currentUser._id} />}
 					</ModalBody>
 				</ModalContent>

@@ -31,7 +31,7 @@ function App() {
 
 	return (
 		<>
-			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && <Header />}{' '}
+			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && <Header />}
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
@@ -51,7 +51,7 @@ function App() {
 				<Route path='/recoverpassword' element={<RecoverPassword />} />;
 				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>
-			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && isMobile && <Footer />}{' '}
+			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && isMobile && <Footer />}
 		</>
 	);
 }

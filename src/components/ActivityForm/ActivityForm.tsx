@@ -48,7 +48,7 @@ const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 
 	return (
 		<Container
-			id='sessionFormContainer'
+			id='activityFormContainer'
 			maxW='container.sm'
 			marginTop={'1rem'}
 			border={'solid'}
@@ -57,7 +57,7 @@ const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 			borderRadius={'lg'}
 			padding={'1rem'}
 		>
-			<Heading id='sessionFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
+			<Heading id='activityFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				{activityProp ? 'Editar Actividad' : 'Nueva Actividad'}
 			</Heading>
 			<form onSubmit={formik.handleSubmit}>

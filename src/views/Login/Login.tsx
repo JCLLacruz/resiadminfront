@@ -156,7 +156,7 @@ const Login: FC = () => {
 				</Button>
 			</form>
 			<Box mt={4} textAlign='center'>
-				Has olvidado tu contraseña?{' '}
+				Has olvidado tu contraseña?
 				<Text color={'brand.500'} onClick={() => navigate('/recoverpassword')}>
 					haz click aquí
 				</Text>

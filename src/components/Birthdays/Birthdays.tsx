@@ -12,6 +12,9 @@ import {
 	NumberInputStepper,
 	Text,
 } from '@chakra-ui/react';
+import { getAllResidents } from '../../features/residents/residentSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
 
 interface BirthdaysProps {
 	residents: ResidentInterface[];
@@ -23,12 +26,10 @@ interface BirthDayInterface {
 }
 
 const Birthdays: FC<BirthdaysProps> = ({ residents }) => {
+	const dispatch = useDispatch<AppDispatch>()
 	const [birthdays, setBirthdays] = useState<BirthDayInterface[]>([]);
 	const [month, setMonth] = useState<number>(+formatDate(new Date().toISOString()).slice(3, 5));
 	const [filteredBirthdays, setFilteredBirthdays] = useState<BirthDayInterface[]>([]);
-	console.log('birthdays', birthdays);
-	console.log('residents', residents);
-	console.log('month', +month + 3);
 
 	const getAllBirthdays = (residents: ResidentInterface[]): BirthDayInterface[] => {
 		let allBirthdays: BirthDayInterface[] = [];
@@ -66,9 +67,13 @@ const Birthdays: FC<BirthdaysProps> = ({ residents }) => {
 
     const handleChangeMonth = (value: string) => setMonth(+value);
 
+
+	useEffect(() => {
+		dispatch(getAllResidents());
+	}, []);
 	useEffect(() => {
 		setBirthdays(getAllBirthdays(residents));
-	}, []);
+	}, [residents]);
 
 	useEffect(() => {
 		setFilteredBirthdays(filterBirthDaysToNextThreeMonths(month, birthdays));
@@ -105,7 +110,8 @@ const Birthdays: FC<BirthdaysProps> = ({ residents }) => {
 			<Box display={'flex'} flexDirection={'column'}>
 				{filteredBirthdays.map((birthday) => (
                     <Box>
-                        <Text>{birthday.firstname} {birthday.lastname} {birthday.date}</Text>
+                        <Text><strong>{birthday.firstname} {birthday.lastname}</strong> {birthday.date}</Text>
+                        <Text>Cumple {new Date().getFullYear() - (+birthday.date.slice(6,10))} años.</Text>
                     </Box>
 				))}
 			</Box>

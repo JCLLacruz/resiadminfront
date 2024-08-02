@@ -34,3 +34,10 @@ export interface GroupedSessions {
 	month: string;
 	sessions: Session[];
 }
+
+export interface MonthResumeValuesInterface {
+	month: string;
+	year: string;
+	identificator: string;
+	subdivision: string;
+}

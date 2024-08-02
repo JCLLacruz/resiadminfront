@@ -207,7 +207,7 @@ const ResidentCard: FC = () => {
 						</Text>
 						<Text mb={'1rem'}><strong>Dirección:</strong></Text>
 						<Text mb={'1rem'} paddingLeft={'1rem'}>
-							{resident.address.street}, {resident.address.yardnumber}, {resident.address.zipcode}, {resident.address.city},{' '}
+							{resident.address.street}, {resident.address.yardnumber}, {resident.address.zipcode}, {resident.address.city},
 							{resident.address.country}
 						</Text>
 						<Text mb={'1rem'}><strong>Cumpleaños:</strong> {new Date(resident.birthday).toLocaleDateString()}</Text>
@@ -236,7 +236,7 @@ const ResidentCard: FC = () => {
 				<ModalContent>
 					<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
 						{closeIcon}
-					</Text>{' '}
+					</Text>
 					<ModalBody>
 						{modalContent === 'images' && <AllImages images={'resident'} />}
 						{modalContent === 'form' && <ResidentForm residentProp={resident} />}

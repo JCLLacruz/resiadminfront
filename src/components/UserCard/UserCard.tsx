@@ -184,7 +184,7 @@ const UserCard: FC = () => {
 													setModalContent('upload');
 													onOpen();
 												}}
-											/>{' '}
+											/>
 										</>
 									)}
 								</>
