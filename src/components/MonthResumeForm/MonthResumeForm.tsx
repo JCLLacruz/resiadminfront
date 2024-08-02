@@ -58,7 +58,7 @@ const MonthResumeForm: FC = () => {
 			month: '6',
 			year: '2024',
 			identificator: '',
-			subdivision: '',
+			subdivision: 'nothing',
 		},
 		enableReinitialize: true,
 		validationSchema: Yup.object({
@@ -69,7 +69,13 @@ const MonthResumeForm: FC = () => {
 		}),
 		onSubmit: async (values) => {
 			try {
-				const response = await dispatch(monthResume(values)).unwrap();
+				let response = null;
+				if(values.subdivision === 'nothing'){
+					values.subdivision = '';
+					response = await dispatch(monthResume(values)).unwrap();
+				} else{
+					response = await dispatch(monthResume(values)).unwrap();
+				}
 				const blob = new Blob([response], { type: 'application/pdf' });
 				const url = window.URL.createObjectURL(blob);
 				setBlobUrl(url);
@@ -183,10 +189,8 @@ const MonthResumeForm: FC = () => {
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						value={formik.values.subdivision}
+						isDisabled={formik.values.identificator === 'I' ? false : true}
 					>
-						<option key={'nothing'} value={''}>
-							Ninguna
-						</option>
 						{sudivisionGroupOptions.map((subdivision) => (
 							<option key={subdivision} value={subdivision}>
 								{subdivision}

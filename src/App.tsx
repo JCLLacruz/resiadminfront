@@ -20,6 +20,7 @@ import AttendanceForm from './components/AttendanceForm/AttendanceForm';
 import AdminPanel from './views/AdminPanel/AdminPanel';
 import useWindowSize from './hooks/useWindowSize';
 import Information from './views/Information/Information';
+import MonthResumeForm from './components/MonthResumeForm/MonthResumeForm';
 
 function App() {
 	const location: any = useLocation();
@@ -48,6 +49,7 @@ function App() {
 				<Route path='/activityform' element={<ActivityForm />} />;
 				<Route path='/userform' element={<UserForm />} />;
 				<Route path='/attendanceform' element={<AttendanceForm />} />;
+				<Route path='/monthresume' element={<MonthResumeForm />} />;
 				<Route path='/recoverpassword' element={<RecoverPassword />} />;
 				<Route path='/users/resetpassword/:recovertoken' element={<ResetPassword />} />;
 			</Routes>

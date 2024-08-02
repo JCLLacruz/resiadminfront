@@ -11,17 +11,17 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
-	const { currentUser, image, images } = useSelector((state: any) => state.auth || {});
+	const { image, images } = useSelector((state: any) => state.auth || {});
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const isMobile = useWindowSize();
-
+	const currentUser = JSON.parse(localStorage.getItem('user') || '') || null;
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
 			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
 		}
-	}, [images, image, currentUser]);
+	}, [images, image]);
 
 	useEffect(() => {
 		isMobile ? navigate('/activities') : navigate('/adminpanel');
@@ -64,7 +64,7 @@ const Footer: FC = () => {
 						alignItems={'center'}
 						onClick={() => navigate('/usercard/' + currentUser._id)}
 					>
-						{image == null ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
+						{imageSrc == '' ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
 					</Box>
 					{currentUser.role === 'superadmin' && (
 						<>
