@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Image, Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Container, Divider, Heading, Image, Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import Activities from '../Activities/Activities';
 import Users from '../Users/Users';
@@ -41,53 +41,10 @@ const AdminPanel: FC = () => {
 		}
 	};
 	return (
-		<Container display={'flex'} padding={0} maxW='container.xxl' width={'100%'} height={'90vh'} overflowY={'hidden'} margin={0}>
-			<Box display={'flex'} width={'100%'} height={'95%'} justifyContent={'space-around'} margin={0} className='hola'>
-				<Box display={'flex'} flexDirection={'column'} width={'20%'} height={'100%'}>
-					<Box
-						id='userBox'
-						width={'100%'}
-						height={'60%'}
-						overflow={'auto'}
-						border={'solid'}
-						borderColor={'brand.500'}
-						borderRadius={'lg'}
-						padding={'1rem'}
-						marginBottom={'1rem'}
-						sx={{ scrollbarWidth: 'none' }}
-					>
-						<Image
-							width={'40%'}
-							src={imageSrc != '' ? imageSrc : noProfileImage}
-							cursor={'pointer'}
-							onClick={() => {
-								setModalContent('upload');
-								onOpen();
-							}}
-						/>
-						<Heading size={'xl'} marginY={'1rem'}>
-							{currentUser.firstname} {currentUser.lastname}
-						</Heading>
-						<Box display={'flex'} gap={'2rem'}>
-							<Box>
-								<Text mb={'1rem'}>
-									<strong>Email:</strong> {currentUser.email}
-								</Text>
-								<Text mb={'1rem'}>
-									<strong>Teléfono:</strong> {currentUser.telephonnumber}
-								</Text>
-								<Text mb={'1rem'}>
-									<strong>Cumpleaños:</strong> {new Date(currentUser.birthday).toLocaleDateString()}
-								</Text>
-								<Text mb={'1rem'}>
-									<strong>Rol:</strong> {currentUser.role}
-								</Text>
-							</Box>
-						</Box>
-					</Box>
-					<Box border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} width={'100%'} height={'30%'} padding={'1rem'}>
-						<Heading marginBottom={'1rem'}>Herramientas</Heading>
-						<Box display={'flex'} flexDirection={'column'} gap={'0.5rem'} width={'100%'} cursor={'pointer'}>
+		<Container display={'flex'} flexDirection={'column'} padding={0} maxW='container.xxl' width={'100%'} height={'90vh'} overflowY={'hidden'} margin={0}>
+			<Box display={'flex'} alignItems={'center'} border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} width={'98%'} height={'30%'} margin={'1rem'} padding={'1rem'}>
+						<Heading marginX={'1rem'}>Herramientas</Heading>
+						<Box display={'flex'} gap={'0.5rem'} width={'100%'} cursor={'pointer'}>
 							<Text as='u'
 								onClick={() => {
 									setModalContent('monthresume');
@@ -131,6 +88,49 @@ const AdminPanel: FC = () => {
 							</Text>
 						</Box>
 					</Box>
+			<Box display={'flex'} width={'100%'} height={'95%'} justifyContent={'space-around'} margin={0} className='hola'>
+				<Box display={'flex'} flexDirection={'column'} width={'20%'} height={'100%'}>
+					<Box
+						id='userBox'
+						width={'100%'}
+						height={'60%'}
+						overflow={'auto'}
+						border={'solid'}
+						borderColor={'brand.500'}
+						borderRadius={'lg'}
+						padding={'1rem'}
+						marginBottom={'1rem'}
+						sx={{ scrollbarWidth: 'none' }}
+					>
+						<Image
+							width={'40%'}
+							src={imageSrc != '' ? imageSrc : noProfileImage}
+							cursor={'pointer'}
+							onClick={() => {
+								setModalContent('upload');
+								onOpen();
+							}}
+						/>
+						<Heading size={'xl'} marginY={'1rem'}>
+							{currentUser.firstname} {currentUser.lastname}
+						</Heading>
+						<Box display={'flex'} gap={'2rem'}>
+							<Box>
+								<Text mb={'1rem'}>
+									<strong>Email:</strong> {currentUser.email}
+								</Text>
+								<Text mb={'1rem'}>
+									<strong>Teléfono:</strong> {currentUser.telephonnumber}
+								</Text>
+								<Text mb={'1rem'}>
+									<strong>Cumpleaños:</strong> {new Date(currentUser.birthday).toLocaleDateString()}
+								</Text>
+								<Text mb={'1rem'}>
+									<strong>Rol:</strong> {currentUser.role}
+								</Text>
+							</Box>
+						</Box>
+					</Box>
 				</Box>
 				<Box
 					id='statisticsBox'
@@ -151,18 +151,19 @@ const AdminPanel: FC = () => {
 					id='databaseBox'
 					display={'flex'}
 					flexDirection={'column'}
-					width={'45%'}
+					width={'30%'}
 					height={'100%'}
 					border={'solid'}
 					borderColor={'brand.500'}
 					borderRadius={'lg'}
 					padding={'1rem'}
 				>
-					<Box display={'flex'} gap={'0.5rem'} marginBottom={'1rem'}>
+					<Box display={'flex'} gap={'0.5rem'} marginBottom={'1rem'} justifyContent={'center'}>
 						<Button onClick={() => setDatabaseVisible('activities')}>Actividades</Button>
 						<Button onClick={() => setDatabaseVisible('residents')}>Residentes</Button>
 						<Button onClick={() => setDatabaseVisible('users')}>Empleados</Button>
 					</Box>
+					<Divider bg={'brand.500'} marginBottom={'1rem'} />
 					<Box height={'100%'} overflow={'auto'} sx={{ scrollbarWidth: 'none' }}>
 						{renderice()}
 					</Box>
