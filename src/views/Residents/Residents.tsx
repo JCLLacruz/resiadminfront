@@ -55,7 +55,7 @@ const Residents: FC = () => {
 					<>
 						<Box
 							key={`resident_${resident._id}`}
-							width={'16rem'}
+							width={'100%'}
 							display={'flex'}
 							flexDirection={'column'}
 							justifyContent={'center'}
@@ -68,13 +68,14 @@ const Residents: FC = () => {
 							cursor={'pointer'}
 							onClick={() => handleClick(resident._id)}
 						>
-							<Heading>
+							<Box display={'flex'}>
+							<Heading marginRight={'1rem'}>
 								{resident.firstname} {resident.lastname}
 							</Heading>
 							<Text color={'brand.500'}>Grupo {resident.group.identificator}</Text>
+							</Box>
 							<Box>
-								<Text>Teléfono:</Text>
-								<Text>{resident.phoneNumber}</Text>
+								<Text>Teléfono: {resident.phoneNumber}</Text>
 							</Box>
 						</Box>
 					</>
