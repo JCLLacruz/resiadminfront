@@ -19,7 +19,9 @@ const AdminPanel: FC = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [databaseVisible, setDatabaseVisible] = useState<string>('activities');
 	const [imageSrc, setImageSrc] = useState('');
-	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | 'birthdays' | 'monthresume' |null>(null);
+	const [modalContent, setModalContent] = useState<'sessionform' | 'residentform' | 'activityform' | 'upload' | 'birthdays' | 'monthresume' | null>(
+		null
+	);
 
 	useEffect(() => {
 		if (currentUser.images.length > 0) {
@@ -41,54 +43,86 @@ const AdminPanel: FC = () => {
 		}
 	};
 	return (
-		<Container display={'flex'} flexDirection={'column'} padding={0} maxW='container.xxl' width={'100%'} height={'90vh'} overflowY={'hidden'} margin={0}>
-			<Box display={'flex'} alignItems={'center'} border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} width={'98%'} height={'30%'} margin={'1rem'} padding={'1rem'}>
-						<Heading marginX={'1rem'}>Herramientas</Heading>
-						<Box display={'flex'} gap={'0.5rem'} width={'100%'} cursor={'pointer'}>
-							<Text as='u'
-								onClick={() => {
-									setModalContent('monthresume');
-									onOpen();
-								}}>Resumen mensual</Text>
-							<Text
-								as='u'
-								onClick={() => {
-									setModalContent('residentform');
-									onOpen();
-								}}
-							>
-								Nuevo residente
-							</Text>
-							<Text
-								as='u'
-								onClick={() => {
-									setModalContent('activityform');
-									onOpen();
-								}}
-							>
-								Nueva actividad
-							</Text>
-							<Text
-								as='u'
-								onClick={() => {
-									setModalContent('sessionform');
-									onOpen();
-								}}
-							>
-								Nueva sesión
-							</Text>
-							<Text
-								as='u'
-								onClick={() => {
-									setModalContent('birthdays');
-									onOpen();
-								}}
-							>
-								Proximos  cumpleaños
-							</Text>
-						</Box>
-					</Box>
-			<Box display={'flex'} width={'100%'} height={'95%'} justifyContent={'space-around'} margin={0} className='hola'>
+		<Container
+			display={'flex'}
+			flexDirection={'column'}
+			padding={0}
+			maxW='container.xxl'
+			width={'100%'}
+			height={'90vh'}
+			overflowY={'hidden'}
+			margin={0}
+		>
+			<Box
+				display={'flex'}
+				alignItems={'center'}
+				border={'solid'}
+				borderColor={'brand.500'}
+				borderRadius={'10px'}
+				width={'98%'}
+				height={'30%'}
+				margin={'1rem'}
+				padding={'1rem'}
+			>
+				<Heading marginX={'1rem'}>Herramientas</Heading>
+				<Box display={'flex'} gap={'0.5rem'} width={'100%'} cursor={'pointer'}>
+					<Text
+						as='u'
+						onClick={() => {
+							setModalContent('monthresume');
+							onOpen();
+						}}
+					>
+						Resumen mensual
+					</Text>
+					<Text
+						as='u'
+						onClick={() => {
+							setModalContent('residentform');
+							onOpen();
+						}}
+					>
+						Nuevo residente
+					</Text>
+					<Text
+						as='u'
+						onClick={() => {
+							setModalContent('activityform');
+							onOpen();
+						}}
+					>
+						Nueva actividad
+					</Text>
+					<Text
+						as='u'
+						onClick={() => {
+							setModalContent('sessionform');
+							onOpen();
+						}}
+					>
+						Nueva sesión
+					</Text>
+					<Text
+						as='u'
+						onClick={() => {
+							setModalContent('birthdays');
+							onOpen();
+						}}
+					>
+						Proximos cumpleaños
+					</Text>
+				</Box>
+			</Box>
+			<Box display={'flex'} justifyContent={'space-between'}
+				border={'solid'}
+				borderColor={'brand.500'}
+				borderRadius={'10px'}
+				width={'98%'}
+				height={'80%'}
+				margin={'1rem'}
+				padding={'1rem'}
+				gap={'3rem'}
+				>
 				<Box display={'flex'} flexDirection={'column'} width={'20%'} height={'100%'}>
 					<Box
 						id='userBox'
@@ -176,8 +210,8 @@ const AdminPanel: FC = () => {
 						{modalContent === 'residentform' && <ResidentForm />}
 						{modalContent === 'activityform' && <ActivityForm />}
 						{modalContent === 'sessionform' && <SessionForm />}
-						{modalContent === 'birthdays' && <Birthdays residents={residents}/>}
-						{modalContent === 'monthresume' && <MonthResumeForm/>}
+						{modalContent === 'birthdays' && <Birthdays residents={residents} />}
+						{modalContent === 'monthresume' && <MonthResumeForm />}
 						{modalContent === 'upload' && <ImageUploadForm type='user' id={currentUser._id} />}
 					</ModalBody>
 				</ModalContent>

@@ -183,12 +183,9 @@ const ActivityCard: FC = () => {
 				</Accordion>
 				<Divider bg={'brand.500'} marginTop={'1rem'} />
 			</Container>
-			<Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
+			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 				<ModalOverlay />
-				<ModalContent>
-					<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
-						{closeIcon}
-					</Text>
+				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
 					<ModalBody>
 						<ActivityForm activityProp={activity} />
 					</ModalBody>

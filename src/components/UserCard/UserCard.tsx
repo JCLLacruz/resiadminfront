@@ -41,7 +41,7 @@ const UserCard: FC = () => {
 	const [connections, setConnections] = useState<GroupedConnections[]>([]);
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | null>(null);
-	
+
 	useEffect(() => {
 		if (_id) {
 			dispatch(getUserById(_id));
@@ -70,7 +70,16 @@ const UserCard: FC = () => {
 
 	return (
 		<>
-			<Container maxW='container.md' paddingBottom={'10rem'} overflowY={'auto'} border={'solid'} borderColor={'brand.500'} borderRadius={'10px'} padding={'1rem'} marginBottom={'7rem'}>
+			<Container
+				maxW='container.md'
+				paddingBottom={'10rem'}
+				overflowY={'auto'}
+				border={'solid'}
+				borderColor={'brand.500'}
+				borderRadius={'10px'}
+				padding={'1rem'}
+				marginBottom={'7rem'}
+			>
 				{isLoading || !user ? (
 					<Spinner size='xl' />
 				) : (
@@ -247,12 +256,9 @@ const UserCard: FC = () => {
 							)}
 						</Accordion>
 						<Divider my={'2rem'} bg={'brand.600'} />
-						<Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
+						<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 							<ModalOverlay />
-							<ModalContent>
-								<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
-									{closeIcon}
-								</Text>
+							<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
 								<ModalBody>
 									{modalContent === 'images' && <AllImages images={'user'} />}
 									{modalContent === 'form' && <UserForm userProp={_id ? user : currentUser} />}
