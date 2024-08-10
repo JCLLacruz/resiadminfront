@@ -23,6 +23,7 @@ import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import { getSessionsByResidentId } from '../../features/sessions/sessionSlice';
 import ResidentForm from '../RedidentForm/ResidentForm';
+import noProfileImage from '../../assets/images/no-profile-image.png';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -160,7 +161,7 @@ const ResidentCard: FC = () => {
 												width={'100%'}
 												height={'100%'}
 												objectFit={'cover'}
-												src='/src/assets/images/no-profile-image.png'
+												src={noProfileImage}
 												cursor={'pointer'}
 												onClick={() => {
 													setModalContent('upload');
