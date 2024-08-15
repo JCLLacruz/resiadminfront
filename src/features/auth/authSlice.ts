@@ -161,6 +161,7 @@ const authSlice = createSlice({
 			})
 			.addCase(login.fulfilled, (state: any, action: any) => {
 				state.currentUser = action.payload.user;
+				state.user = action.payload.user;
 				state.isSuccess = true;
 				state.token = action.payload.token;
 				state.msg = action.payload.msg;
