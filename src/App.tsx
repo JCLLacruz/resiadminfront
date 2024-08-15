@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Login from './views/Login/Login';
 import Footer from './components/Footer/Footer';
 import Residents from './views/Residents/Residents';
@@ -21,18 +21,31 @@ import AdminPanel from './views/AdminPanel/AdminPanel';
 import useWindowSize from './hooks/useWindowSize';
 import Information from './views/Information/Information';
 import MonthResumeForm from './components/MonthResumeForm/MonthResumeForm';
+import { useEffect } from 'react';
+import SaveLastLocation from './hooks/saveLastLocation';
+import { UserInterface } from './interfaces/authInterfaces';
 
 function App() {
+	const navigate =useNavigate();
 	const location: any = useLocation();
 	const isMobile = useWindowSize();
 
+	const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}') || null;
 	const isLoginRoute = location.pathname === '/';
 	const isRecoverPasswordRoute = location.pathname === '/recoverpassword';
 	const isResetPasswordRoute = location.pathname.startsWith('/users/resetPassword/');
 
+	useEffect(() => {
+		const lastVisitedUrl = localStorage.getItem('lastVisitedUrl');
+		if (lastVisitedUrl && currentUser) {
+		  navigate(lastVisitedUrl);
+		}
+	  }, [navigate]);
+
 	return (
 		<>
 			{!isLoginRoute && !isRecoverPasswordRoute && !isResetPasswordRoute && <Header />}
+			<SaveLastLocation />
 			<Routes>
 				<Route path='/' element={<Login />} />;
 				<Route path='/residents' element={<Residents />} />;
