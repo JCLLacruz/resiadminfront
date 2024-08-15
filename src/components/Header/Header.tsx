@@ -15,8 +15,10 @@ const Footer: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const isMobile = useWindowSize();
+	console.log('current',currentUser);
+	
 	useEffect(() => {
-		if (currentUser.images.length > 0 && currentUser._id === user._id) {
+		if (currentUser.images.length > 0 && currentUser?._id === user?._id) {
 			if(images.length > 0){
 				setImageSrc(images[0].src);
 			} else {

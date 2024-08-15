@@ -9,7 +9,6 @@ import { jobPositionOptions } from '../../utils/formOptions';
 import { getImageSrc } from '../../utils/functions';
 import noProfileImage from '../../assets/images/no-profile-image.png';
 
-
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
@@ -56,57 +55,51 @@ const Users: FC = () => {
 					</Button>
 				))}
 			</Box>
-			<Container
-				key={'userContainerFilter'}
-				maxW='container.xl'
-				display={'flex'}
-				gap={'1rem'}
-				width={'100%'}
-				justifyContent={'center'}
-				flexWrap={'wrap'}
-			>
+			<Box key={'userContainerFilter'} maxW='container.xl' display={'flex'} gap={'1rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
 				{filteredUsers.map((user: UserInterface) => (
 					<Box
 						key={`user_${user._id}`}
+						width={'100%'}
 						display={'flex'}
 						flexDirection={'column'}
-						gap={'1rem'}
-						width={'400px'}
-						height={'450px'}
-						justifyContent={'space-between'}
-						alignItems={'center'}
+						justifyContent={'center'}
 						borderWidth='1px'
 						borderRadius='lg'
 						overflow='hidden'
-						maxW='sm'
 						boxShadow='md'
 						paddingX={'2rem'}
 						paddingY={'1rem'}
 						cursor={'pointer'}
 						onClick={() => handleClick(user._id)}
 					>
-						<Heading>
+						<Heading marginBottom={'1rem'}>
 							{user.firstname} {user.lastname}
 						</Heading>
-						{user.images.length > 0 ? (
-							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
-								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)} cursor={'pointer'} />
+						<Box display={'flex'}>
+							<Box width={'8rem'} height={'8rem'} padding={0} margin={0} marginRight={'1rem'}>
+								{user.images.length > 0 ? (
+									<Image
+										width={'100%'}
+										height={'100%'}
+										objectFit={'cover'}
+										src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)}
+										cursor={'pointer'}
+									/>
+								) : (
+									<Image width={'100%'} height={'100%'} objectFit={'cover'} src={noProfileImage} cursor={'pointer'} />
+								)}
 							</Box>
-						) : (
-							<Box width={'15rem'} height={'15rem'} padding={0} margin={0}>
-								<Image width={'100%'} height={'100%'} objectFit={'cover'} src={noProfileImage} cursor={'pointer'} />
+							<Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
+								<Text fontSize={'rem'} color={'brand.500'} mb={'0.5rem'}>
+									Cargo: {user.jobPosition}
+								</Text>
+								<Text>Teléfono: {user.telephonnumber}</Text>
+								<Text>Email: {user.email}</Text>
 							</Box>
-						)}
-						<Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
-							<Text fontSize={'rem'} color={'brand.500'} mb={'0.5rem'}>
-								Cargo: {user.jobPosition}
-							</Text>
-							<Text>Teléfono: {user.telephonnumber}</Text>
-							<Text>Email: {user.email}</Text>
 						</Box>
 					</Box>
 				))}
-			</Container>
+			</Box>
 		</Container>
 	);
 };

@@ -36,7 +36,7 @@ const Activities: FC = () => {
 				Actividades
 			</Heading>
 			<Input placeholder='Buscar actividad' mb={'2rem'} value={searchTerm} onChange={handleChange} />
-			<Container
+			<Box
 				key={'activityContainerFilter'}
 				maxW='container.xl'
 				display={'flex'}
@@ -48,14 +48,16 @@ const Activities: FC = () => {
 				{filteredActivities.map((activity: ActivityInterface) => (
 					<Box
 						key={activity._id}
+						width={'100%'}
+						display={'flex'}
+						flexDirection={'column'}
+						justifyContent={'center'}
 						borderWidth='1px'
 						borderRadius='lg'
 						overflow='hidden'
-						width={'20rem'}
 						boxShadow='md'
 						paddingX={'2rem'}
 						paddingY={'1rem'}
-						marginBottom={'1rem'}
 						cursor={'pointer'}
 						onClick={() => goTo(activity._id)}
 					>
@@ -65,7 +67,7 @@ const Activities: FC = () => {
 						<Text>{activity.description}</Text>
 					</Box>
 				))}
-			</Container>
+			</Box>
 		</Container>
 	);
 };

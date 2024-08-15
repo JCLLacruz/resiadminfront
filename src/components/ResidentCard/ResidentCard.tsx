@@ -23,6 +23,7 @@ import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import { getSessionsByResidentId } from '../../features/sessions/sessionSlice';
 import ResidentForm from '../RedidentForm/ResidentForm';
+import noProfileImage from '../../assets/images/no-profile-image.png';
 
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -160,7 +161,7 @@ const ResidentCard: FC = () => {
 												width={'100%'}
 												height={'100%'}
 												objectFit={'cover'}
-												src='/src/assets/images/no-profile-image.png'
+												src={noProfileImage}
 												cursor={'pointer'}
 												onClick={() => {
 													setModalContent('upload');
@@ -231,12 +232,9 @@ const ResidentCard: FC = () => {
 					{resident.moreinfo}
 				</Text>
 			</Container>
-			<Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
+			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 				<ModalOverlay />
-				<ModalContent>
-					<Text position={'absolute'} top={2} right={2} fontSize={'2xl'} color={'brand.500'} cursor={'pointer'} onClick={onClose}>
-						{closeIcon}
-					</Text>
+				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
 					<ModalBody>
 						{modalContent === 'images' && <AllImages images={'resident'} />}
 						{modalContent === 'form' && <ResidentForm residentProp={resident} />}
