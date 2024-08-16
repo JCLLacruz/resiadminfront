@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteActivity, getActivityById } from '../../features/activities/activitySlice';
 import { AppDispatch } from '../../app/store';
-import { closeIcon, editIcon, trashIcon } from '../../assets/icons/icons';
+import { editIcon, trashIcon } from '../../assets/icons/icons';
 import { getSessionsByActivityId } from '../../features/sessions/sessionSlice';
 import ActivityForm from '../ActivityForm/ActivityForm';
 import { GroupedSessions } from '../../interfaces/activityIntefaces';
@@ -33,11 +33,10 @@ const ActivityCard: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [modalContent, setModalContent] = useState<'activityform' | 'alert' | null>(null);
 	const { activity, isLoading } = useSelector((state: any) => state.activity || {});
-	const { user } = useSelector((state: any) => state.auth || {});
+	const { currentUser } = useSelector((state: any) => state.auth || {});
 	const [sessions, setSessions] = useState<GroupedSessions[]>([]);
-
-	const [isAlertVisible, setIsAlertVisible] = useState(false);
 
 	useEffect(() => {
 		if (_id) {
@@ -53,8 +52,8 @@ const ActivityCard: FC = () => {
 		}
 	}, [activity]);
 
-	const handleDeleteActivity = (_id: string) => {
-		dispatch(deleteActivity(_id));
+	const handleDeleteActivity = () => {
+		dispatch(deleteActivity(activity._id));
 		navigate('/activities');
 	};
 
@@ -82,8 +81,11 @@ const ActivityCard: FC = () => {
 						Todas las sesiones
 					</Button>
 					<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
-						{user?.role === 'superadmin' && (
-							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => setIsAlertVisible(!isAlertVisible)}>
+						{currentUser.role === 'superadmin' && (
+							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => {
+								setModalContent('alert');
+								onOpen();
+							}}>
 								{trashIcon}
 							</Button>
 						)}
@@ -95,49 +97,6 @@ const ActivityCard: FC = () => {
 							{editIcon}
 						</Button>
 					</Box>
-					{isAlertVisible && (
-						<Box
-							position={'absolute'}
-							right={'1rem'}
-							top={'7.5rem'}
-							justifyContent='center'
-							textAlign='center'
-							height='200px'
-							width={'350px'}
-							zIndex={1000}
-						>
-							<Box
-								display={'flex'}
-								flexDirection={'column'}
-								alignItems={'center'}
-								borderWidth='1px'
-								borderRadius='lg'
-								overflow='hidden'
-								boxShadow='md'
-								paddingX={'2rem'}
-								paddingY={'1rem'}
-								bg='white'
-							>
-								<Text
-									position={'absolute'}
-									top={2}
-									right={2}
-									fontSize={'2xl'}
-									color={'brand.500'}
-									cursor={'pointer'}
-									onClick={() => setIsAlertVisible(false)}
-								>
-									{closeIcon}
-								</Text>
-								<Text>
-									¿Está seguro de querer eliminar esta actividad? Esta acción no se puede deshacer y se borrarán todos los registros de las sessiones.
-								</Text>
-								<Button bg='red' size='sm' mt={4} _hover={{ bg: 'red' }} onClick={() => handleDeleteActivity(activity._id)}>
-									Sí, eliminar
-								</Button>
-							</Box>
-						</Box>
-					)}
 				</Box>
 				<Heading size={'3xl'} mb={'2rem'}>
 					{activity?.title}
@@ -187,7 +146,30 @@ const ActivityCard: FC = () => {
 				<ModalOverlay />
 				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
 					<ModalBody padding={0}>
-						<ActivityForm activityProp={activity} />
+						{modalContent === 'activityform' && <ActivityForm activityProp={activity} />}
+						{modalContent === 'alert' && (
+							<Box
+								display={'flex'}
+								flexDirection={'column'}
+								alignItems={'center'}
+								borderWidth='1px'
+								overflow='hidden'
+								paddingX={'2rem'}
+								paddingY={'1rem'}
+								bg='white'
+								backgroundColor={'brand.50'}
+								border={'solid'}
+								borderColor={'brand.500'}
+								borderRadius={'10px'}
+							>
+								<Text>
+									¿Está seguro de querer eliminar esta actividad? Esta acción no se puede deshacer y se borrarán todos los registros de las sessiones.
+								</Text>{' '}
+								<Button bg='red' size='sm' _hover={{ bg: 'red' }} mt={4} onClick={handleDeleteActivity}>
+									Sí, eliminar
+								</Button>
+							</Box>
+						)}
 					</ModalBody>
 				</ModalContent>
 			</Modal>

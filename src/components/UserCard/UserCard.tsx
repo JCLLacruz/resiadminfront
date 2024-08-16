@@ -21,9 +21,9 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppDispatch, RootState } from '../../app/store';
+import { AppDispatch } from '../../app/store';
 import { deleteUser, getUserById } from '../../features/auth/authSlice';
-import { closeIcon, editIcon, trashIcon } from '../../assets/icons/icons';
+import { editIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import UserForm from '../UserForm/UserForm';
@@ -36,11 +36,10 @@ const UserCard: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.auth || {});
-	const [isAlertVisible, setIsAlertVisible] = useState(false);
+	const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: any) => state.auth || {});
 	const [connections, setConnections] = useState<GroupedConnections[]>([]);
 	const [imageSrc, setImageSrc] = useState<any>('');
-	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | null>(null);
+	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | 'alert' | null>(null);
 
 	useEffect(() => {
 		if (_id) {
@@ -48,8 +47,8 @@ const UserCard: FC = () => {
 		}
 	}, [_id, dispatch]);
 
-	const handleDeleteUser = (_id: string) => {
-		dispatch(deleteUser(_id));
+	const handleDeleteUser = () => {
+		dispatch(deleteUser(user._id));
 		navigate('/users');
 	};
 
@@ -98,7 +97,10 @@ const UserCard: FC = () => {
 					</Button>
 					<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
 						{currentUser?.role === 'superadmin' && (
-							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => setIsAlertVisible(!isAlertVisible)}>
+							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => {
+								setModalContent('alert');
+								onOpen();
+							}}>
 								{trashIcon}
 							</Button>
 						)}
@@ -111,47 +113,6 @@ const UserCard: FC = () => {
 							{editIcon}
 						</Button>
 					</Box>
-					{isAlertVisible && (
-						<Box
-							position={'absolute'}
-							right={'1rem'}
-							top={'7.5rem'}
-							justifyContent='center'
-							textAlign='center'
-							height='200px'
-							width={'350px'}
-							zIndex={1000}
-						>
-							<Box
-								display={'flex'}
-								flexDirection={'column'}
-								alignItems={'center'}
-								borderWidth='1px'
-								borderRadius='lg'
-								overflow='hidden'
-								boxShadow='md'
-								paddingX={'2rem'}
-								paddingY={'1rem'}
-								bg='white'
-							>
-								<Text
-									position={'absolute'}
-									top={2}
-									right={2}
-									fontSize={'2xl'}
-									color={'brand.500'}
-									cursor={'pointer'}
-									onClick={() => setIsAlertVisible(false)}
-								>
-									{closeIcon}
-								</Text>
-								<Text>¿Está seguro de querer eliminar este usuario? Esta acción no se puede deshacer.</Text>
-								<Button bg='red' _hover={{ bg: 'red' }} size='sm' mt={4} onClick={() => handleDeleteUser(user._id)}>
-									Sí, eliminar
-								</Button>
-							</Box>
-						</Box>
-					)}
 				</Box>
 				<Box display={'flex'} justifyContent={'center'} marginTop={'2rem'} marginBottom={'2rem'}>
 					<Box display={'flex'} width={'15rem'} height={'15rem'} padding={0} margin={0} justifyContent={'center'} alignItems={'center'}>
@@ -266,6 +227,27 @@ const UserCard: FC = () => {
 							{modalContent === 'images' && <AllImages images={'user'} />}
 							{modalContent === 'form' && <UserForm userProp={_id ? user : currentUser} />}
 							{modalContent === 'upload' && <ImageUploadForm type='user' id={user._id} />}
+							{modalContent === 'alert' && (
+								<Box
+									display={'flex'}
+									flexDirection={'column'}
+									alignItems={'center'}
+									borderWidth='1px'
+									overflow='hidden'
+									paddingX={'2rem'}
+									paddingY={'1rem'}
+									bg='white'
+									backgroundColor={'brand.50'}
+									border={'solid'}
+									borderColor={'brand.500'}
+									borderRadius={'10px'}
+								>
+									<Text>¿Está seguro de querer eliminar este usuario? Esta acción no se puede deshacer.</Text>
+									<Button bg='red' size='sm' _hover={{ bg: 'red' }} mt={4} onClick={handleDeleteUser}>
+										Sí, eliminar
+									</Button>
+								</Box>
+							)}
 						</ModalBody>
 					</ModalContent>
 				</Modal>
