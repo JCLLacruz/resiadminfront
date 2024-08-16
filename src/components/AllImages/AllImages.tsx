@@ -1,4 +1,4 @@
-import { Box, Button, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Divider, Image, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
@@ -26,26 +26,34 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 	}, [images, imagesResidentState, imagesUserState, residentImage, userImage, dispatch]);
 
 	const handleDeleteImage = (imageId: string, id: string) => {
-		if(images === 'resident'){
+		if (images === 'resident') {
 			dispatch(deleteImageResident({ imageId, id }));
 			dispatch(getResidentById(resident._id));
 		} else if (images === 'user') {
-			dispatch(deleteImageUser({imageId, id}))
+			dispatch(deleteImageUser({ imageId, id }));
 		}
 	};
 
 	return (
-		<Box>
+		<Box backgroundColor={'brand.50'} width={'100vW'} padding={'1rem'} border={'solid'} borderColor={'brand.500'} borderRadius={'10px'}>
 			{allImages.length === 0 ? (
-				<Text>No hay imágenes</Text>
+				<Text key='nonImages'>No hay imágenes</Text>
 			) : (
 				<>
 					<Text fontSize={'2xl'}>Todas las imagenes</Text>
-					<Box display='flex' flexWrap='wrap' gap='1rem'>
+					<Divider bg={'brand.500'} marginBottom={'1rem'} />
+					<Box display='flex' flexWrap='wrap' gap='1rem' height={'100%'}>
 						{allImages.map((image: any, index: any) => (
-							<Box key={index} display='flex' width='100px' justifyContent='center' position='relative'>
-								<Image width='100%' src={image.src} alt='resident' />
-								<Button position='absolute' bottom={'0'} bg='red' width='100px' onClick={() => handleDeleteImage(image._id, images ==='resident' ? resident._id : user._id)}>
+							<Box key={image._id} display={'flex'} flexDirection={'column'} alignItems={'center'} height={'100%'}>
+								<Box key={index} display='flex' width={'6rem'} height={'6rem'} justifyContent='center'>
+									<Image width='100%' src={image.src} alt='resident' objectFit={'cover'} />
+								</Box>
+								<Button
+									width={'6rem'}
+									size={'xs'}
+									bg='red'
+									onClick={() => handleDeleteImage(image._id, images === 'resident' ? resident._id : user._id)}
+								>
 									Eliminar
 								</Button>
 							</Box>

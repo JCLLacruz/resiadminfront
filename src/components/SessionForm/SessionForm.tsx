@@ -75,6 +75,7 @@ const SessionForm: FC = () => {
 			id='sessionFormContainer'
 			maxW='container.sm'
 			marginTop={'1rem'}
+			marginBottom={'6rem'}
 			border={'solid'}
 			borderColor={'brand.500'}
             backgroundColor={'brand.50'}

@@ -263,7 +263,7 @@ const authSlice = createSlice({
 			.addCase(logoutUser.fulfilled, (state: any, action: any) => {
 				state.user = [];
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
 			})
 			.addCase(recoverPassword.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -277,7 +277,7 @@ const authSlice = createSlice({
 			})
 			.addCase(recoverPassword.fulfilled, (state: any, action: any) => {
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
 			})
 			.addCase(resetPassword.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -291,7 +291,7 @@ const authSlice = createSlice({
 			})
 			.addCase(resetPassword.fulfilled, (state: any, action: any) => {
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
 			})
 			.addCase(getAllUsers.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -306,7 +306,7 @@ const authSlice = createSlice({
 			.addCase(getAllUsers.fulfilled, (state: any, action: any) => {
 				state.users = action.payload.users;
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
 			})
 			.addCase(deleteUser.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;
@@ -321,7 +321,7 @@ const authSlice = createSlice({
 			.addCase(deleteUser.fulfilled, (state: any, action: any) => {
 				state.user = action.payload.user;
 				state.msg = action.payload.msg;
-				state.loading = false;
+				state.isLoading = false;
 			})
 			.addCase(register.rejected, (state: any, action: any) => {
 				state.error = action.payload.error;

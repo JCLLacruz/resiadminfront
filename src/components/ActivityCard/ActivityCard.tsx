@@ -60,7 +60,7 @@ const ActivityCard: FC = () => {
 
 	if (isLoading) {
 		return (
-			<Container maxW='container.xl' width={'100vw'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.xl' display={'flex'} width={'100vw'} height={'60vh'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
@@ -186,7 +186,7 @@ const ActivityCard: FC = () => {
 			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 				<ModalOverlay />
 				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
-					<ModalBody>
+					<ModalBody padding={0}>
 						<ActivityForm activityProp={activity} />
 					</ModalBody>
 				</ModalContent>

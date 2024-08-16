@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Input, Text } from '@chakra-ui/react';
+import { Box, Container, Heading, Input, Spinner, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllActivities } from '../../features/activities/activitySlice';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Activities: FC = () => {
 	const navigate = useNavigate();
-	const { activities, activity } = useSelector((state: any) => state.activity || {});
+	const { activities, activity, isLoading } = useSelector((state: any) => state.activity || {});
 	const [filteredActivities, setFilteredActivities] = useState(activities);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -29,6 +29,14 @@ const Activities: FC = () => {
 	const goTo = (_id: string) => {
 		navigate(`/activitycard/${_id}`);
 	};
+
+	if (isLoading || !activities) {
+		return (
+			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+				<Spinner size='xl' />
+			</Container>
+		);
+	}
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>

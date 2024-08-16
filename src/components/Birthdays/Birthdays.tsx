@@ -109,7 +109,7 @@ const Birthdays: FC<BirthdaysProps> = ({ residents }) => {
 			</Box>
 			<Box display={'flex'} flexDirection={'column'}>
 				{filteredBirthdays.map((birthday) => (
-                    <Box>
+                    <Box key={`birthday_${birthday.date}`}>
                         <Text><strong>{birthday.firstname} {birthday.lastname}</strong> {birthday.date}</Text>
                         <Text>Cumple {new Date().getFullYear() - (+birthday.date.slice(6,10))} años.</Text>
                     </Box>

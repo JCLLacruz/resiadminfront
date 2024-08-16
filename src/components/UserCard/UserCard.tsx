@@ -68,6 +68,13 @@ const UserCard: FC = () => {
 		}
 	}, [user]);
 
+	if (isLoading || !user) {
+		return (
+			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+				<Spinner size='xl' />
+			</Container>
+		);
+	}
 	return (
 		<>
 			<Container
@@ -80,194 +87,188 @@ const UserCard: FC = () => {
 				padding={'1rem'}
 				marginBottom={'7rem'}
 			>
-				{isLoading || !user ? (
-					<Spinner size='xl' />
-				) : (
-					<>
-						<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
-							<Button
-								onClick={() => {
-									setModalContent('images');
-									onOpen();
-								}}
-							>
-								Todas las imagenes
+				<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
+					<Button
+						onClick={() => {
+							setModalContent('images');
+							onOpen();
+						}}
+					>
+						Todas las imagenes
+					</Button>
+					<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
+						{currentUser?.role === 'superadmin' && (
+							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => setIsAlertVisible(!isAlertVisible)}>
+								{trashIcon}
 							</Button>
-							<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
-								{currentUser?.role === 'superadmin' && (
-									<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => setIsAlertVisible(!isAlertVisible)}>
-										{trashIcon}
-									</Button>
-								)}
-								<Button
-									onClick={() => {
-										setModalContent('form');
-										onOpen();
-									}}
+						)}
+						<Button
+							onClick={() => {
+								setModalContent('form');
+								onOpen();
+							}}
+						>
+							{editIcon}
+						</Button>
+					</Box>
+					{isAlertVisible && (
+						<Box
+							position={'absolute'}
+							right={'1rem'}
+							top={'7.5rem'}
+							justifyContent='center'
+							textAlign='center'
+							height='200px'
+							width={'350px'}
+							zIndex={1000}
+						>
+							<Box
+								display={'flex'}
+								flexDirection={'column'}
+								alignItems={'center'}
+								borderWidth='1px'
+								borderRadius='lg'
+								overflow='hidden'
+								boxShadow='md'
+								paddingX={'2rem'}
+								paddingY={'1rem'}
+								bg='white'
+							>
+								<Text
+									position={'absolute'}
+									top={2}
+									right={2}
+									fontSize={'2xl'}
+									color={'brand.500'}
+									cursor={'pointer'}
+									onClick={() => setIsAlertVisible(false)}
 								>
-									{editIcon}
+									{closeIcon}
+								</Text>
+								<Text>¿Está seguro de querer eliminar este usuario? Esta acción no se puede deshacer.</Text>
+								<Button bg='red' _hover={{ bg: 'red' }} size='sm' mt={4} onClick={() => handleDeleteUser(user._id)}>
+									Sí, eliminar
 								</Button>
 							</Box>
-							{isAlertVisible && (
-								<Box
-									position={'absolute'}
-									right={'1rem'}
-									top={'7.5rem'}
-									justifyContent='center'
-									textAlign='center'
-									height='200px'
-									width={'350px'}
-									zIndex={1000}
-								>
-									<Box
-										display={'flex'}
-										flexDirection={'column'}
-										alignItems={'center'}
-										borderWidth='1px'
-										borderRadius='lg'
-										overflow='hidden'
-										boxShadow='md'
-										paddingX={'2rem'}
-										paddingY={'1rem'}
-										bg='white'
-									>
-										<Text
-											position={'absolute'}
-											top={2}
-											right={2}
-											fontSize={'2xl'}
-											color={'brand.500'}
-											cursor={'pointer'}
-											onClick={() => setIsAlertVisible(false)}
-										>
-											{closeIcon}
-										</Text>
-										<Text>¿Está seguro de querer eliminar este usuario? Esta acción no se puede deshacer.</Text>
-										<Button bg='red' _hover={{ bg: 'red' }} size='sm' mt={4} onClick={() => handleDeleteUser(user._id)}>
-											Sí, eliminar
-										</Button>
-									</Box>
-								</Box>
-							)}
 						</Box>
-						<Box display={'flex'} justifyContent={'center'} marginTop={'2rem'} marginBottom={'2rem'}>
-							<Box display={'flex'} width={'15rem'} height={'15rem'} padding={0} margin={0} justifyContent={'center'} alignItems={'center'}>
-								<>
-									{image == null ? (
-										<Box>
-											{imagesIsLoading ? (
-												<Spinner size='xl' />
-											) : (
-												<Box
-													margin={'0'}
-													bg='transparent'
-													_hover={{ bg: 'transparent' }}
-													onClick={() => {
-														setModalContent('upload');
-														onOpen();
-													}}
-												>
-													<Image
-														width={'100%'}
-														height={'100%'}
-														objectFit={'cover'}
-														src={noProfileImage}
-														cursor={'pointer'}
-														onClick={() => {
-															setModalContent('upload');
-															onOpen();
-														}}
-													/>
-												</Box>
-											)}
-										</Box>
+					)}
+				</Box>
+				<Box display={'flex'} justifyContent={'center'} marginTop={'2rem'} marginBottom={'2rem'}>
+					<Box display={'flex'} width={'15rem'} height={'15rem'} padding={0} margin={0} justifyContent={'center'} alignItems={'center'}>
+						<>
+							{image == null ? (
+								<Box>
+									{imagesIsLoading ? (
+										<Spinner size='xl' />
 									) : (
-										<>
+										<Box
+											margin={'0'}
+											bg='transparent'
+											_hover={{ bg: 'transparent' }}
+											onClick={() => {
+												setModalContent('upload');
+												onOpen();
+											}}
+										>
 											<Image
 												width={'100%'}
 												height={'100%'}
 												objectFit={'cover'}
-												src={imageSrc}
+												src={noProfileImage}
 												cursor={'pointer'}
 												onClick={() => {
 													setModalContent('upload');
 													onOpen();
 												}}
 											/>
-										</>
+										</Box>
 									)}
-								</>
-							</Box>
-						</Box>
-						<Box display={'flex'} justifyContent={'center'} alignItems={'center'} marginTop={'1rem'}>
-							<Heading mb={'2rem'} size={'3xl'}>
-								{user.firstname} {user.lastname}
-							</Heading>
-						</Box>
-						<Divider marginBottom={'2rem'} bg={'brand.600'} />
-						<Box display={'flex'} gap={'2rem'}>
-							<Box>
-								<Text fontSize='lg' mb={'1rem'}>
-									<strong>Información de contacto:</strong>
-								</Text>
-								<Text mb={'1rem'} paddingLeft={'1rem'}>
-									<strong>Email:</strong> {user.email}
-								</Text>
-								<Text mb={'1rem'} paddingLeft={'1rem'}>
-									<strong>Teléfono:</strong> {user.telephonnumber}
-								</Text>
-								<Text mb={'1rem'} paddingLeft={'1rem'}>
-									<strong>Cumpleaños:</strong> {new Date(user.birthday).toLocaleDateString()}
-								</Text>
-								<Text mb={'1rem'} paddingLeft={'1rem'}>
-									<strong>Rol:</strong> {user.role}
-								</Text>
-								<Text mb={'1rem'} paddingLeft={'1rem'}>
-									<strong>Cargo:</strong> {user.jobPosition}
-								</Text>
-							</Box>
-						</Box>
-						<Divider my={'2rem'} bg={'brand.600'} />
-						<Accordion allowToggle>
-							<Text fontSize={'xl'} mb={'1rem'}>
-								<strong>Conexiones:</strong>
-							</Text>
-							{connections.length === 0 ? (
-								<Text paddingLeft={'1rem'}>No hay conexiones</Text>
+								</Box>
 							) : (
 								<>
-									{connections.map((connection: GroupedConnections, index) => (
-										<AccordionItem key={`month_connections_${index}`} backgroundColor={'brand.50'}>
-											<AccordionButton>
-												<Box as='span' flex='1' textAlign='left'>
-													Total conexiones: <strong>{connection.connections.length}</strong> en {connection.month}
-												</Box>
-												<AccordionIcon />
-											</AccordionButton>
-											{connection.connections.map((connection: ConnectionsInterface, index: number) => (
-												<AccordionPanel pb={4} key={`connection_${connection.token}` + index}>
-													<Text>Se conectó el {connection.date}</Text>
-													<Divider bg={'brand.700'} />
-												</AccordionPanel>
-											))}
-										</AccordionItem>
-									))}
+									<Image
+										width={'100%'}
+										height={'100%'}
+										objectFit={'cover'}
+										src={imageSrc}
+										cursor={'pointer'}
+										onClick={() => {
+											setModalContent('upload');
+											onOpen();
+										}}
+									/>
 								</>
 							)}
-						</Accordion>
-						<Divider my={'2rem'} bg={'brand.600'} />
-						<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
-							<ModalOverlay />
-							<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
-								<ModalBody>
-									{modalContent === 'images' && <AllImages images={'user'} />}
-									{modalContent === 'form' && <UserForm userProp={_id ? user : currentUser} />}
-									{modalContent === 'upload' && <ImageUploadForm type='user' id={user._id} />}
-								</ModalBody>
-							</ModalContent>
-						</Modal>
-					</>
-				)}
+						</>
+					</Box>
+				</Box>
+				<Box display={'flex'} justifyContent={'center'} alignItems={'center'} marginTop={'1rem'}>
+					<Heading mb={'2rem'} size={'3xl'}>
+						{user.firstname} {user.lastname}
+					</Heading>
+				</Box>
+				<Divider marginBottom={'2rem'} bg={'brand.600'} />
+				<Box display={'flex'} gap={'2rem'}>
+					<Box>
+						<Text fontSize='lg' mb={'1rem'}>
+							<strong>Información de contacto:</strong>
+						</Text>
+						<Text mb={'1rem'} paddingLeft={'1rem'}>
+							<strong>Email:</strong> {user.email}
+						</Text>
+						<Text mb={'1rem'} paddingLeft={'1rem'}>
+							<strong>Teléfono:</strong> {user.telephonnumber}
+						</Text>
+						<Text mb={'1rem'} paddingLeft={'1rem'}>
+							<strong>Cumpleaños:</strong> {new Date(user.birthday).toLocaleDateString()}
+						</Text>
+						<Text mb={'1rem'} paddingLeft={'1rem'}>
+							<strong>Rol:</strong> {user.role}
+						</Text>
+						<Text mb={'1rem'} paddingLeft={'1rem'}>
+							<strong>Cargo:</strong> {user.jobPosition}
+						</Text>
+					</Box>
+				</Box>
+				<Divider my={'2rem'} bg={'brand.600'} />
+				<Accordion allowToggle>
+					<Text fontSize={'xl'} mb={'1rem'}>
+						<strong>Conexiones:</strong>
+					</Text>
+					{connections.length === 0 ? (
+						<Text paddingLeft={'1rem'}>No hay conexiones</Text>
+					) : (
+						<>
+							{connections.map((connection: GroupedConnections, index) => (
+								<AccordionItem key={`month_connections_${index}`} backgroundColor={'brand.50'}>
+									<AccordionButton>
+										<Box as='span' flex='1' textAlign='left'>
+											Total conexiones: <strong>{connection.connections.length}</strong> en {connection.month}
+										</Box>
+										<AccordionIcon />
+									</AccordionButton>
+									{connection.connections.map((connection: ConnectionsInterface, index: number) => (
+										<AccordionPanel pb={4} key={`connection_${connection.token}` + index}>
+											<Text>Se conectó el {connection.date}</Text>
+											<Divider bg={'brand.700'} />
+										</AccordionPanel>
+									))}
+								</AccordionItem>
+							))}
+						</>
+					)}
+				</Accordion>
+				<Divider my={'2rem'} bg={'brand.600'} />
+				<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
+					<ModalOverlay />
+					<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
+						<ModalBody padding={0}>
+							{modalContent === 'images' && <AllImages images={'user'} />}
+							{modalContent === 'form' && <UserForm userProp={_id ? user : currentUser} />}
+							{modalContent === 'upload' && <ImageUploadForm type='user' id={user._id} />}
+						</ModalBody>
+					</ModalContent>
+				</Modal>
 			</Container>
 		</>
 	);
