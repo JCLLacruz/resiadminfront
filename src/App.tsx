@@ -53,7 +53,7 @@ function App() {
 				<Route path='/users' element={<Users />} />;
 				<Route path='/information' element={<Information />} />;
 				<Route path='/adminpanel' element={<AdminPanel />} />;
-				<Route path='/sessions/:_id' element={<Sessions />} />;
+				<Route path='/sessions/:type' element={<Sessions />} />;
 				<Route path='/residentcard/:_id' element={<ResidentCard />} />;
 				<Route path='/activitycard/:_id' element={<ActivityCard />} />;
 				<Route path='/usercard/:_id' element={<UserCard />} />;
