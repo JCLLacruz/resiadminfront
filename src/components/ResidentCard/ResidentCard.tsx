@@ -64,7 +64,7 @@ const ResidentCard: FC = () => {
 
 	if (isLoading || !resident) {
 		return (
-			<Container maxW='container.xl' width={'100vw'} height={'100vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
@@ -235,7 +235,7 @@ const ResidentCard: FC = () => {
 			<Modal isOpen={isOpen} onClose={onClose} size={'lg'} isCentered={false}>
 				<ModalOverlay />
 				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
-					<ModalBody>
+					<ModalBody padding={0}>
 						{modalContent === 'images' && <AllImages images={'resident'} />}
 						{modalContent === 'form' && <ResidentForm residentProp={resident} />}
 						{modalContent === 'upload' && <ImageUploadForm type='resident' id={resident._id} />}

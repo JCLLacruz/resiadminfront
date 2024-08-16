@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Input, Spinner, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllResidents } from '../../features/residents/residentSlice';
@@ -9,7 +9,7 @@ import { groupOptions } from '../../utils/formOptions';
 const Residents: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-	const { residents } = useSelector((state: any) => state.resident || {});
+	const { residents, isLoading } = useSelector((state: any) => state.resident || {});
 	const [filteredResidents, setFilteredResidents] = useState(residents);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -37,6 +37,13 @@ const Residents: FC = () => {
 	const handleClick = (_id: string) => {
 		navigate(`/residentcard/${_id}`);
 	};
+	if (isLoading || !residents) {
+		return (
+			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+				<Spinner size='xl' />
+			</Container>
+		);
+	}
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>

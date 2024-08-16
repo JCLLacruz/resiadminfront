@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Image, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image, Input, Spinner, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../features/auth/authSlice';
@@ -12,7 +12,7 @@ import noProfileImage from '../../assets/images/no-profile-image.png';
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
-	const { users } = useSelector((state: any) => state.auth || {});
+	const { users, isLoading } = useSelector((state: any) => state.auth || {});
 	const [filteredUsers, setFilteredUsers] = useState(users);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -40,6 +40,13 @@ const Users: FC = () => {
 	const handleClick = (_id: string) => {
 		navigate(`/usercard/${_id}`);
 	};
+	if (isLoading || !users) {
+		return (
+			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+				<Spinner size='xl' />
+			</Container>
+		);
+	}
 
 	return (
 		<Container maxW='container.xl' marginBottom={'7rem'}>
