@@ -8,6 +8,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Spinner,
 	Text,
 	useToast,
 } from '@chakra-ui/react';
@@ -25,19 +26,20 @@ import useWindowSize from '../../hooks/useWindowSize';
 const Login: FC = () => {
 	const isMobile = useWindowSize();
 	const { isError, isSuccess, msg, currentUser } = useSelector((state: any) => state.auth || {});
-	const {
-		isError: errorServer,
-		isSuccess: successServer,
-		isLoading: loadingServer,
-		msg: msgServer,
-	} = useSelector((state: any) => state.server || {});
+	const { isError: errorServer, isSuccess: successServer, msg: msgServer } = useSelector((state: any) => state.server || {});
 	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
-	const [isDisabled, setIsDisabled] = useState<boolean>(successServer ? false : true);
-	const [serverButtonDisabled, setServerButtonDisabled] = useState<boolean>(false);
 
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();	
+	const navigate = useNavigate();
+
+	const handleStatusServer = () => {
+		dispatch(serverStatus());
+	};
+
+	useEffect(() => {
+		handleStatusServer();
+	}, []);
 
 	useEffect(() => {
 		if (isError) {
@@ -82,16 +84,10 @@ const Login: FC = () => {
 				duration: 6000,
 				isClosable: true,
 			});
-			setIsDisabled(false);
-			setServerButtonDisabled(true);
 		}
 	}, [errorServer, successServer, msgServer, dispatch]);
 
 	const handleClick = () => setShow(!show);
-
-	const handleStatusServer = () => {
-		dispatch(serverStatus());
-	};
 
 	const formik = useFormik<LoginValues>({
 		initialValues: {
@@ -110,62 +106,62 @@ const Login: FC = () => {
 
 	return (
 		<Container id='loginContainer' maxW='container.sm' padding={'2rem'}>
-			<Heading id='loginHeading' as='h1' size='lg' textAlign='center' mb={4}>
-				Login
-			</Heading>
-			<form onSubmit={formik.handleSubmit}>
-				<Box>
-					<FormControl id='email' isInvalid={!!formik.errors.email && formik.touched.email}>
-						<InputGroup>
-							<Input
-								id='emailInput'
-								name='email'
-								placeholder='Your email'
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.email}
-								isDisabled={isDisabled}
-							/>
-						</InputGroup>
-						<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-					</FormControl>
-					<FormControl id='password' isInvalid={!!formik.errors.password && formik.touched.password} mt={'1rem'}>
-						<InputGroup size='md'>
-							<Input
-								id='passwordInput'
-								name='password'
-								pr='4.5rem'
-								type={show ? 'text' : 'password'}
-								placeholder='Enter password'
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.password}
-								isDisabled={isDisabled}
-							/>
-							<InputRightElement width='4.5rem'>
-								<Button onClick={handleClick} isDisabled={isDisabled}>
-									{show ? 'Hide' : 'Show'}
-								</Button>
-							</InputRightElement>
-						</InputGroup>
-						<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-					</FormControl>
+			{!successServer ? (
+				<Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} width={'100%'} height={'80vh'}>
+					<Text marginBottom={'3rem'}>Conectando con el servidor.</Text>
+					<Spinner size='xl' />
 				</Box>
-				<Button mt={4} type='submit' isDisabled={isDisabled}>
-					Login
-				</Button>
-			</form>
-			<Box mt={4} textAlign='center'>
-				Has olvidado tu contraseña?
-				<Text color={'brand.500'} onClick={() => navigate('/recoverpassword')}>
-					haz click aquí
-				</Text>
-			</Box>
-			<Box display={'flex'} justifyContent={'center'} marginTop={'5rem'}>
-				<Button onClick={handleStatusServer} isDisabled={serverButtonDisabled} isLoading={loadingServer}>
-					Conectar servidor
-				</Button>
-			</Box>
+			) : (
+				<>
+					<Heading id='loginHeading' as='h1' size='lg' textAlign='center' mb={4}>
+						Login
+					</Heading>
+					<form onSubmit={formik.handleSubmit}>
+						<Box>
+							<FormControl id='email' isInvalid={!!formik.errors.email && formik.touched.email}>
+								<InputGroup>
+									<Input
+										id='emailInput'
+										name='email'
+										placeholder='Your email'
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+										value={formik.values.email}
+									/>
+								</InputGroup>
+								<FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+							</FormControl>
+							<FormControl id='password' isInvalid={!!formik.errors.password && formik.touched.password} mt={'1rem'}>
+								<InputGroup size='md' display={'flex'}>
+									<Input
+										id='passwordInput'
+										name='password'
+										pr='4.5rem'
+										type={show ? 'text' : 'password'}
+										placeholder='Enter password'
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+										value={formik.values.password}
+									/>
+									<InputRightElement width={'4rem'}>
+										<Button onClick={handleClick}>{show ? 'Hide' : 'Show'}</Button>
+									</InputRightElement>
+								</InputGroup>
+								<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+							</FormControl>
+						</Box>
+						<Button mt={4} type='submit'>
+							Login
+						</Button>
+					</form>
+					<Box mt={4} textAlign='center'>
+						Has olvidado tu contraseña?
+						<Text color={'brand.500'} onClick={() => navigate('/recoverpassword')}>
+							haz click aquí
+						</Text>
+					</Box>
+				</>
+			)}
 		</Container>
 	);
 };
