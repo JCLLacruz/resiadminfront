@@ -1,5 +1,11 @@
 import { ActivityInterface } from "./activityIntefaces";
 
+export interface SessionValues {
+    activityId: string,
+    observations: string,
+    residentIds: string[],
+	group: { identificator: string; subdivision: string };
+}
 export interface SessionInterface {
     _id: string;
     activityId: ActivityInterface,
@@ -18,9 +24,4 @@ export interface initialStateSessionSliceInterface {
 	msg: string | null;
 }
 
-export interface SessionValues {
-    activityId: string,
-    observations: string,
-    residentIds: string[],
-	group: { identificator: string; subdivision: string };
-}
+

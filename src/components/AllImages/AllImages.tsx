@@ -3,8 +3,9 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { deleteImageResident, getResidentById } from '../../features/residents/residentSlice';
-import { ImageData } from '../../interfaces/residentInterfaces';
+import { ImageDataResident } from '../../interfaces/residentInterfaces';
 import { deleteImageUser } from '../../features/auth/authSlice';
+import { ImageDataUser } from '../../interfaces/authInterfaces';
 
 interface AllImagesProps {
 	images: 'user' | 'resident';
@@ -20,7 +21,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 	const imagesUserState = useSelector((state: RootState) => state.auth?.images || []);
 	const userImage = useSelector((state: RootState) => state.auth?.image);
 
-	const [allImages, setAllImages] = useState<ImageData[]>([]);
+	const [allImages, setAllImages] = useState<ImageDataResident[] | ImageDataUser[]>([]);
 
 	useEffect(() => {
 		if (images === 'resident') {
@@ -51,7 +52,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 					<Text fontSize={'2xl'}>Todas las imagenes</Text>
 					<Divider bg={'brand.500'} marginBottom={'1rem'} />
 					<Box display='flex' flexWrap='wrap' gap='1rem' height={'100%'}>
-						{allImages.map((image: ImageData, index: number) => (
+						{allImages.map((image: ImageDataResident | ImageDataUser, index: number) => (
 							<Box key={image._id} display={'flex'} flexDirection={'column'} alignItems={'center'} height={'100%'}>
 								<Box key={index} display='flex' width={'6rem'} height={'6rem'} justifyContent='center'>
 									<Image width='100%' src={image.src} alt='resident' objectFit={'cover'} />

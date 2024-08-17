@@ -1,7 +1,9 @@
-export interface ActivityInterface {
-	_id: string;
+export interface ActivityValues {
 	title: string;
 	description: string;
+}
+export interface ActivityInterface extends ActivityValues{
+	_id: string;
 	sessions: Session[];
 	image_path: string;
 }
@@ -16,10 +18,6 @@ export interface initialStateActivitySliceInterface {
 	msg: string | null;
 }
 
-export interface ActivityValues {
-	title: string;
-	description: string;
-}
 
 export interface Session {
 	activityId: string;
