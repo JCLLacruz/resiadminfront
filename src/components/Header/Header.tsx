@@ -25,7 +25,7 @@ const Footer: FC = () => {
 					setImageSrc('');
 				}
 			}
-		}, 1000);
+		}, 3000);
 	}, [images, image]);
 
 	useEffect(() => {
