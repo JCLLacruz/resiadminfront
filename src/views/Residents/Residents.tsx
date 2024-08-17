@@ -39,14 +39,14 @@ const Residents: FC = () => {
 	};
 	if (isLoading || !residents) {
 		return (
-			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.sm' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
 	}
 
 	return (
-		<Container maxW='container.xl' marginBottom={'7rem'}>
+		<Container maxW='container.sm' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/residents')} cursor={'pointer'}>
 				Residentes
 			</Heading>

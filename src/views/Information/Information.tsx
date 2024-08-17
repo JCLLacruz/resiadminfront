@@ -15,10 +15,10 @@ const Information: FC = () => {
 		dispatch(getAllResidents());
 	}, []);
 	return (
-		<Container maxW='container.xl' marginBottom={'7rem'}>
-      <Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
-        <Button onClick={()=> navigate('/monthresume')}>Resumen mensual</Button>
-      </Box>
+		<Container maxW='container.sm' marginBottom={'7rem'}>
+			<Box display={'flex'} gap={'1rem'} justifyContent={'end'} marginBottom={'1rem'}>
+				<Button onClick={() => navigate('/monthresume')}>Resumen mensual</Button>
+			</Box>
 			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/statistics')} cursor={'pointer'}>
 				Información extra
 			</Heading>

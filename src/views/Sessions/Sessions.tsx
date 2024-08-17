@@ -57,7 +57,7 @@ const Sessions: FC = () => {
 	return (
 		<>
 			<Container
-				maxW='container.md'
+				maxW='container.sm'
 				paddingBottom={'10rem'}
 				overflowY={'auto'}
 				border={'solid'}

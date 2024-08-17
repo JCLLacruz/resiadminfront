@@ -77,7 +77,7 @@ const UserCard: FC = () => {
 	return (
 		<>
 			<Container
-				maxW='container.md'
+				maxW='container.sm'
 				paddingBottom={'10rem'}
 				overflowY={'auto'}
 				border={'solid'}
@@ -97,10 +97,14 @@ const UserCard: FC = () => {
 					</Button>
 					<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
 						{currentUser?.role === 'superadmin' && (
-							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => {
-								setModalContent('alert');
-								onOpen();
-							}}>
+							<Button
+								backgroundColor={'red'}
+								_hover={{ bg: 'red' }}
+								onClick={() => {
+									setModalContent('alert');
+									onOpen();
+								}}
+							>
 								{trashIcon}
 							</Button>
 						)}

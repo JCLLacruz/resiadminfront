@@ -39,7 +39,7 @@ const Activities: FC = () => {
 	}
 
 	return (
-		<Container maxW='container.xl' marginBottom={'7rem'}>
+		<Container maxW='container.sm' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/activities')} cursor={'pointer'}>
 				Actividades
 			</Heading>
