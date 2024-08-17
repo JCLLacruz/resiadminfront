@@ -1,21 +1,27 @@
 import { Box, Button, Divider, Image, Text } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { deleteImageResident, getResidentById } from '../../features/residents/residentSlice';
-import { ImageData } from '../../interfaces/residentInterfaces';
-import { deleteImageUser } from '../../features/auth/authSlice';
+import { ImageDataResident } from '../../interfaces/residentInterfaces';
+import { deleteImageUser, getUserById } from '../../features/auth/authSlice';
+import { ImageDataUser } from '../../interfaces/authInterfaces';
 
 interface AllImagesProps {
-	images: string;
+	images: 'user' | 'resident';
 }
 
 const AllImages: FC<AllImagesProps> = ({ images }) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const { resident, images: imagesResidentState, image: residentImage } = useSelector((state: any) => state.resident || {});
-	const { user, images: imagesUserState, image: userImage } = useSelector((state: any) => state.auth || {});
+	const resident = useSelector((state: RootState) => state.resident?.resident);
+	const imagesResidentState = useSelector((state: RootState) => state.resident?.images || []);
+	const residentImage = useSelector((state: RootState) => state.resident?.image);
 
-	const [allImages, setAllImages] = useState<ImageData[]>([]);
+	const user = useSelector((state: RootState) => state.auth?.user);
+	const imagesUserState = useSelector((state: RootState) => state.auth?.images || []);
+	const userImage = useSelector((state: RootState) => state.auth?.image);
+
+	const [allImages, setAllImages] = useState<ImageDataResident[] | ImageDataUser[]>([]);
 
 	useEffect(() => {
 		if (images === 'resident') {
@@ -25,12 +31,18 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 		}
 	}, [images, imagesResidentState, imagesUserState, residentImage, userImage, dispatch]);
 
-	const handleDeleteImage = (imageId: string, id: string) => {
+	const handleDeleteImage = (imageId: string, id?: string) => {
+		if (!id) return;
 		if (images === 'resident') {
 			dispatch(deleteImageResident({ imageId, id }));
-			dispatch(getResidentById(resident._id));
+			if(resident?._id){
+				dispatch(getResidentById(resident._id));
+			}
 		} else if (images === 'user') {
 			dispatch(deleteImageUser({ imageId, id }));
+			if(user?._id){
+				dispatch(getUserById(user._id))
+			}
 		}
 	};
 
@@ -43,7 +55,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 					<Text fontSize={'2xl'}>Todas las imagenes</Text>
 					<Divider bg={'brand.500'} marginBottom={'1rem'} />
 					<Box display='flex' flexWrap='wrap' gap='1rem' height={'100%'}>
-						{allImages.map((image: any, index: any) => (
+						{allImages.map((image: ImageDataResident | ImageDataUser, index: number) => (
 							<Box key={image._id} display={'flex'} flexDirection={'column'} alignItems={'center'} height={'100%'}>
 								<Box key={index} display='flex' width={'6rem'} height={'6rem'} justifyContent='center'>
 									<Image width='100%' src={image.src} alt='resident' objectFit={'cover'} />
@@ -52,7 +64,7 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 									width={'6rem'}
 									size={'xs'}
 									bg='red'
-									onClick={() => handleDeleteImage(image._id, images === 'resident' ? resident._id : user._id)}
+									onClick={() => handleDeleteImage(image._id, images === 'resident' ? resident?._id : user?._id)}
 								>
 									Eliminar
 								</Button>

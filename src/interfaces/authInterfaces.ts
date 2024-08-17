@@ -1,53 +1,44 @@
-export interface ImageData {
-	contentType: string;
-	residentId: string;
-	_id: string;
-	data: { data: ArrayBuffer };
-	src: string;
-}
-export interface ConnectionsInterface {
-	token: string;
-	date: string;
-}
+import { ImageData } from './appInterfaces';
 
-export interface UserInterface {
-	_id: string;
-	firstname: string;
-	lastname: string;
-	email: string;
-	emailConfirmed: boolean;
-	telephonnumber: number;
-	birthday: string;
-	role: string;
-	jobPosition: string;
-	images: Array<string>;
-	connections: Array<ConnectionsInterface>;
-	CommentIds: string[];
-	createdAt: string;
-	updatedAt: string;
+export interface ImageDataUser extends ImageData {
+	userId: string;
 }
 
 export interface LoginValues {
 	email: string;
 	password: string;
 }
-export interface RegisterValues {
+
+export interface RegisterValues extends LoginValues {
 	firstname: string;
 	lastname: string;
-	email: string;
 	telephonnumber: number | string;
-	password: string;
 	confirmPassword: string;
 	birthday: any;
 	role: string;
 	jobPosition: string;
 }
+
+export interface UserInterface extends RegisterValues {
+	_id: string;
+	email: string;
+	emailConfirmed: boolean;
+	images: ImageDataUser[];
+	connections: Array<ConnectionsInterface>;
+	CommentIds: string[];
+	createdAt: string;
+	updatedAt: string;
+}
+export interface ConnectionsInterface {
+	token: string;
+	date: string;
+}
 export interface initialStateAuthSliceInterface {
 	currentUser: UserInterface | null;
 	user: UserInterface | null;
-	users: Array<UserInterface>;
-	images: Array<ImageData>;
-	image: ImageData | null;
+	users: UserInterface[];
+	images: ImageDataUser[];
+	image: ImageDataUser | null;
 	imagesIsLoading: boolean;
 	token: string | null;
 	isLoading: boolean;
@@ -64,7 +55,6 @@ export interface resetPasswordValues {
 export interface recoverPasswordValues {
 	email: string;
 }
-
 export interface GroupedConnections {
 	month: string;
 	connections: { token: string; date: string }[];

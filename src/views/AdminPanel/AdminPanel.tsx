@@ -12,10 +12,11 @@ import ActivityForm from '../../components/ActivityForm/ActivityForm';
 import SessionForm from '../../components/SessionForm/SessionForm';
 import Birthdays from '../../components/Birthdays/Birthdays';
 import MonthResumeForm from '../../components/MonthResumeForm/MonthResumeForm';
+import { RootState } from '../../app/store';
 
 const AdminPanel: FC = () => {
-	const { currentUser, image, images } = useSelector((state: any) => state.auth);
-	const { residents } = useSelector((state: any) => state.resident);
+	const { currentUser, image, images } = useSelector((state: RootState) => state.auth);
+	const { residents } = useSelector((state: RootState) => state.resident);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [databaseVisible, setDatabaseVisible] = useState<string>('activities');
 	const [imageSrc, setImageSrc] = useState('');
@@ -24,8 +25,10 @@ const AdminPanel: FC = () => {
 	);
 
 	useEffect(() => {
-		if (currentUser.images.length > 0) {
-			setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
+		if (currentUser) {
+			if (currentUser.images.length > 0) {
+				setImageSrc(getImageSrc((currentUser.images[0] as any)?.data?.data, (currentUser.images[0] as any)?.contentType));
+			}
 		}
 	}, [images, image, currentUser]);
 
@@ -146,21 +149,21 @@ const AdminPanel: FC = () => {
 							}}
 						/>
 						<Heading size={'xl'} marginY={'1rem'}>
-							{currentUser.firstname} {currentUser.lastname}
+							{currentUser?.firstname} {currentUser?.lastname}
 						</Heading>
 						<Box display={'flex'} gap={'2rem'}>
 							<Box>
 								<Text mb={'1rem'}>
-									<strong>Email:</strong> {currentUser.email}
+									<strong>Email:</strong> {currentUser?.email}
 								</Text>
 								<Text mb={'1rem'}>
-									<strong>Teléfono:</strong> {currentUser.telephonnumber}
+									<strong>Teléfono:</strong> {currentUser?.telephonnumber}
 								</Text>
 								<Text mb={'1rem'}>
-									<strong>Cumpleaños:</strong> {new Date(currentUser.birthday).toLocaleDateString()}
+									<strong>Cumpleaños:</strong> {new Date(currentUser?.birthday).toLocaleDateString()}
 								</Text>
 								<Text mb={'1rem'}>
-									<strong>Rol:</strong> {currentUser.role}
+									<strong>Rol:</strong> {currentUser?.role}
 								</Text>
 							</Box>
 						</Box>
@@ -212,7 +215,7 @@ const AdminPanel: FC = () => {
 						{modalContent === 'sessionform' && <SessionForm />}
 						{modalContent === 'birthdays' && <Birthdays residents={residents} />}
 						{modalContent === 'monthresume' && <MonthResumeForm />}
-						{modalContent === 'upload' && <ImageUploadForm type='user' id={currentUser._id} />}
+						{modalContent === 'upload' && <ImageUploadForm type='user' id={currentUser?._id} />}
 					</ModalBody>
 				</ModalContent>
 			</Modal>

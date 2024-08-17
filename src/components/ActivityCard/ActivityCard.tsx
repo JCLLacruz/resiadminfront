@@ -19,9 +19,9 @@ import {
 } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { deleteActivity, getActivityById } from '../../features/activities/activitySlice';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { editIcon, trashIcon } from '../../assets/icons/icons';
 import { getSessionsByActivityId } from '../../features/sessions/sessionSlice';
 import ActivityForm from '../ActivityForm/ActivityForm';
@@ -31,11 +31,11 @@ import { groupSessionsByMonth } from '../../utils/functions';
 const ActivityCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [modalContent, setModalContent] = useState<'activityform' | 'alert' | null>(null);
-	const { activity, isLoading } = useSelector((state: any) => state.activity || {});
-	const { currentUser } = useSelector((state: any) => state.auth || {});
+	const { activity, isLoading } = useSelector((state: RootState) => state.activity || {});
+	const { currentUser } = useSelector((state: RootState) => state.auth || {});
 	const [sessions, setSessions] = useState<GroupedSessions[]>([]);
 
 	useEffect(() => {
@@ -53,8 +53,10 @@ const ActivityCard: FC = () => {
 	}, [activity]);
 
 	const handleDeleteActivity = () => {
-		dispatch(deleteActivity(activity._id));
-		navigate('/activities');
+		if (activity?._id) {
+			dispatch(deleteActivity(activity._id));
+			navigate('/activities');
+		}
 	};
 
 	if (isLoading) {
@@ -81,11 +83,15 @@ const ActivityCard: FC = () => {
 						Todas las sesiones
 					</Button>
 					<Box margin={0} padding={0} display={'flex'} flexDirection={'column'} gap={'1rem'}>
-						{currentUser.role === 'superadmin' && (
-							<Button backgroundColor={'red'} _hover={{ bg: 'red' }} onClick={() => {
-								setModalContent('alert');
-								onOpen();
-							}}>
+						{currentUser?.role === 'superadmin' && (
+							<Button
+								backgroundColor={'red'}
+								_hover={{ bg: 'red' }}
+								onClick={() => {
+									setModalContent('alert');
+									onOpen();
+								}}
+							>
 								{trashIcon}
 							</Button>
 						)}

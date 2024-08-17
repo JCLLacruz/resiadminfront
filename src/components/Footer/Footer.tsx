@@ -1,11 +1,11 @@
 import { Box, Button, Container, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { plusBoxIcon } from '../../assets/icons/icons';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 
 const Footer: FC = () => {
-	const navigate: any = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const [user, setUser] = useState<UserInterface | undefined>(undefined);
 
 	useEffect(() => {

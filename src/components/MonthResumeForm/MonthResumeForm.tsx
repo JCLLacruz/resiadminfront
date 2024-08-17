@@ -20,13 +20,13 @@ import { FC, useEffect, useState } from 'react';
 import { MonthResumeValuesInterface } from '../../interfaces/activityIntefaces';
 import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { monthResume, resetError, resetSuccess } from '../../features/documents/documentSlice';
 
 const MonthResumeForm: FC = () => {
 	const dispatch = useDispatch<AppDispatch>()
 	const toast = useToast();
-	const { isLoading, isError, isSuccess } = useSelector((state: any) => state.document || {});
+	const { isLoading, isError, isSuccess } = useSelector((state: RootState) => state.document || {});
 	const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
 	const [blobUrl, setBlobUrl] = useState<string | null>(null);
 

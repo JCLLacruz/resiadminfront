@@ -6,15 +6,15 @@ import { AppDispatch } from '../../app/store';
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, Textarea } from '@chakra-ui/react';
 import { ActivityInterface, ActivityValues } from '../../interfaces/activityIntefaces';
 import { createActivity, updateActivity } from '../../features/activities/activitySlice';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ActivityFormProps {
-	activityProp?: ActivityInterface;
+	activityProp?: ActivityInterface | null;
 }
 
 const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const [activity, setActivity] = useState<ActivityValues>({
 		title: '',
 		description: '',

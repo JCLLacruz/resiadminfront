@@ -7,7 +7,7 @@ import { AppDispatch } from '../../app/store';
 import { ResidentInterface, residentValues } from '../../interfaces/residentInterfaces';
 import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { createResident, updateResident } from '../../features/residents/residentSlice';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ResidentFormProps {
 	residentProp?: ResidentInterface;
@@ -15,7 +15,7 @@ interface ResidentFormProps {
 
 const ResidentForm: FC<ResidentFormProps> = ({ residentProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const [resident, setResident] = useState<residentValues>({
 		firstname: '',
 		lastname: '',

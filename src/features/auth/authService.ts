@@ -4,7 +4,7 @@ import { LoginValues, RegisterValues, resetPasswordValues } from '../../interfac
 const API_URL: string = 'https://serverresiadmin.onrender.com/users';
 
 const login = async (user: LoginValues) => {
-	const res: any = await axios.post(API_URL + '/login', user);
+	const res = await axios.post(API_URL + '/login', user);
 	if (res.data) {
 		localStorage.setItem('user', JSON.stringify(res.data.user));
 		localStorage.setItem('token', res.data.token);
@@ -14,7 +14,7 @@ const login = async (user: LoginValues) => {
 
 const register = async (user: RegisterValues) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.post(API_URL + '/', user, {
+	const res = await axios.post(API_URL + '/', user, {
 		headers: {
 			Authorization: token,
 		},
@@ -23,7 +23,7 @@ const register = async (user: RegisterValues) => {
 };
 const getUserById = async (id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.get(API_URL + '/id/' + id, {
+	const res = await axios.get(API_URL + '/id/' + id, {
 		headers: {
 			Authorization: token,
 		},
@@ -32,7 +32,7 @@ const getUserById = async (id: string) => {
 };
 const getAllUsers = async () => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.get(API_URL + '/', {
+	const res = await axios.get(API_URL + '/', {
 		headers: {
 			Authorization: token,
 		},
@@ -41,7 +41,7 @@ const getAllUsers = async () => {
 };
 const deleteUser = async (id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.delete(API_URL + '/id/' + id, {
+	const res = await axios.delete(API_URL + '/id/' + id, {
 		headers: {
 			Authorization: token,
 		},
@@ -50,7 +50,7 @@ const deleteUser = async (id: string) => {
 };
 const updateUser = async (user: RegisterValues, id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.put(API_URL + '/id/' + id, user, {
+	const res = await axios.put(API_URL + '/id/' + id, user, {
 		headers: {
 			Authorization: token,
 		},
@@ -75,7 +75,7 @@ const logoutUser = async () => {
 	}
 	return res.data;
 };
-const uploadImageUser = async (image: any) => {
+const uploadImageUser = async (image: FormData) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.post('https://serverresiadmin.onrender.com/images/upload/user', image, {
 		headers: {

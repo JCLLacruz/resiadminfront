@@ -5,7 +5,7 @@ const API_URL: string = 'https://serverresiadmin.onrender.com/activities';
 
 const getAllActivities = async () => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.get(API_URL + '/', {
+    const res = await axios.get(API_URL + '/', {
         headers: {
             Authorization: token,
         },
@@ -13,12 +13,12 @@ const getAllActivities = async () => {
     return res.data;
 };
 const getActivityById = async (id: string) => {
-    const res: any = await axios.get(API_URL + '/id/' + id);
+    const res = await axios.get(API_URL + '/id/' + id);
     return res.data;
 };
 const createActivity = async (activity: ActivityValues) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.post(API_URL + '/', activity, {
+    const res = await axios.post(API_URL + '/', activity, {
         headers: {
             Authorization: token,
         },
@@ -27,7 +27,7 @@ const createActivity = async (activity: ActivityValues) => {
 }
 const updateActivity = async (activity: ActivityValues, id: string) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.post(API_URL + '/id/' + id, activity, {
+    const res = await axios.post(API_URL + '/id/' + id, activity, {
         headers: {
             Authorization: token,
         },
@@ -36,7 +36,7 @@ const updateActivity = async (activity: ActivityValues, id: string) => {
 }
 const deleteActivity = async (id: string) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.delete(API_URL + '/id/' + id, {
+    const res = await axios.delete(API_URL + '/id/' + id, {
         headers: {
             Authorization: token,
         },

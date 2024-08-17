@@ -3,7 +3,7 @@ import { SessionValues } from '../../interfaces/sessionInterfaces';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { createSession } from '../../features/sessions/sessionSlice';
 import {
 	Box,
@@ -22,15 +22,17 @@ import {
 import { getAllActivities } from '../../features/activities/activitySlice';
 import { getAllResidents } from '../../features/residents/residentSlice';
 import { groupOptions } from '../../utils/formOptions';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { ResidentInterface } from '../../interfaces/residentInterfaces';
+import { ActivityInterface } from '../../interfaces/activityIntefaces';
 
 const SessionForm: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { activities } = useSelector((state: any) => state.activity || {});
-	const { residents } = useSelector((state: any) => state.resident || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { activities } = useSelector((state: RootState) => state.activity || {});
+	const { residents } = useSelector((state: RootState) => state.resident || {});
 	const [group, setGroup] = useState('');
-	const [filteredResidents, setFilteredResidents] = useState<any[]>([]);
+	const [filteredResidents, setFilteredResidents] = useState<ResidentInterface[]>([]);
 
 	useEffect(() => {
 		dispatch(getAllResidents());
@@ -39,7 +41,7 @@ const SessionForm: FC = () => {
 
 	useEffect(() => {
 		if (group) {
-			setFilteredResidents(residents.filter((resident: any) => resident.group.identificator === group));
+			setFilteredResidents(residents.filter((resident: ResidentInterface) => resident.group.identificator === group));
 		} else {
 			setFilteredResidents([]);
 		}
@@ -96,7 +98,7 @@ const SessionForm: FC = () => {
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 					>
-						{activities.map((activity: any) => (
+						{activities.map((activity: ActivityInterface) => (
 							<option key={activity._id} value={activity._id}>
 								{activity.title}
 							</option>

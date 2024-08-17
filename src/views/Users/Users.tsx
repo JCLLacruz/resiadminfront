@@ -2,8 +2,8 @@ import { Box, Button, Container, Heading, Image, Input, Spinner, Text } from '@c
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../features/auth/authSlice';
-import { AppDispatch } from '../../app/store';
-import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 import { jobPositionOptions } from '../../utils/formOptions';
 import { getImageSrc } from '../../utils/functions';
@@ -11,8 +11,8 @@ import noProfileImage from '../../assets/images/no-profile-image.png';
 
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { users, isLoading } = useSelector((state: any) => state.auth || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { users, isLoading } = useSelector((state: RootState) => state.auth || {});
 	const [filteredUsers, setFilteredUsers] = useState(users);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -34,7 +34,7 @@ const Users: FC = () => {
 	};
 
 	const roleFilter = (jobPosition: string) => {
-		setFilteredUsers(users.filter((user: any) => user.jobPosition === jobPosition));
+		setFilteredUsers(users.filter((user: UserInterface) => user.jobPosition === jobPosition));
 	};
 
 	const handleClick = (_id: string) => {
@@ -42,14 +42,14 @@ const Users: FC = () => {
 	};
 	if (isLoading || !users) {
 		return (
-			<Container maxW='container.xl' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+			<Container maxW='container.sm' width={'100vw'} height={'60vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
 				<Spinner size='xl' />
 			</Container>
 		);
 	}
 
 	return (
-		<Container maxW='container.xl' marginBottom={'7rem'}>
+		<Container maxW='container.sm' marginBottom={'7rem'}>
 			<Heading size={'3xl'} mb={'2rem'} onClick={() => navigate('/users')} cursor={'pointer'}>
 				Empleados
 			</Heading>
@@ -89,7 +89,7 @@ const Users: FC = () => {
 										width={'100%'}
 										height={'100%'}
 										objectFit={'cover'}
-										src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)}
+										src={getImageSrc((user.images[user.images.length - 1] as any)?.data?.data, (user.images[user.images.length - 1] as any)?.contentType)}
 										cursor={'pointer'}
 									/>
 								) : (
