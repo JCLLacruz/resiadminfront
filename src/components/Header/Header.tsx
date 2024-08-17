@@ -1,6 +1,6 @@
-import { Box, Button, Container, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Image, Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
-import { closeIcon, switchOffIcon, userIcon } from '../../assets/icons/icons';
+import { switchOffIcon, userIcon } from '../../assets/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
@@ -9,17 +9,17 @@ import { resetSuccess } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
-	const [isVisible, setIsVisible] = useState(false);
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { currentUser, user, image, images } = useSelector((state: any) => state.auth || {});
 	const [imageSrc, setImageSrc] = useState<any>('');
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const isMobile = useWindowSize();
-	
+
 	useEffect(() => {
 		setTimeout(() => {
 			if (currentUser.images.length > 0 && currentUser?._id === user?._id) {
-				if(images.length > 0){
+				if (images.length > 0) {
 					setImageSrc(images[0].src);
 				} else {
 					setImageSrc('');
@@ -33,7 +33,7 @@ const Footer: FC = () => {
 	}, [useWindowSize, isMobile]);
 
 	const logout = () => {
-		setIsVisible(false);
+		onClose();
 		dispatch(logoutUser());
 		dispatch(reset());
 		dispatch(resetSuccess());
@@ -84,47 +84,38 @@ const Footer: FC = () => {
 				</Heading>
 			)}
 			<Box display={'flex'} justifyContent={'end'}>
-				<Button id='logoutButton' onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}>
+				<Button id='logoutButton' onClick={onOpen}>
 					{switchOffIcon}
 				</Button>
 			</Box>
-			{isVisible && (
-				<Box position={'absolute'} top={'4rem'} right={'0.5rem'} justifyContent='center' textAlign='center' height='200px' width={'350px'}>
-					<Box
-						display={'flex'}
-						flexDirection={'column'}
-						alignItems={'center'}
-						borderWidth='1px'
-						borderRadius='lg'
-						overflow='hidden'
-						maxW='sm'
-						boxShadow='md'
-						paddingX={'2rem'}
-						paddingY={'1rem'}
-						zIndex={1000}
-						bg='white'
-					>
-						<Text
-							position={'absolute'}
-							padding={'0'}
-							marginX={'-1.80rem'}
-							marginY={'-0.8rem'}
-							alignSelf={'end'}
-							fontSize={'2xl'}
-							cursor={'pointer'}
-							onClick={isVisible ? () => setIsVisible(false) : () => setIsVisible(true)}
+			<Modal isOpen={isOpen} onClose={onClose} size={'xs'} isCentered={false}>
+				<ModalOverlay />
+				<ModalContent backgroundColor={'transparent'} border={'none'} boxShadow={'none'}>
+					<ModalBody padding={0}>
+						<Box
+							display={'flex'}
+							flexDirection={'column'}
+							alignItems={'center'}
+							borderWidth='1px'
+							overflow='hidden'
+							paddingX={'2rem'}
+							paddingY={'1rem'}
+							bg='white'
+							backgroundColor={'brand.50'}
+							border={'solid'}
+							borderColor={'brand.500'}
+							borderRadius={'10px'}
 						>
-							{closeIcon}
-						</Text>
-						<Text marginTop={'1rem'} marginBottom={'0.5rem'}>
-							¿Está seguro de querer cerrar sesión?
-						</Text>
-						<Button id='confirmLogoutButton' bg='red' size='sm' mt={4} onClick={logout}>
-							Sí, cerrar sesión!
-						</Button>
-					</Box>
-				</Box>
-			)}
+							<Text marginTop={'1rem'} marginBottom={'0.5rem'}>
+								¿Está seguro de querer cerrar sesión?
+							</Text>{' '}
+							<Button bg='red' size='sm' _hover={{ bg: 'red' }} mt={4} onClick={logout}>
+								Sí, cerrar sesión
+							</Button>
+						</Box>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 		</Container>
 	);
 };
