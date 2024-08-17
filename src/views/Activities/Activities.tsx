@@ -3,12 +3,12 @@ import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllActivities } from '../../features/activities/activitySlice';
 import { ActivityInterface } from '../../interfaces/activityIntefaces';
-import { AppDispatch } from '../../app/store';
-import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 const Activities: FC = () => {
-	const navigate = useNavigate();
-	const { activities, activity, isLoading } = useSelector((state: any) => state.activity || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { activities, activity, isLoading } = useSelector((state: RootState) => state.activity || {});
 	const [filteredActivities, setFilteredActivities] = useState(activities);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -19,7 +19,7 @@ const Activities: FC = () => {
 	}, [activity]);
 
 	useEffect(() => {
-		setFilteredActivities(activities.filter((activity: any) => activity.title.toLowerCase().includes(searchTerm.toLowerCase())));
+		setFilteredActivities(activities.filter((activity: ActivityInterface) => activity.title.toLowerCase().includes(searchTerm.toLowerCase())));
 	}, [activities, searchTerm]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

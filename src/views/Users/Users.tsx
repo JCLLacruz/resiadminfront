@@ -2,8 +2,8 @@ import { Box, Button, Container, Heading, Image, Input, Spinner, Text } from '@c
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../../features/auth/authSlice';
-import { AppDispatch } from '../../app/store';
-import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../interfaces/authInterfaces';
 import { jobPositionOptions } from '../../utils/formOptions';
 import { getImageSrc } from '../../utils/functions';
@@ -11,8 +11,8 @@ import noProfileImage from '../../assets/images/no-profile-image.png';
 
 const Users: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { users, isLoading } = useSelector((state: any) => state.auth || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { users, isLoading } = useSelector((state: RootState) => state.auth || {});
 	const [filteredUsers, setFilteredUsers] = useState(users);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -34,7 +34,7 @@ const Users: FC = () => {
 	};
 
 	const roleFilter = (jobPosition: string) => {
-		setFilteredUsers(users.filter((user: any) => user.jobPosition === jobPosition));
+		setFilteredUsers(users.filter((user: UserInterface) => user.jobPosition === jobPosition));
 	};
 
 	const handleClick = (_id: string) => {

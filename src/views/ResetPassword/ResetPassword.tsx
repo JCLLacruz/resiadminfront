@@ -13,18 +13,18 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../features/auth/authSlice';
 import { resetPasswordValues } from '../../interfaces/authInterfaces';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { eyeClosedIcon, eyeOpenIcon } from '../../assets/icons/icons';
 
 const ResetPassword: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
     const {recovertoken} = useParams();
-    const { isError, isSuccess} = useSelector((state: any) => state.auth || {});
+    const { isError, isSuccess} = useSelector((state: RootState) => state.auth || {});
     const [show, setShow] = useState<boolean>(false);
     const toast = useToast();
     const handleClick = () => setShow(!show);

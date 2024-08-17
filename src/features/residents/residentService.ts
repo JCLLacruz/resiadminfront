@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { attendanceValues } from '../../interfaces/residentInterfaces';
+import { attendanceValues, residentValues } from '../../interfaces/residentInterfaces';
 
 const API_URL: string = 'http://localhost:3001/residents';
 
 const getAllResidents = async () => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.get(API_URL + '/', {
+	const res = await axios.get(API_URL + '/', {
 		headers: {
 			Authorization: token,
 		},
@@ -14,7 +14,7 @@ const getAllResidents = async () => {
 };
 const getResidentById = async (id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.get(API_URL + '/id/' + id, {
+	const res = await axios.get(API_URL + '/id/' + id, {
 		headers: {
 			Authorization: token,
 		},
@@ -22,18 +22,18 @@ const getResidentById = async (id: string) => {
 	return res.data;
 };
 
-const createResident = async (resident: any) => {
+const createResident = async (resident: residentValues) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.post(API_URL + '/', resident, {
+	const res = await axios.post(API_URL + '/', resident, {
 		headers: {
 			Authorization: token,
 		},
 	});
 	return res.data;
 };
-const updateResident = async (resident: any, id: string) => {
+const updateResident = async (resident: residentValues, id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.put(API_URL + '/id/' + id, resident, {
+	const res = await axios.put(API_URL + '/id/' + id, resident, {
 		headers: {
 			Authorization: token,
 		},
@@ -42,7 +42,7 @@ const updateResident = async (resident: any, id: string) => {
 };
 const updateAttendance = async (attendance: attendanceValues) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.put(API_URL + '/updateattendance', attendance, {
+	const res = await axios.put(API_URL + '/updateattendance', attendance, {
 		headers: {
 			Authorization: token,
 		},
@@ -51,14 +51,14 @@ const updateAttendance = async (attendance: attendanceValues) => {
 };
 const deleteResident = async (id: string) => {
 	const token = localStorage.getItem('token');
-	const res: any = await axios.delete(API_URL + '/id/' + id, {
+	const res = await axios.delete(API_URL + '/id/' + id, {
 		headers: {
 			Authorization: token,
 		},
 	});
 	return res.data;
 };
-const uploadImageResident = async (image: any) => {
+const uploadImageResident = async (image: FormData) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.post('http://localhost:3001/images/upload/resident', image, {
 		headers: {

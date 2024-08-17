@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { NavigateFunction, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Login from './views/Login/Login';
 import Footer from './components/Footer/Footer';
 import Residents from './views/Residents/Residents';
@@ -26,8 +26,8 @@ import SaveLastLocation from './hooks/saveLastLocation';
 import { UserInterface } from './interfaces/authInterfaces';
 
 function App() {
-	const navigate =useNavigate();
-	const location: any = useLocation();
+	const navigate: NavigateFunction =useNavigate();
+	const location = useLocation();
 	const isMobile = useWindowSize();
 
 	const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}') || null;

@@ -6,8 +6,8 @@ import { RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, updateUser } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
-import { AppDispatch } from '../../app/store';
-import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { jobPositionOptions, roleOptions } from '../../utils/formOptions';
 
 interface UserFormProps {
@@ -18,8 +18,8 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	const [show, setShow] = useState<boolean>(false);
 	const handleClick = () => setShow(!show);
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { user: userState } = useSelector((state: any) => state.auth || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { user: userState } = useSelector((state: RootState) => state.auth || {});
 	const [user, setUser] = useState<RegisterValues>({
 		firstname: '',
 		lastname: '',

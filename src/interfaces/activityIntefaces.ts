@@ -2,7 +2,7 @@ export interface ActivityInterface {
 	_id: string;
 	title: string;
 	description: string;
-	sessions: string[];
+	sessions: Session[];
 	image_path: string;
 }
 
@@ -25,7 +25,7 @@ export interface Session {
 	activityId: string;
 	createdAt: string;
 	observations: string;
-	residentIds: any[];
+	residentIds: string[];
 	updatedAt: string;
 	_id: string;
 }

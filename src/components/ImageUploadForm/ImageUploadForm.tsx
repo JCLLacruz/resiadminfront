@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import { Box, Button, FormControl, FormLabel, Input, Image, Spinner } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { getResidentById, uploadImageResident } from '../../features/residents/residentSlice';
 import { getUserById, updateCurrentUser, uploadImageUser } from '../../features/auth/authSlice';
 
@@ -11,15 +11,15 @@ interface FormValues {
 }
 
 interface FormImageUploadProps {
-	id: string;
+	id: string | undefined;
 	type: string;
 }
 
 const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [preview, setPreview] = useState<string | null>(null);
-	const { isLoading } = useSelector((state: any) => state.resident || {});
-	const { currentUser } = useSelector((state: any) => state.auth || {});
+	const { isLoading } = useSelector((state: RootState) => state.resident || {});
+	const { currentUser } = useSelector((state: RootState) => state.auth || {});
 	const [isUploading, setIsUploading] = useState(false);
 
 	const formik = useFormik<FormValues>({
@@ -32,24 +32,32 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 			const formData = new FormData();
 			formData.append('image', values.image);
 			if (type === 'resident') {
-				formData.append('residentId', id);
+				if (id) {
+					formData.append('residentId', id);
+				}
 			}
 			if (type === 'user') {
-				formData.append('userId', id);
+				if (id) {
+					formData.append('userId', id);
+				}
 			}
 			isLoading && setIsUploading(true);
 			if (type == 'resident') {
 				dispatch(uploadImageResident(formData));
-				dispatch(getResidentById(id));
+				if (id) {
+					dispatch(getResidentById(id));
+				}
 				!isLoading && setIsUploading(false);
 			} else if (type == 'user') {
 				dispatch(uploadImageUser(formData));
-				dispatch(getUserById(id));
+				if (id) {
+					dispatch(getUserById(id));
+				}
 			}
-			if (currentUser._id == id) {
-				setTimeout(() => {
-					dispatch(updateCurrentUser(id));
-				}, 1000);
+			if (currentUser?._id == id) {
+					if (id) {
+						dispatch(updateCurrentUser(id));
+					}
 			}
 			formik.resetForm();
 		},

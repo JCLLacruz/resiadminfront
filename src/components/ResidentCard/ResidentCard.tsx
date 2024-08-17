@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
 import { deleteResident, getResidentById } from '../../features/residents/residentSlice';
 import { editIcon, trashIcon } from '../../assets/icons/icons';
@@ -28,11 +28,11 @@ import noProfileImage from '../../assets/images/no-profile-image.png';
 const ResidentCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { resident, image, images, isLoading, imagesIsLoading } = useSelector((state: any) => state.resident || {});
+	const { resident, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.resident || {});
 	const { currentUser } = useSelector((state: RootState) => state.auth || {});
-	const [imageSrc, setImageSrc] = useState<any>('');
+	const [imageSrc, setImageSrc] = useState<string>('');
 	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | 'alert' | null>(null);
 
 	useEffect(() => {
@@ -43,8 +43,10 @@ const ResidentCard: FC = () => {
 	}, [_id, dispatch]);
 
 	const handleDeleteResident = () => {
-		dispatch(deleteResident(resident._id));
-		navigate('/residents');
+		if(resident?._id){
+			dispatch(deleteResident(resident._id));
+			navigate('/residents');
+		}
 	};
 
 	useEffect(() => {
@@ -57,7 +59,9 @@ const ResidentCard: FC = () => {
 		if (images.length > 0) {
 			setImageSrc(images[images.length - 1].src);
 		} else {
-			setImageSrc(image?.src);
+			if(image){
+				setImageSrc(image.src);
+			}
 		}
 	}, [image]);
 

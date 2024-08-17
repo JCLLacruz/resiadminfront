@@ -1,13 +1,13 @@
 import { Box, Button, Container, Heading } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Birthdays from '../../components/Birthdays/Birthdays';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllResidents } from '../../features/residents/residentSlice';
 import { AppDispatch, RootState } from '../../app/store';
 
 const Information: FC = () => {
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 	const { residents } = useSelector((state: RootState) => state.resident || {});
 

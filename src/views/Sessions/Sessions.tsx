@@ -1,7 +1,7 @@
 import { FC, useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
-import { useNavigate, useParams } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import {
 	Box,
 	Button,
@@ -20,15 +20,16 @@ import {
 } from '@chakra-ui/react';
 import { trashIcon } from '../../assets/icons/icons';
 import { deleteSession } from '../../features/sessions/sessionSlice';
+import { SessionInterface } from '../../interfaces/sessionInterfaces';
 
 const Sessions: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { type } = useParams<{ type: string }>();
-	const { sessions, isLoading: sessionsLoading } = useSelector((state: any) => state.session || {});
-	const { activity } = useSelector((state: any) => state.activity || {});
-	const { resident } = useSelector((state: any) => state.resident || {});
+	const { sessions, isLoading: sessionsLoading } = useSelector((state: RootState) => state.session || {});
+	const { activity } = useSelector((state: RootState) => state.activity || {});
+	const { resident } = useSelector((state: RootState) => state.resident || {});
 
 	const [filteredSessions, setFilteredSessions] = useState(sessions);
 	const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +41,7 @@ const Sessions: FC = () => {
 
 	useEffect(() => {
 		if (searchTerm != '') {
-			setFilteredSessions(sessions.filter((session: any) => session.createdAt.slice(0, 10) === searchTerm));
+			setFilteredSessions(sessions.filter((session: SessionInterface) => session.createdAt.slice(0, 10) === searchTerm));
 		}
 	}, [searchTerm, sessions]);
 
@@ -51,7 +52,7 @@ const Sessions: FC = () => {
 	const handleDeleteSession = () => {
 		dispatch(deleteSession(idSessionToDelete));
 		onClose();
-		setFilteredSessions(sessions.filter((session: any) => session._id !== idSessionToDelete));
+		setFilteredSessions(sessions.filter((session: SessionInterface) => session._id !== idSessionToDelete));
 	};
 
 	return (
@@ -69,7 +70,7 @@ const Sessions: FC = () => {
 				{type !== 'activity' ? (
 					<>
 						<Heading size={'3xl'} marginY={'2rem'}>
-							{`Sesiones de ${resident.firstname} ${resident.lastname}`}
+							{`Sesiones de ${resident?.firstname} ${resident?.lastname}`}
 						</Heading>
 						<Divider bg={'brand.500'} marginY={'1rem'} />
 						<FormLabel>Buscar por fecha</FormLabel>
@@ -85,7 +86,7 @@ const Sessions: FC = () => {
 							</Box>
 						) : (
 							<>
-								{filteredSessions.map((session: any) => (
+								{filteredSessions.map((session: SessionInterface) => (
 									<Box key={`session_${session._id}`} marginTop={'1rem'}>
 										<Divider bg={'brand.700'} marginBottom={'1rem'} />
 										<Box>
@@ -117,7 +118,7 @@ const Sessions: FC = () => {
 				) : (
 					<>
 						<Heading size={'3xl'} marginY={'2rem'}>
-							Sesiones de {activity.title}
+							Sesiones de {activity?.title}
 						</Heading>
 						<Divider bg={'brand.500'} marginY={'1rem'} />
 						<FormLabel>Buscar por fecha</FormLabel>
@@ -133,7 +134,7 @@ const Sessions: FC = () => {
 							</Box>
 						) : (
 							<>
-								{filteredSessions.map((session: any) => (
+								{filteredSessions.map((session: SessionInterface) => (
 									<Box key={`activitySession_${session._id}`} marginTop={'1rem'}>
 										<Box>
 											<Box display={'flex'} justifyContent={'space-between'} marginBottom={'1rem'}>

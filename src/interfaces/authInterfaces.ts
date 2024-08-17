@@ -17,7 +17,7 @@ export interface UserInterface {
 	email: string;
 	emailConfirmed: boolean;
 	telephonnumber: number;
-	birthday: string;
+	birthday: any;
 	role: string;
 	jobPosition: string;
 	images: Array<string>;
@@ -38,7 +38,7 @@ export interface RegisterValues {
 	telephonnumber: number | string;
 	password: string;
 	confirmPassword: string;
-	birthday: any;
+	birthday: string;
 	role: string;
 	jobPosition: string;
 }

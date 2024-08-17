@@ -2,27 +2,29 @@ import { Box, Button, Container, Heading, Image, Modal, ModalBody, ModalContent,
 import { FC, useEffect, useState } from 'react';
 import { switchOffIcon, userIcon } from '../../assets/icons/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { logoutUser, reset } from '../../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { resetSuccess } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
 
 const Footer: FC = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { currentUser, user, image, images } = useSelector((state: any) => state.auth || {});
-	const [imageSrc, setImageSrc] = useState<any>('');
+	const { currentUser, user, image, images } = useSelector((state: RootState) => state.auth || {});
+	const [imageSrc, setImageSrc] = useState<string>('');
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const isMobile = useWindowSize();
 
 	useEffect(() => {
 		setTimeout(() => {
-			if (currentUser.images.length > 0 && currentUser?._id === user?._id) {
-				if (images.length > 0) {
-					setImageSrc(images[0].src);
-				} else {
-					setImageSrc('');
+			if (currentUser) {
+				if (currentUser.images.length > 0 && currentUser?._id === user?._id) {
+					if (images.length > 0) {
+						setImageSrc(images[0].src);
+					} else {
+						setImageSrc('');
+					}
 				}
 			}
 		}, 3000);
@@ -67,11 +69,11 @@ const Footer: FC = () => {
 						display={'flex'}
 						justifyContent={'center'}
 						alignItems={'center'}
-						onClick={() => navigate('/usercard/' + currentUser._id)}
+						onClick={() => navigate('/usercard/' + currentUser?._id)}
 					>
 						{imageSrc == '' ? userIcon : <Image width={'100%'} height={'100%'} src={imageSrc} objectFit={'cover'} borderRadius={'50%'} />}
 					</Box>
-					{currentUser.role === 'superadmin' && (
+					{currentUser?.role === 'superadmin' && (
 						<>
 							<Button onClick={() => navigate('/users')}>Empleados</Button>
 							<Button onClick={() => navigate('/information')}>Información</Button>

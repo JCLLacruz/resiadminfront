@@ -12,16 +12,16 @@ import {
 import { FC, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { recoverPassword } from '../../features/auth/authSlice';
 import { recoverPasswordValues } from '../../interfaces/authInterfaces';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 
 const RecoverPassword: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { isLoading, isError, isSuccess } = useSelector((state: any) => state.auth || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { isLoading, isError, isSuccess } = useSelector((state: RootState) => state.auth || {});
 	const toast = useToast();
 
 	useEffect(() => {

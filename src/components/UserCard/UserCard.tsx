@@ -20,8 +20,8 @@ import {
 } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { AppDispatch } from '../../app/store';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
 import { deleteUser, getUserById } from '../../features/auth/authSlice';
 import { editIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
@@ -34,13 +34,13 @@ import { groupConnectionsByMonth } from '../../utils/functions';
 const UserCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: any) => state.auth || {});
+	const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.auth || {});
 	const [connections, setConnections] = useState<GroupedConnections[]>([]);
-	const [imageSrc, setImageSrc] = useState<any>('');
+	const [imageSrc, setImageSrc] = useState<string>('');
 	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | 'alert' | null>(null);
-
+	
 	useEffect(() => {
 		if (_id) {
 			dispatch(getUserById(_id));
@@ -48,15 +48,19 @@ const UserCard: FC = () => {
 	}, [_id, dispatch]);
 
 	const handleDeleteUser = () => {
-		dispatch(deleteUser(user._id));
-		navigate('/users');
+		if(user?._id){
+			dispatch(deleteUser(user._id));
+			navigate('/users');
+		}
 	};
 
 	useEffect(() => {
 		if (images.length > 0) {
 			setImageSrc(images[images.length - 1].src);
 		} else {
-			setImageSrc(image);
+			if(image){
+				setImageSrc(image.src);
+			}
 		}
 	}, [image, images]);
 

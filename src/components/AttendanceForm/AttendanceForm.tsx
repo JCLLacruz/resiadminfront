@@ -2,17 +2,17 @@ import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Headi
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { attendanceValues, ResidentInterface } from '../../interfaces/residentInterfaces';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { getAllResidents, updateAttendance } from '../../features/residents/residentSlice';
 import { formatToISODate } from '../../utils/functions';
 
 const AttendanceForm: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { residents } = useSelector((state: any) => state.resident || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { residents } = useSelector((state: RootState) => state.resident || {});
 	const [filteredResidents, setFilteredResidents] = useState(residents);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -23,7 +23,7 @@ const AttendanceForm: FC = () => {
 	useEffect(() => {
 		setFilteredResidents(
 			residents.filter(
-				(resident: any) =>
+				(resident: ResidentInterface) =>
 					resident.firstname.toLowerCase().includes(searchTerm.toLowerCase()) || resident.lastname.toLowerCase().includes(searchTerm.toLowerCase())
 			)
 		);

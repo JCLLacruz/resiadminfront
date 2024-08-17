@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { SessionValues } from '../../interfaces/sessionInterfaces';
 
 const API_URL: string = 'http://localhost:3001/sessions';
 
 const getAllSessions = async () => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.get(API_URL + '/', {
+    const res = await axios.get(API_URL + '/', {
         headers: {
             Authorization: token,
         },
@@ -13,7 +14,7 @@ const getAllSessions = async () => {
 };
 const getSessionsByResidentId = async (id: string) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.get(API_URL + '/residentid/'+ id, {
+    const res = await axios.get(API_URL + '/residentid/'+ id, {
         headers: {
             Authorization: token,
         },
@@ -22,16 +23,16 @@ const getSessionsByResidentId = async (id: string) => {
 };
 const getSessionsByActivityId = async (id: string) => {    
     const token = localStorage.getItem('token');
-    const res: any = await axios.get(API_URL + '/activityid/'+ id, {
+    const res = await axios.get(API_URL + '/activityid/'+ id, {
         headers: {
             Authorization: token,
         },
     });
     return res.data;
 };
-const createSession = async ({ group, ...session }: any) => {
+const createSession = async ({ group, ...session }: {group: string; session: SessionValues}) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.post(API_URL + '/', session, {
+    const res = await axios.post(API_URL + '/', session, {
         headers: {
             Authorization: token,
         },
@@ -40,7 +41,7 @@ const createSession = async ({ group, ...session }: any) => {
 };
 const deleteSession = async (id: string) => {
     const token = localStorage.getItem('token');
-    const res: any = await axios.delete(API_URL + '/id/' + id, {
+    const res = await axios.delete(API_URL + '/id/' + id, {
         headers: {
             Authorization: token,
         },

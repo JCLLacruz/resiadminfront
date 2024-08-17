@@ -15,23 +15,23 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, resetError, resetSuccess } from '../../features/auth/authSlice';
 import { LoginValues } from '../../interfaces/authInterfaces';
-import { AppDispatch } from '../../app/store';
+import { AppDispatch, RootState } from '../../app/store';
 import { serverStatus } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
 
 const Login: FC = () => {
 	const isMobile = useWindowSize();
-	const { isError, isSuccess, msg, currentUser } = useSelector((state: any) => state.auth || {});
-	const { isError: errorServer, isSuccess: successServer, msg: msgServer } = useSelector((state: any) => state.server || {});
+	const { isError, isSuccess, msg, currentUser } = useSelector((state: RootState) => state.auth || {});
+	const { isError: errorServer, isSuccess: successServer, msg: msgServer } = useSelector((state: RootState) => state.server || {});
 	const toast = useToast();
 	const [show, setShow] = useState<boolean>(false);
 
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 
 	const handleStatusServer = () => {
 		dispatch(serverStatus());

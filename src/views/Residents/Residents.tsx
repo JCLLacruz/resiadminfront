@@ -2,14 +2,15 @@ import { Box, Button, Container, Heading, Input, Spinner, Text } from '@chakra-u
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllResidents } from '../../features/residents/residentSlice';
-import { AppDispatch } from '../../app/store';
-import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { groupOptions } from '../../utils/formOptions';
+import { ResidentInterface } from '../../interfaces/residentInterfaces';
 
 const Residents: FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
-	const navigate = useNavigate();
-	const { residents, isLoading } = useSelector((state: any) => state.resident || {});
+	const navigate: NavigateFunction = useNavigate();
+	const { residents, isLoading } = useSelector((state: RootState) => state.resident || {});
 	const [filteredResidents, setFilteredResidents] = useState(residents);
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -20,14 +21,14 @@ const Residents: FC = () => {
 	useEffect(() => {
 		setFilteredResidents(
 			residents.filter(
-				(resident: any) =>
+				(resident: ResidentInterface) =>
 					resident.firstname.toLowerCase().includes(searchTerm.toLowerCase()) || resident.lastname.toLowerCase().includes(searchTerm.toLowerCase())
 			)
 		);
 	}, [residents, searchTerm]);
 
 	const groupFilter = (group: string) => {
-		setFilteredResidents(residents.filter((resident: any) => resident.group.identificator === group));
+		setFilteredResidents(residents.filter((resident: ResidentInterface) => resident.group.identificator === group));
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +59,7 @@ const Residents: FC = () => {
 				))}
 			</Box>
 			<Box key={'residentContainerFilter'} display={'flex'} gap={'0.5rem'} width={'100%'} justifyContent={'center'} flexWrap={'wrap'}>
-				{filteredResidents.map((resident: any) => (
+				{filteredResidents.map((resident: ResidentInterface) => (
 					<>
 						<Box
 							key={`resident_${resident._id}`}

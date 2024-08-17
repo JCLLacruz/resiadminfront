@@ -1,8 +1,11 @@
+import { ActivityInterface } from "./activityIntefaces";
+
 export interface SessionInterface {
     _id: string;
-    activityId: string,
+    activityId: ActivityInterface,
 	observations: string,
 	residentIds: string[],
+	createdAt: string,
 }
 
 export interface initialStateSessionSliceInterface {
