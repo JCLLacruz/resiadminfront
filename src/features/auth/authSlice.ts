@@ -368,13 +368,18 @@ const authSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(uploadImageUser.fulfilled, (state: any, action: any) => {
-				if (action.payload.image) {
-					const image = {
-						src: getImageSrc(action.payload.image.data.data, action.payload.image.contentType),
-						_id: action.payload.image._id,
+				if (action.payload.user.images.length > 0) {
+					const srcImages = action.payload.user.images.map((image: any) => {
+						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+					});
+					state.images = srcImages;
+					state.image = {
+						src: getImageSrc(action.payload.user.images[0].data.data, action.payload.user.images[0].contentType),
+						_id: action.payload.user.images[0]._id,
 					};
-					state.image = image;
-					state.images.push(image);
+				} else {
+					state.images = [];
+					state.image = null;
 				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;
@@ -396,8 +401,23 @@ const authSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(deleteImageUser.fulfilled, (state: any, action: any) => {
-				state.images = action.payload.images;
-				state.image = null;
+				console.log('hola');
+				
+				if (action.payload.images.length > 0) {
+					console.log('hola2');
+					
+					const srcImages = action.payload.images.map((image: any) => {
+						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
+					});
+					state.images = srcImages;
+					state.image = {
+						src: getImageSrc(action.payload.images[0].data.data, action.payload.images[0].contentType),
+						_id: action.payload.images[0]._id,
+					};
+				} else {
+					state.images = [];
+					state.image = null;
+				}
 				state.msg = action.payload.msg;
 				state.isLoading = false;
 				state.imagesIsLoading = false;

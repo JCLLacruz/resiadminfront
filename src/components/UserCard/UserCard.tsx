@@ -41,6 +41,11 @@ const UserCard: FC = () => {
 	const [imageSrc, setImageSrc] = useState<string>('');
 	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | 'alert' | null>(null);
 	
+	console.log('images', images);
+	
+	console.log('image', imageSrc);
+	
+
 	useEffect(() => {
 		if (_id) {
 			dispatch(getUserById(_id));

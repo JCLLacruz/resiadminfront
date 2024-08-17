@@ -8,7 +8,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { resetSuccess } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
 
-const Footer: FC = () => {
+const Header: FC = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { currentUser, user, image, images } = useSelector((state: RootState) => state.auth || {});
 	const [imageSrc, setImageSrc] = useState<string>('');
@@ -21,14 +21,14 @@ const Footer: FC = () => {
 			if (currentUser) {
 				if (currentUser.images.length > 0 && currentUser?._id === user?._id) {
 					if (images.length > 0) {
-						setImageSrc(images[0].src);
+						setImageSrc(images[images.length - 1].src);
 					} else {
 						setImageSrc('');
 					}
 				}
 			}
 		}, 3000);
-	}, [images, image]);
+	}, [images, image, currentUser]);
 
 	useEffect(() => {
 		isMobile ? navigate('/activities') : navigate('/adminpanel');
@@ -122,4 +122,4 @@ const Footer: FC = () => {
 	);
 };
 
-export default Footer;
+export default Header;

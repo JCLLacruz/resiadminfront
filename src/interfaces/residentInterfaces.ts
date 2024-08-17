@@ -1,4 +1,5 @@
 import { ImageData } from './appInterfaces';
+import { SessionInterface } from './sessionInterfaces';
 
 export interface ImageDataResident extends ImageData {
 	residentId: string;
@@ -20,11 +21,7 @@ export interface residentValues {
 export interface ResidentInterface extends residentValues {
 	_id: string;
 	images: ImageDataResident[];
-	sessions: {
-		sessionId: string;
-		activityId: string;
-		sessionDate: string;
-	}[];
+	sessions: SessionInterface[];
 }
 export interface initialStateResidentSliceInterface {
 	resident: ResidentInterface | null;

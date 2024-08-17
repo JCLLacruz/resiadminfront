@@ -89,7 +89,7 @@ const Users: FC = () => {
 										width={'100%'}
 										height={'100%'}
 										objectFit={'cover'}
-										src={getImageSrc((user.images[0] as any)?.data?.data, (user.images[0] as any)?.contentType)}
+										src={getImageSrc((user.images[user.images.length - 1] as any)?.data?.data, (user.images[user.images.length - 1] as any)?.contentType)}
 										cursor={'pointer'}
 									/>
 								) : (

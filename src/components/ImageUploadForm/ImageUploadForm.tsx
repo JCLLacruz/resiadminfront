@@ -56,7 +56,9 @@ const ImageUploadForm: FC<FormImageUploadProps> = ({ id, type }) => {
 			}
 			if (currentUser?._id == id) {
 					if (id) {
-						dispatch(updateCurrentUser(id));
+						setTimeout(() => {
+							dispatch(updateCurrentUser(id));
+						}, 1000);
 					}
 			}
 			formik.resetForm();

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { deleteImageResident, getResidentById } from '../../features/residents/residentSlice';
 import { ImageDataResident } from '../../interfaces/residentInterfaces';
-import { deleteImageUser } from '../../features/auth/authSlice';
+import { deleteImageUser, getUserById } from '../../features/auth/authSlice';
 import { ImageDataUser } from '../../interfaces/authInterfaces';
 
 interface AllImagesProps {
@@ -40,6 +40,9 @@ const AllImages: FC<AllImagesProps> = ({ images }) => {
 			}
 		} else if (images === 'user') {
 			dispatch(deleteImageUser({ imageId, id }));
+			if(user?._id){
+				dispatch(getUserById(user._id))
+			}
 		}
 	};
 
