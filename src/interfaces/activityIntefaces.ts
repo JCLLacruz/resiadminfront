@@ -1,10 +1,12 @@
+import { SessionInterface } from "./sessionInterfaces";
+
 export interface ActivityValues {
 	title: string;
 	description: string;
 }
 export interface ActivityInterface extends ActivityValues{
 	_id: string;
-	sessions: Session[];
+	sessions: SessionInterface[];
 	image_path: string;
 }
 
@@ -18,19 +20,9 @@ export interface initialStateActivitySliceInterface {
 	msg: string | null;
 }
 
-
-export interface Session {
-	activityId: string;
-	createdAt: string;
-	observations: string;
-	residentIds: string[];
-	updatedAt: string;
-	_id: string;
-}
-
 export interface GroupedSessions {
 	month: string;
-	sessions: Session[];
+	sessions: SessionInterface[];
 }
 
 export interface MonthResumeValuesInterface {

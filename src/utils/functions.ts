@@ -1,4 +1,4 @@
-import { GroupedSessions, Session } from '../interfaces/activityIntefaces';
+import { GroupedSessions } from '../interfaces/activityIntefaces';
 import { ConnectionsInterface, GroupedConnections } from '../interfaces/authInterfaces';
 import { ResidentInterface } from '../interfaces/residentInterfaces';
 
@@ -46,7 +46,8 @@ export const groupSessionsByMonth = (sessions: Session[]): GroupedSessions[] => 
 		sessions.reduce((acc, session) => {
 			const date = new Date(session.createdAt);
 			const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-
+			console.log('acc',acc);
+			
 			if (!acc[monthYear]) {
 				acc[monthYear] = [];
 			}

@@ -1,4 +1,3 @@
-import { ActivityInterface } from "./activityIntefaces";
 import { ResidentInterface } from "./residentInterfaces";
 
 export interface SessionValues {
@@ -9,10 +8,11 @@ export interface SessionValues {
 }
 export interface SessionInterface {
     _id: string;
-    activityId: ActivityInterface,
+    activityId: string,
 	observations: string,
 	residentIds: ResidentInterface[],
 	createdAt: string,
+	updatedAt: string;
 }
 
 export interface initialStateSessionSliceInterface {
