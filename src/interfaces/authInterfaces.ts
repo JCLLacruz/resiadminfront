@@ -1,15 +1,15 @@
-import { ImageData } from './appInterfaces';
+import { ImageDataInterface } from './appInterfaces';
 
-export interface ImageDataUser extends ImageData {
+export interface ImageDataUserInterface extends ImageDataInterface {
 	userId: string;
 }
 
-export interface LoginValues {
+export interface LoginValuesInterface {
 	email: string;
 	password: string;
 }
 
-export interface RegisterValues extends LoginValues {
+export interface RegisterValuesInterface extends LoginValuesInterface {
 	firstname: string;
 	lastname: string;
 	telephonnumber: number | string;
@@ -19,11 +19,11 @@ export interface RegisterValues extends LoginValues {
 	jobPosition: string;
 }
 
-export interface UserInterface extends RegisterValues {
+export interface UserInterface extends RegisterValuesInterface {
 	_id: string;
 	email: string;
 	emailConfirmed: boolean;
-	images: ImageDataUser[];
+	images: ImageDataUserInterface[];
 	connections: Array<ConnectionsInterface>;
 	CommentIds: string[];
 	createdAt: string;
@@ -33,12 +33,12 @@ export interface ConnectionsInterface {
 	token: string;
 	date: string;
 }
-export interface initialStateAuthSliceInterface {
+export interface InitialStateAuthSliceInterface {
 	currentUser: UserInterface | null;
 	user: UserInterface | null;
 	users: UserInterface[];
-	images: ImageDataUser[];
-	image: ImageDataUser | null;
+	images: ImageDataUserInterface[];
+	image: ImageDataUserInterface | null;
 	imagesIsLoading: boolean;
 	token: string | null;
 	isLoading: boolean;
@@ -48,14 +48,14 @@ export interface initialStateAuthSliceInterface {
 	msg: string | null;
 }
 
-export interface resetPasswordValues {
+export interface ResetPasswordValuesInterface {
 	password: string;
 	confirmPassword: string;
 }
-export interface recoverPasswordValues {
+export interface RecoverPasswordValuesInterface {
 	email: string;
 }
-export interface GroupedConnections {
+export interface GroupedConnectionsInterface {
 	month: string;
 	connections: { token: string; date: string }[];
 }

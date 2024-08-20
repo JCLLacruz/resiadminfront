@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { recoverPassword } from '../../features/auth/authSlice';
-import { recoverPasswordValues } from '../../interfaces/authInterfaces';
+import { RecoverPasswordValuesInterface } from '../../interfaces/authInterfaces';
 import { AppDispatch, RootState } from '../../app/store';
 
 const RecoverPassword: FC = () => {
@@ -46,7 +46,7 @@ const RecoverPassword: FC = () => {
 		}
 	}, [isError, isSuccess]);
 
-	const formik = useFormik<recoverPasswordValues>({
+	const formik = useFormik<RecoverPasswordValuesInterface>({
 		initialValues: {
 			email: '',
 		},

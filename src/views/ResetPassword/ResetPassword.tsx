@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../features/auth/authSlice';
-import { resetPasswordValues } from '../../interfaces/authInterfaces';
+import { ResetPasswordValuesInterface } from '../../interfaces/authInterfaces';
 import { AppDispatch, RootState } from '../../app/store';
 import { eyeClosedIcon, eyeOpenIcon } from '../../assets/icons/icons';
 
@@ -52,7 +52,7 @@ const ResetPassword: FC = () => {
     }, [isError, isSuccess]);
 
 
-	const formik = useFormik<resetPasswordValues>({
+	const formik = useFormik<ResetPasswordValuesInterface>({
 		initialValues: {
 			password: '',
 			confirmPassword: '',

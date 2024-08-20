@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FC, useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { attendanceValues, ResidentInterface } from '../../interfaces/residentInterfaces';
+import { AttendanceValuesInterface, ResidentInterface } from '../../interfaces/residentInterfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { getAllResidents, updateAttendance } from '../../features/residents/residentSlice';
@@ -33,7 +33,7 @@ const AttendanceForm: FC = () => {
 		setSearchTerm(e.target.value);
 	};
 
-	const formik = useFormik<attendanceValues>({
+	const formik = useFormik<AttendanceValuesInterface>({
 		initialValues: {
 			residentIds: [],
 			date: new Date().toISOString().split('T')[0],

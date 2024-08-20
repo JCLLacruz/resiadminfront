@@ -1,4 +1,4 @@
-export interface initialStateDocumentSliceInterface{
+export interface InitialStateDocumentSliceInterface{
     isLoading: boolean,
     isError: boolean,
     isSuccess: boolean,

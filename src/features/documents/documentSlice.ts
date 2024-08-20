@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import documentService from './documentService';
-import { initialStateDocumentSliceInterface } from '../../interfaces/documentinterfaces';
+import { InitialStateDocumentSliceInterface } from '../../interfaces/documentinterfaces';
 import { MonthResumeValuesInterface } from '../../interfaces/activityIntefaces';
 
-const initialState: initialStateDocumentSliceInterface = {
+const initialState: InitialStateDocumentSliceInterface = {
 	isLoading: false,
 	isSuccess: false,
 	isError: false,

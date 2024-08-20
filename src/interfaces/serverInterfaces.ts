@@ -1,4 +1,4 @@
-export interface initialStateServerSliceInterface {
+export interface InitialStateServerSliceInterface {
     isLoading: boolean,
     isError: boolean,
     isSuccess: boolean,

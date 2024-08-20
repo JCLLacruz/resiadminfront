@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, Textarea } from '@chakra-ui/react';
-import { ActivityInterface, ActivityValues } from '../../interfaces/activityIntefaces';
+import { ActivityInterface, ActivityValuesInterface } from '../../interfaces/activityIntefaces';
 import { createActivity, updateActivity } from '../../features/activities/activitySlice';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ interface ActivityFormProps {
 const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate: NavigateFunction = useNavigate();
-	const [activity, setActivity] = useState<ActivityValues>({
+	const [activity, setActivity] = useState<ActivityValuesInterface>({
 		title: '',
 		description: '',
 	});
@@ -27,7 +27,7 @@ const ActivityForm: FC<ActivityFormProps> = ({ activityProp }) => {
 		}
 	}, [activityProp]);
 
-	const formik = useFormik<ActivityValues>({
+	const formik = useFormik<ActivityValuesInterface>({
 		initialValues: activity,
 		enableReinitialize: true,
 		validationSchema: Yup.object({

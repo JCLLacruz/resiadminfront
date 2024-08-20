@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import serverService from './serverService';
-import { initialStateServerSliceInterface } from '../../interfaces/serverInterfaces';
+import { InitialStateServerSliceInterface } from '../../interfaces/serverInterfaces';
 
-const initialState: initialStateServerSliceInterface = {
+const initialState: InitialStateServerSliceInterface = {
 	isLoading: false,
 	isSuccess: false,
 	isError: false,

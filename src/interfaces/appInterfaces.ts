@@ -1,10 +1,4 @@
-export interface LocationState {
-    from: {
-      pathname: string;
-    };
-  }
-
-  export interface ImageData {
+  export interface ImageDataInterface {
     contentType: string;
     _id: string;
     data: { data: ArrayBuffer };

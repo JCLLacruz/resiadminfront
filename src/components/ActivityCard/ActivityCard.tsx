@@ -25,8 +25,8 @@ import { AppDispatch, RootState } from '../../app/store';
 import { editIcon, trashIcon } from '../../assets/icons/icons';
 import { getSessionsByActivityId } from '../../features/sessions/sessionSlice';
 import ActivityForm from '../ActivityForm/ActivityForm';
-import { GroupedSessions } from '../../interfaces/activityIntefaces';
 import { groupSessionsByMonth } from '../../utils/functions';
+import { GroupedSessionsInterface } from '../../interfaces/sessionInterfaces';
 
 const ActivityCard: FC = () => {
 	const { _id } = useParams<{ _id: string }>();
@@ -36,7 +36,7 @@ const ActivityCard: FC = () => {
 	const [modalContent, setModalContent] = useState<'activityform' | 'alert' | null>(null);
 	const { activity, isLoading } = useSelector((state: RootState) => state.activity || {});
 	const { currentUser } = useSelector((state: RootState) => state.auth || {});
-	const [sessions, setSessions] = useState<GroupedSessions[]>([]);
+	const [sessions, setSessions] = useState<GroupedSessionsInterface[]>([]);
 
 	useEffect(() => {
 		if (_id) {
@@ -47,7 +47,7 @@ const ActivityCard: FC = () => {
 
 	useEffect(() => {
 		if (activity) {
-			const groupedSessions: GroupedSessions[] = groupSessionsByMonth(activity.sessions);
+			const groupedSessions: GroupedSessionsInterface[] = groupSessionsByMonth(activity.sessions);
 			setSessions(groupedSessions);
 		}
 	}, [activity]);

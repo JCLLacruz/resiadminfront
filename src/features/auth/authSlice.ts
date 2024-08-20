@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
-import { initialStateAuthSliceInterface, LoginValues, RegisterValues, resetPasswordValues, UserInterface } from '../../interfaces/authInterfaces';
+import { InitialStateAuthSliceInterface, LoginValuesInterface, RegisterValuesInterface, ResetPasswordValuesInterface, UserInterface } from '../../interfaces/authInterfaces';
 import { getImageSrc } from '../../utils/functions';
 
 const currentUser: UserInterface = JSON.parse(localStorage.getItem('user') || '{}');
 const token: string = localStorage.getItem('token') || '';
 
-const initialState: initialStateAuthSliceInterface = {
+const initialState: InitialStateAuthSliceInterface = {
 	currentUser,
 	user: null,
 	users: [],
@@ -21,7 +21,7 @@ const initialState: initialStateAuthSliceInterface = {
 	msg: null,
 };
 
-export const login = createAsyncThunk('auth/login', async (user: LoginValues, thunkAPI: any) => {
+export const login = createAsyncThunk('auth/login', async (user: LoginValuesInterface, thunkAPI: any) => {
 	try {
 		return await authService.login(user);
 	} catch (error: any) {
@@ -30,7 +30,7 @@ export const login = createAsyncThunk('auth/login', async (user: LoginValues, th
 	}
 });
 
-export const register = createAsyncThunk('auth/register', async (user: RegisterValues, thunkAPI: any) => {
+export const register = createAsyncThunk('auth/register', async (user: RegisterValuesInterface, thunkAPI: any) => {
 	try {
 		return await authService.register(user);
 	} catch (error: any) {
@@ -38,7 +38,7 @@ export const register = createAsyncThunk('auth/register', async (user: RegisterV
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const updateUser = createAsyncThunk('auth/updateUser', async ({ user, id }: { user: RegisterValues; id: string }, thunkAPI: any) => {
+export const updateUser = createAsyncThunk('auth/updateUser', async ({ user, id }: { user: RegisterValuesInterface; id: string }, thunkAPI: any) => {
 	try {
 		return await authService.updateUser(user, id);
 	} catch (error: any) {
@@ -97,7 +97,7 @@ export const recoverPassword = createAsyncThunk('auth/recoverPassword', async (e
 });
 export const resetPassword = createAsyncThunk(
 	'auth/resetPassword',
-	async ({ password, recoverToken }: { password: resetPasswordValues; recoverToken: string }, thunkAPI: any) => {
+	async ({ password, recoverToken }: { password: ResetPasswordValuesInterface; recoverToken: string }, thunkAPI: any) => {
 		try {
 			return await authService.resetPassword(password, recoverToken);
 		} catch (error: any) {

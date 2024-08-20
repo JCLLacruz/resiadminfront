@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import residentService from './residentService';
-import { attendanceValues, initialStateResidentSliceInterface, residentValues } from '../../interfaces/residentInterfaces';
+import { AttendanceValuesInterface, initialStateResidentSliceInterface, ResidentValuesInterface } from '../../interfaces/residentInterfaces';
 import { getImageSrc } from '../../utils/functions';
 
 const initialState: initialStateResidentSliceInterface = {
@@ -40,7 +40,7 @@ export const createResident = createAsyncThunk('residents/createResident', async
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: residentValues; id: string }, thunkAPI: any) => {
+export const updateResident = createAsyncThunk('residents/updateResident', async ({ resident, id }: { resident: ResidentValuesInterface; id: string }, thunkAPI: any) => {
 	try {
 		return await residentService.updateResident(resident, id);
 	} catch (error: any) {
@@ -48,7 +48,7 @@ export const updateResident = createAsyncThunk('residents/updateResident', async
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const updateAttendance = createAsyncThunk('residents/updateAttendance', async (attendance: attendanceValues, thunkAPI: any) => {
+export const updateAttendance = createAsyncThunk('residents/updateAttendance', async (attendance: AttendanceValuesInterface, thunkAPI: any) => {
 	try {
 		return await residentService.updateAttendance(attendance);
 	} catch (error: any) {

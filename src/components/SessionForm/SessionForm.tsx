@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { SessionValues } from '../../interfaces/sessionInterfaces';
+import { SessionValuesInterface } from '../../interfaces/sessionInterfaces';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,7 +47,7 @@ const SessionForm: FC = () => {
 		}
 	}, [group, residents]);
 
-	const formik = useFormik<SessionValues>({
+	const formik = useFormik<SessionValuesInterface>({
 		initialValues: {
 			activityId: '',
 			observations: '',

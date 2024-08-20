@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import activityService from './activityService';
-import { ActivityValues, initialStateActivitySliceInterface } from '../../interfaces/activityIntefaces';
+import { ActivityValuesInterface, InitialStateActivitySliceInterface } from '../../interfaces/activityIntefaces';
 
-const initialState: initialStateActivitySliceInterface = {
+const initialState: InitialStateActivitySliceInterface = {
 	activity: null,
 	activities: [],
 	isLoading: true,
@@ -28,7 +28,7 @@ export const getActivityById = createAsyncThunk('activities/getActivityById', as
         return thunkAPI.rejectWithValue(errorMessage);
     }
 });
-export const createActivity = createAsyncThunk('activities/createActivity', async (activity: ActivityValues, thunkAPI) => {
+export const createActivity = createAsyncThunk('activities/createActivity', async (activity: ActivityValuesInterface, thunkAPI) => {
 	try {
 		return await activityService.createActivity(activity);
 	} catch (error: any) {
@@ -44,7 +44,7 @@ export const deleteActivity = createAsyncThunk('activities/deleteActivity', asyn
 		return thunkAPI.rejectWithValue(errorMessage);
 	}
 });
-export const updateActivity = createAsyncThunk('activities/updateActivity', async ({activity, id} : {activity: ActivityValues; id: string}, thunkAPI) => {
+export const updateActivity = createAsyncThunk('activities/updateActivity', async ({activity, id} : {activity: ActivityValuesInterface; id: string}, thunkAPI) => {
 	try {
 		return await activityService.updateActivity(activity, id)
 	} catch (error: any) {
