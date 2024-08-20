@@ -45,9 +45,7 @@ export const groupSessionsByMonth = (sessions: SessionInterface[]): GroupedSessi
 	const grouped: { [key: string]: { activityId: string; createdAt: string; updatedAt:string; _id: string; observations: string; residentIds: ResidentInterface[] }[] } =
 		sessions.reduce((acc, session) => {
 			const date = new Date(session.createdAt);
-			const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-			console.log('acc',acc);
-			
+			const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });			
 			if (!acc[monthYear]) {
 				acc[monthYear] = [];
 			}

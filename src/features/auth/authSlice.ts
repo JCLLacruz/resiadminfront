@@ -401,11 +401,7 @@ const authSlice = createSlice({
 				state.imagesIsLoading = true;
 			})
 			.addCase(deleteImageUser.fulfilled, (state: any, action: any) => {
-				console.log('hola');
-				
 				if (action.payload.images.length > 0) {
-					console.log('hola2');
-					
 					const srcImages = action.payload.images.map((image: any) => {
 						return { src: getImageSrc(image.data.data, image.contentType), _id: image._id };
 					});
