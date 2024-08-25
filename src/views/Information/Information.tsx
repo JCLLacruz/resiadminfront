@@ -5,6 +5,7 @@ import Birthdays from '../../components/Birthdays/Birthdays';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllResidents } from '../../features/residents/residentSlice';
 import { AppDispatch, RootState } from '../../app/store';
+import Statistics from '../../components/Statistics/Statistics';
 
 const Information: FC = () => {
 	const navigate: NavigateFunction = useNavigate();
@@ -24,6 +25,9 @@ const Information: FC = () => {
 			</Heading>
 			<Box>
 				<Birthdays residents={residents} />
+			</Box>
+			<Box>
+				<Statistics/>
 			</Box>
 		</Container>
 	);
