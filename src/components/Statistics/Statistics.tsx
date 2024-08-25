@@ -77,6 +77,7 @@ const Statistics: FC = () => {
 			borderRadius={'10px'}
 			padding={'1rem'}
 			backgroundColor={'brand.50'}
+			sx={{ scrollbarWidth: 'none' }}
 		>
 			<Box display={'flex'} mb={'1rem'} gap={'1rem'}>
 				{groupOptions.map((group, i) => (
@@ -134,7 +135,7 @@ const Statistics: FC = () => {
                             </Tfoot>
 						</Table>
 					</TableContainer>
-					<TableContainer>
+					<TableContainer marginTop={'1rem'}>
 						<Heading>GRUPO B / Polivalente</Heading>
 						<Table variant='striped' size={'sm'}>
 							<Thead>
