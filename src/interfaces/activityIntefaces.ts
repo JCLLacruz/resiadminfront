@@ -1,14 +1,16 @@
-export interface ActivityValues {
+import { SessionInterface } from "./sessionInterfaces";
+
+export interface ActivityValuesInterface {
 	title: string;
 	description: string;
 }
-export interface ActivityInterface extends ActivityValues{
+export interface ActivityInterface extends ActivityValuesInterface{
 	_id: string;
-	sessions: Session[];
+	sessions: SessionInterface[];
 	image_path: string;
 }
 
-export interface initialStateActivitySliceInterface {
+export interface InitialStateActivitySliceInterface {
 	activity: ActivityInterface | null;
 	activities: Array<ActivityInterface>;
 	isLoading: boolean;
@@ -17,22 +19,6 @@ export interface initialStateActivitySliceInterface {
 	error: string | null;
 	msg: string | null;
 }
-
-
-export interface Session {
-	activityId: string;
-	createdAt: string;
-	observations: string;
-	residentIds: string[];
-	updatedAt: string;
-	_id: string;
-}
-
-export interface GroupedSessions {
-	month: string;
-	sessions: Session[];
-}
-
 export interface MonthResumeValuesInterface {
 	month: string;
 	year: string;

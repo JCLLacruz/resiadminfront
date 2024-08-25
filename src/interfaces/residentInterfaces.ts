@@ -1,10 +1,10 @@
-import { ImageData } from './appInterfaces';
+import { ImageDataInterface } from './appInterfaces';
 import { SessionInterface } from './sessionInterfaces';
 
-export interface ImageDataResident extends ImageData {
+export interface ImageDataResidentInterface extends ImageDataInterface {
 	residentId: string;
 }
-export interface residentValues {
+export interface ResidentValuesInterface {
 	firstname: string;
 	lastname: string;
 	email: string;
@@ -18,16 +18,16 @@ export interface residentValues {
 	moreinfo: string;
 	group: { identificator: string; subdivision: string };
 }
-export interface ResidentInterface extends residentValues {
+export interface ResidentInterface extends ResidentValuesInterface {
 	_id: string;
-	images: ImageDataResident[];
+	images: ImageDataResidentInterface[];
 	sessions: SessionInterface[];
 }
 export interface initialStateResidentSliceInterface {
 	resident: ResidentInterface | null;
 	residents: Array<ResidentInterface>;
-	images: ImageDataResident[];
-	image: ImageDataResident | null;
+	images: ImageDataResidentInterface[];
+	image: ImageDataResidentInterface | null;
 	imagesIsLoading: boolean;
 	isLoading: boolean;
 	isError: boolean;
@@ -35,7 +35,7 @@ export interface initialStateResidentSliceInterface {
 	error: string | null;
 	msg: string | null;
 }
-export interface attendanceValues {
+export interface AttendanceValuesInterface {
 	residentIds: string[];
 	date: string;
 }

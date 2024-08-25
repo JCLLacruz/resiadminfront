@@ -1,6 +1,6 @@
-import { GroupedSessions, Session } from '../interfaces/activityIntefaces';
-import { ConnectionsInterface, GroupedConnections } from '../interfaces/authInterfaces';
+import { ConnectionsInterface, GroupedConnectionsInterface } from '../interfaces/authInterfaces';
 import { ResidentInterface } from '../interfaces/residentInterfaces';
+import { GroupedSessionsInterface, SessionInterface } from '../interfaces/sessionInterfaces';
 
 export const getImageSrc = (data: ArrayBuffer, contentType: string) => {
 	const base64String = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
@@ -20,7 +20,7 @@ export const formatDate = (dateString: string): string => {
 	return `${day}-${month}-${year}`;
 };
 
-export const groupConnectionsByMonth = (connections: ConnectionsInterface[]): GroupedConnections[] => {
+export const groupConnectionsByMonth = (connections: ConnectionsInterface[]): GroupedConnectionsInterface[] => {
 	const grouped: { [key: string]: { token: string; date: string }[] } = connections.reduce((acc, connection) => {
 		const date = new Date(connection.date);
 		const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
@@ -41,12 +41,11 @@ export const groupConnectionsByMonth = (connections: ConnectionsInterface[]): Gr
 	}));
 };
 
-export const groupSessionsByMonth = (sessions: Session[]): GroupedSessions[] => {
+export const groupSessionsByMonth = (sessions: SessionInterface[]): GroupedSessionsInterface[] => {
 	const grouped: { [key: string]: { activityId: string; createdAt: string; updatedAt:string; _id: string; observations: string; residentIds: ResidentInterface[] }[] } =
 		sessions.reduce((acc, session) => {
 			const date = new Date(session.createdAt);
-			const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
-
+			const monthYear = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });			
 			if (!acc[monthYear]) {
 				acc[monthYear] = [];
 			}

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SessionValues } from '../../interfaces/sessionInterfaces';
+import { SessionValuesInterface } from '../../interfaces/sessionInterfaces';
 
 const API_URL: string = 'https://serverresiadmin.onrender.com/sessions';
 
@@ -30,7 +30,7 @@ const getSessionsByActivityId = async (id: string) => {
     });
     return res.data;
 };
-const createSession = async ({ group, ...session }: {group: string; session: SessionValues}) => {
+const createSession = async ({ group, ...session }: {group: string; session: SessionValuesInterface}) => {
     const token = localStorage.getItem('token');
     const res = await axios.post(API_URL + '/', session, {
         headers: {

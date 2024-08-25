@@ -27,7 +27,7 @@ import { editIcon, trashIcon } from '../../assets/icons/icons';
 import ImageUploadForm from '../ImageUploadForm/ImageUploadForm';
 import AllImages from '../AllImages/AllImages';
 import UserForm from '../UserForm/UserForm';
-import { ConnectionsInterface, GroupedConnections } from '../../interfaces/authInterfaces';
+import { ConnectionsInterface, GroupedConnectionsInterface } from '../../interfaces/authInterfaces';
 import noProfileImage from '../../assets/images/no-profile-image.png';
 import { groupConnectionsByMonth } from '../../utils/functions';
 
@@ -37,14 +37,9 @@ const UserCard: FC = () => {
 	const navigate: NavigateFunction = useNavigate();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { currentUser, user, image, images, isLoading, imagesIsLoading } = useSelector((state: RootState) => state.auth || {});
-	const [connections, setConnections] = useState<GroupedConnections[]>([]);
+	const [connections, setConnections] = useState<GroupedConnectionsInterface[]>([]);
 	const [imageSrc, setImageSrc] = useState<string>('');
 	const [modalContent, setModalContent] = useState<'images' | 'form' | 'upload' | 'alert' | null>(null);
-	
-	console.log('images', images);
-	
-	console.log('image', imageSrc);
-	
 
 	useEffect(() => {
 		if (_id) {
@@ -71,7 +66,7 @@ const UserCard: FC = () => {
 
 	useEffect(() => {
 		if (user) {
-			const groupedConnections: GroupedConnections[] = groupConnectionsByMonth(user.connections);
+			const groupedConnections: GroupedConnectionsInterface[] = groupConnectionsByMonth(user.connections);
 			setConnections(groupedConnections);
 		}
 	}, [user]);
@@ -213,7 +208,7 @@ const UserCard: FC = () => {
 						<Text paddingLeft={'1rem'}>No hay conexiones</Text>
 					) : (
 						<>
-							{connections.map((connection: GroupedConnections, index) => (
+							{connections.map((connection: GroupedConnectionsInterface, index) => (
 								<AccordionItem key={`month_connections_${index}`} backgroundColor={'brand.50'}>
 									<AccordionButton>
 										<Box as='span' flex='1' textAlign='left'>

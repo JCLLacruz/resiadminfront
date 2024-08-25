@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { SessionValues } from '../../interfaces/sessionInterfaces';
+import { SessionValuesInterface } from '../../interfaces/sessionInterfaces';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { getAllActivities } from '../../features/activities/activitySlice';
 import { getAllResidents } from '../../features/residents/residentSlice';
-import { groupOptions } from '../../utils/formOptions';
+import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { ResidentInterface } from '../../interfaces/residentInterfaces';
 import { ActivityInterface } from '../../interfaces/activityIntefaces';
@@ -32,6 +32,7 @@ const SessionForm: FC = () => {
 	const { activities } = useSelector((state: RootState) => state.activity || {});
 	const { residents } = useSelector((state: RootState) => state.resident || {});
 	const [group, setGroup] = useState('');
+	const [subdivision, setSubdivision] = useState('');
 	const [filteredResidents, setFilteredResidents] = useState<ResidentInterface[]>([]);
 
 	useEffect(() => {
@@ -41,13 +42,19 @@ const SessionForm: FC = () => {
 
 	useEffect(() => {
 		if (group) {
-			setFilteredResidents(residents.filter((resident: ResidentInterface) => resident.group.identificator === group));
+			const filtered = residents.filter((resident: ResidentInterface) => {
+				return (
+					resident.group.identificator === group &&
+					(subdivision === '' || resident.group.subdivision === subdivision)
+				);
+			});
+			setFilteredResidents(filtered);
 		} else {
 			setFilteredResidents([]);
 		}
-	}, [group, residents]);
+	}, [group, subdivision, residents]);
 
-	const formik = useFormik<SessionValues>({
+	const formik = useFormik<SessionValuesInterface>({
 		initialValues: {
 			activityId: '',
 			observations: '',
@@ -58,6 +65,10 @@ const SessionForm: FC = () => {
 			activityId: Yup.string().required('Elige una actividad'),
 			observations: Yup.string().required('Añade una observación'),
 			residentIds: Yup.array().min(1, 'Elige al menos un residente'),
+			group: Yup.object({
+				identificator: Yup.string().required('Identificador de grupo es requerido'),
+				subdivision: Yup.string(),
+			}),
 		}),
 		onSubmit: (values) => {
 			dispatch(createSession(values));
@@ -70,6 +81,18 @@ const SessionForm: FC = () => {
 		const { name, value } = e.target;
 		formik.setFieldValue(name, value);
 		setGroup(value);
+
+		// Clear subdivision if group is not "I"
+		if (value !== 'I') {
+			formik.setFieldValue('group.subdivision', '');
+			setSubdivision('');
+		}
+	};
+
+	const handleSubdivisionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const { name, value } = e.target;
+		formik.setFieldValue(name, value);
+		setSubdivision(value);
 	};
 
 	return (
@@ -80,9 +103,9 @@ const SessionForm: FC = () => {
 			marginBottom={'6rem'}
 			border={'solid'}
 			borderColor={'brand.500'}
-            backgroundColor={'brand.50'}
+			backgroundColor={'brand.50'}
 			borderRadius={'lg'}
-            padding={'1rem'}
+			padding={'1rem'}
 		>
 			<Heading id='sessionFormHeading' as='h1' size='lg' textAlign='center' mb={'1rem'}>
 				Nueva Sesión
@@ -140,6 +163,24 @@ const SessionForm: FC = () => {
 					<FormErrorMessage position={'absolute'} right={'0'}>
 						{formik.errors.group?.identificator}
 					</FormErrorMessage>
+				</FormControl>
+				<FormControl mt={'1rem'}>
+					<FormLabel htmlFor='subdivisionInput'>Subdivisión</FormLabel>
+					<Select
+						id='subdivisionInput'
+						name='group.subdivision'
+						placeholder='Ninguna subdivisión'
+						onChange={handleSubdivisionChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.group.subdivision}
+						disabled={group !== 'I'}
+					>
+						{sudivisionGroupOptions.map((subdivision) => (
+							<option key={subdivision} value={subdivision}>
+								{subdivision}
+							</option>
+						))}
+					</Select>
 				</FormControl>
 				<FormControl isInvalid={!!(formik.errors.residentIds && formik.touched.residentIds)} mt={'1rem'}>
 					<FormLabel htmlFor='residentIds'>Residentes</FormLabel>

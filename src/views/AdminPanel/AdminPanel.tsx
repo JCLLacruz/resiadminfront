@@ -13,6 +13,7 @@ import SessionForm from '../../components/SessionForm/SessionForm';
 import Birthdays from '../../components/Birthdays/Birthdays';
 import MonthResumeForm from '../../components/MonthResumeForm/MonthResumeForm';
 import { RootState } from '../../app/store';
+import Statistics from '../../components/Statistics/Statistics';
 
 const AdminPanel: FC = () => {
 	const { currentUser, image, images } = useSelector((state: RootState) => state.auth);
@@ -174,15 +175,10 @@ const AdminPanel: FC = () => {
 					display={'flex'}
 					flexDirection={'column'}
 					justifyContent={'center'}
-					width={'30%'}
-					height={'50%'}
-					border={'solid'}
-					borderColor={'brand.500'}
-					borderRadius={'lg'}
-					padding={'1rem'}
+					width={'40%'}
+					height={'118.5%'}
 				>
-					<Box id='monthBox' width={'100%'} height={'10rem'} bg={'gray'} marginBottom={'1rem'}></Box>
-					<Box id='activityBox' width={'100%'} height={'10rem'} bg={'gray'}></Box>
+				<Statistics/>
 				</Box>
 				<Box
 					id='databaseBox'

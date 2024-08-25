@@ -2,7 +2,7 @@ import { Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, I
 import { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { RegisterValues, UserInterface } from '../../interfaces/authInterfaces';
+import { RegisterValuesInterface, UserInterface } from '../../interfaces/authInterfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, updateUser } from '../../features/auth/authSlice';
 import { eyeOpenIcon, eyeClosedIcon } from '../../assets/icons/icons';
@@ -20,7 +20,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate: NavigateFunction = useNavigate();
 	const { user: userState } = useSelector((state: RootState) => state.auth || {});
-	const [user, setUser] = useState<RegisterValues>({
+	const [user, setUser] = useState<RegisterValuesInterface>({
 		firstname: '',
 		lastname: '',
 		email: '',
@@ -40,7 +40,7 @@ const UserForm: FC<UserFormProps> = ({ userProp }) => {
 		}
 	}, [userProp, userState]);
 
-	const formik = useFormik<RegisterValues>({
+	const formik = useFormik<RegisterValuesInterface>({
 		initialValues: user,
 		enableReinitialize: true,
 		validationSchema: Yup.object({

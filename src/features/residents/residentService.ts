@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { attendanceValues, residentValues } from '../../interfaces/residentInterfaces';
+import { AttendanceValuesInterface, ResidentValuesInterface } from '../../interfaces/residentInterfaces';
 
 const API_URL: string = 'https://serverresiadmin.onrender.com/residents';
 
@@ -22,7 +22,7 @@ const getResidentById = async (id: string) => {
 	return res.data;
 };
 
-const createResident = async (resident: residentValues) => {
+const createResident = async (resident: ResidentValuesInterface) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.post(API_URL + '/', resident, {
 		headers: {
@@ -31,7 +31,7 @@ const createResident = async (resident: residentValues) => {
 	});
 	return res.data;
 };
-const updateResident = async (resident: residentValues, id: string) => {
+const updateResident = async (resident: ResidentValuesInterface, id: string) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.put(API_URL + '/id/' + id, resident, {
 		headers: {
@@ -40,7 +40,7 @@ const updateResident = async (resident: residentValues, id: string) => {
 	});
 	return res.data;
 };
-const updateAttendance = async (attendance: attendanceValues) => {
+const updateAttendance = async (attendance: AttendanceValuesInterface) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.put(API_URL + '/updateattendance', attendance, {
 		headers: {

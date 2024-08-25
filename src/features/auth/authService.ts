@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { LoginValues, RegisterValues, resetPasswordValues } from '../../interfaces/authInterfaces';
+import { LoginValuesInterface, RegisterValuesInterface, ResetPasswordValuesInterface } from '../../interfaces/authInterfaces';
 
 const API_URL: string = 'https://serverresiadmin.onrender.com/users';
 
-const login = async (user: LoginValues) => {
+const login = async (user: LoginValuesInterface) => {
 	const res = await axios.post(API_URL + '/login', user);
 	if (res.data) {
 		localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -12,7 +12,7 @@ const login = async (user: LoginValues) => {
 	return res.data;
 };
 
-const register = async (user: RegisterValues) => {
+const register = async (user: RegisterValuesInterface) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.post(API_URL + '/', user, {
 		headers: {
@@ -48,7 +48,7 @@ const deleteUser = async (id: string) => {
 	});
 	return res.data;
 };
-const updateUser = async (user: RegisterValues, id: string) => {
+const updateUser = async (user: RegisterValuesInterface, id: string) => {
 	const token = localStorage.getItem('token');
 	const res = await axios.put(API_URL + '/id/' + id, user, {
 		headers: {
@@ -99,7 +99,7 @@ const recoverPassword = async (email: string) => {
 	const res = await axios.get(API_URL + '/recoverpassword/' + email);
 	return res.data;
 };
-const resetPassword = async (password: resetPasswordValues, recoverToken: string) => {
+const resetPassword = async (password: ResetPasswordValuesInterface, recoverToken: string) => {
 	const res = await axios.put(API_URL + '/resetpassword/' + recoverToken, password);
 	return res.data;
 };

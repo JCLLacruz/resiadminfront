@@ -11,7 +11,8 @@ const Activities: FC = () => {
 	const { activities, activity, isLoading } = useSelector((state: RootState) => state.activity || {});
 	const [filteredActivities, setFilteredActivities] = useState(activities);
 	const [searchTerm, setSearchTerm] = useState('');
-
+	console.log('activities', activities);
+	
 	const dispatch = useDispatch<AppDispatch>();
 
 	useEffect(() => {

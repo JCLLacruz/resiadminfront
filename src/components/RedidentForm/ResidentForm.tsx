@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
-import { ResidentInterface, residentValues } from '../../interfaces/residentInterfaces';
+import { ResidentInterface, ResidentValuesInterface } from '../../interfaces/residentInterfaces';
 import { groupOptions, sudivisionGroupOptions } from '../../utils/formOptions';
 import { createResident, updateResident } from '../../features/residents/residentSlice';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ interface ResidentFormProps {
 const ResidentForm: FC<ResidentFormProps> = ({ residentProp }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate: NavigateFunction = useNavigate();
-	const [resident, setResident] = useState<residentValues>({
+	const [resident, setResident] = useState<ResidentValuesInterface>({
 		firstname: '',
 		lastname: '',
 		email: '',
@@ -40,7 +40,7 @@ const ResidentForm: FC<ResidentFormProps> = ({ residentProp }) => {
 		}
 	}, [residentProp]);
 
-	const formik = useFormik<residentValues>({
+	const formik = useFormik<ResidentValuesInterface>({
 		initialValues: resident,
 		enableReinitialize: true,
 		validationSchema: Yup.object({

@@ -1,7 +1,7 @@
 import { ActivityInterface } from "./activityIntefaces";
 import { ResidentInterface } from "./residentInterfaces";
 
-export interface SessionValues {
+export interface SessionValuesInterface {
     activityId: string,
     observations: string,
     residentIds: string[],
@@ -13,9 +13,10 @@ export interface SessionInterface {
 	observations: string,
 	residentIds: ResidentInterface[],
 	createdAt: string,
+	updatedAt: string;
 }
 
-export interface initialStateSessionSliceInterface {
+export interface InitialStateSessionSliceInterface {
 	session: SessionInterface | null;
 	sessions: Array<SessionInterface>;
 	isLoading: boolean;
@@ -23,6 +24,11 @@ export interface initialStateSessionSliceInterface {
 	isSuccess: boolean;
 	error: string | null;
 	msg: string | null;
+}
+
+export interface GroupedSessionsInterface {
+	month: string;
+	sessions: SessionInterface[];
 }
 
 

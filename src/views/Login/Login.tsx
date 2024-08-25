@@ -18,7 +18,7 @@ import * as Yup from 'yup';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, resetError, resetSuccess } from '../../features/auth/authSlice';
-import { LoginValues } from '../../interfaces/authInterfaces';
+import { LoginValuesInterface } from '../../interfaces/authInterfaces';
 import { AppDispatch, RootState } from '../../app/store';
 import { serverStatus } from '../../features/server/serverSlice';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -89,7 +89,7 @@ const Login: FC = () => {
 
 	const handleClick = () => setShow(!show);
 
-	const formik = useFormik<LoginValues>({
+	const formik = useFormik<LoginValuesInterface>({
 		initialValues: {
 			email: '',
 			password: '',
