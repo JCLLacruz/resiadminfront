@@ -32,7 +32,7 @@ const Sessions: FC = () => {
 	const { resident } = useSelector((state: RootState) => state.resident || {});
 
 	const [filteredSessions, setFilteredSessions] = useState(sessions);
-	const [searchTerm, setSearchTerm] = useState('');
+	const [searchTerm, setSearchTerm] = useState(new Date().toISOString().slice(0, 10));
 	const [idSessionToDelete, setIdSessionToDelete] = useState('');
 
 	useEffect(() => {

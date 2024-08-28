@@ -14,6 +14,7 @@ export interface SessionInterface {
 	residentIds: ResidentInterface[],
 	createdAt: string,
 	updatedAt: string;
+	group: { identificator: string; subdivision: string };
 }
 
 export interface InitialStateSessionSliceInterface {
