@@ -173,6 +173,7 @@ const AdminPanel: FC = () => {
 				<Box
 					id='statisticsBox'
 					display={'flex'}
+					top={0}
 					flexDirection={'column'}
 					justifyContent={'center'}
 					width={'40%'}
